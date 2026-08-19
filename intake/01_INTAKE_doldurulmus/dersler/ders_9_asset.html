@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 9 — ASSET Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 9 / 11 — ASSET Sxemi</div>
+  <h1>Əsas Vəsaitlər (ASSET)</h1>
+  <p class="subtitle">
+    Binalar, avadanlıqlar, nəqliyyat vasitələri, torpaq sahələri — bütün uzunmüddətli
+    aktivlər. Amortizasiya uçotu, xərc mərkəzinə bağlılıq, avadanlıq texniki məlumatları.
+  </p>
+  <p class="hero-note">
+    📋 ASSET sxemi ORG sxemindən (site_code, cc_code) və FINANCE sxemindən
+    (account_code amortizasiya hesabı üçün) asılıdır. Həmçinin asset.equipment
+    cədvəli asset.asset-ə ixtiyari istinad edir — avadanlıq həmişə bir əsas
+    vəsaitə bağlanmaya da bilər.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">asset.asset_category</span>
+    <span class="tbl-chip">asset.asset</span>
+    <span class="tbl-chip">asset.equipment</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>ASSET sxemi müəssisənin uzunmüddətli maddi aktivlərini uçota alır.</strong>
+        Zarat Qrupunun ferma binaları, kəsimxana avadanlıqları, yem dəyirmanları, soyuducu
+        kameralar, yük maşınları — bunların hamısı "əsas vəsait" kimi bu sxemdədir.
+      </p>
+      <p>
+        <strong>Amortizasiya uçotu:</strong> Hər əsas vəsait zamanla köhnəlir — bina, maşın,
+        avadanlıq. Bu köhnəlmənin maliyyə ifadəsi amortizasiyadır. <code>depreciation_method</code>
+        (XETTI ya AZALAN) aktivin necə amortizasiya olunacağını, <code>useful_life_years</code>
+        isə neçə ildə tamamilə köhnəlib hesabdan silinəcəyini müəyyən edir. Bu hesablamalar
+        FINANCE sxemindəki mühasibat hesablarına avtomatik yazılır.
+      </p>
+      <p>
+        <strong>asset vs equipment fərqi:</strong> asset.asset balans hesabatında görünən
+        maliyyə aktividir (alış qiyməti, amortizasiya, kitab dəyəri). asset.equipment isə
+        texniki pasport məlumatlarıdır (istehsalçı, qurulma tarixi, güc) — maliyyə uçotu
+        ilə deyil, texniki baxış və təmir planlaması ilə əlaqəlidir.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      asset.asset_category və asset.asset: baş mühasib (balans dəyərləri, amortizasiya metodu).
+      asset.equipment: texniki xidmət müdiri (avadanlıq pasport məlumatları, istehsalçı, güc).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəllər</h2>
+
+    <!-- asset.asset_category -->
+    <div class="table-section">
+      <h3><span class="tbl-name">asset.asset_category</span><span class="tbl-desc"> — Əsas vəsait kateqoriyaları</span></h3>
+      <div class="table-one-liner">
+        Aktivlərin kateqoriyaları: binalar, maşınlar, avadanlıqlar, torpaq. Hər kateqoriya
+        üçün amortizasiya metodu və istifadə müddəti müəyyən edilir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Kateqoriyalar amortizasiya qaydalarını qruplaşdırır. Məsələn, "İstehsal Avadanlıqları"
+          kateqoriyasındakı bütün aktivlər 7 il müddətinə xətti metodla amortizasiya olunur.
+          Yeni avadanlıq alındıqda həmin kateqoriyanı seçmək kifayətdir — qaydalar avtomatik
+          tətbiq olunur.
+        </p>
+        <p>
+          <strong>depreciation_method sütunu:</strong>
+          <code>XETTI</code> — hər il eyni məbləğ silinir (alış qiyməti ÷ istifadə ili sayı);
+          <code>AZALAN</code> — hər il kitab dəyərinin müəyyən faizi silinir (sürətli amortizasiya).
+          Azərbaycanda müəssisələr adətən hər iki metodu tətbiq edə bilər. Baş mühasibə məsləhət verin.
+        </p>
+        <p>
+          <strong>account_code sütunu:</strong> Bu kateqoriyadakı aktivlərin amortizasiyası
+          hansı mühasibat hesabına yazılacaq? FINANCE sxemindəki finance.account cədvəlindən
+          götürülür. İxtiyaridir, amma maliyyə uçotu inteqrasiyası üçün doldurulması tövsiyə olunur.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">asset_category_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Kateqoriyanın unikal kodu. asset.asset.asset_category_code bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>AC-AVADANLIK</strong><span class="val-hint">Tövsiyə: AC-qısaad</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">category_name</span></td>
+            <td><span class="col-explain">Kateqoriyanın azərbaycanca adı. Aktiv siyahısında görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>İstehsal Avadanlıqları</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">depreciation_method</span></td>
+            <td><span class="col-explain">Amortizasiya metodu. Baş mühasib tərəfindən mühasibat siyasətinə uyğun seçilməlidir.</span></td>
+            <td>Seçim</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">XETTI &nbsp;|&nbsp; AZALAN</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">useful_life_years</span></td>
+            <td><span class="col-explain">Bu kateqoriyadakı aktivlərin standart istifadə müddəti (il). Amortizasiya hesablaması üçün əsas göstərici.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>7</strong><span class="val-hint">Binalar: 25–50 il; avadanlıqlar: 5–15 il; nəqliyyat: 5–7 il; torpaq: 0 (amortizasiya olmur)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">account_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Amortizasiya yazılışının aparılacağı mühasibat hesabı. finance.account cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">731 → finance.account.account_code</span><span class="val-hint">Amortizasiya xərc hesabı. Baş mühasiblə razılaşdırın.</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə kateqoriyalar</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">asset_category_code</div><div class="sf-val">AC-BINA</div></div>
+          <div class="sample-field"><div class="sf-key">category_name</div><div class="sf-val">Binalar və tikililər</div></div>
+          <div class="sample-field"><div class="sf-key">depreciation_method</div><div class="sf-val">XETTI</div></div>
+          <div class="sample-field"><div class="sf-key">useful_life_years</div><div class="sf-val">40</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">asset_category_code</div><div class="sf-val">AC-AVADANLIK</div></div>
+          <div class="sample-field"><div class="sf-key">category_name</div><div class="sf-val">İstehsal Avadanlıqları</div></div>
+          <div class="sample-field"><div class="sf-key">depreciation_method</div><div class="sf-val">XETTI</div></div>
+          <div class="sample-field"><div class="sf-key">useful_life_years</div><div class="sf-val">7</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">asset_category_code</div><div class="sf-val">AC-NEQLIYYAT</div></div>
+          <div class="sample-field"><div class="sf-key">category_name</div><div class="sf-val">Nəqliyyat Vasitələri</div></div>
+          <div class="sample-field"><div class="sf-key">depreciation_method</div><div class="sf-val">AZALAN</div></div>
+          <div class="sample-field"><div class="sf-key">useful_life_years</div><div class="sf-val">5</div></div>
+        </div>
+        <div class="sample-note">💡 Kateqoriyaları baş mühasibatla birlikdə hazırlayın — Azərbaycanda mühasibat standartları aktivlərin kateqorizasiyasını müəyyən edir.</div>
+      </div>
+    </div>
+
+    <!-- asset.asset -->
+    <div class="table-section">
+      <h3><span class="tbl-name">asset.asset</span><span class="tbl-desc"> — Əsas vəsaitlər</span></h3>
+      <div class="table-one-liner">
+        Hər əsas vəsaitin balans kartı: alış tarixi, alış qiyməti, hansı obyektdədir,
+        hansı xərc mərkəzinə aiddir, cari vəziyyəti.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl müəssisənin əsas vəsait reyestridir (Osnov Fondlar Dəftəri). Maliyyə
+          xidməti tərəfindən idarə olunur. Hər aktiv burada bir sətirdir: kəsimxana
+          avadanlığı, yem dəyirmanı, ferma binası, soyuducu anbar, yük maşını.
+        </p>
+        <p>
+          <strong>acquisition_cost:</strong> Aktivin alındığı tarixdəki tam maliyyət
+          (alış qiyməti + çatdırılma + quraşdırma). Bu rəqəm dəyişmir — tarixidir.
+          Mühasibatın sənədi ilə uyğun olmalıdır.
+        </p>
+        <p>
+          <strong>status sütunu:</strong>
+          <code>AKTIV</code> — istifadədədir, amortizasiya hesablanır;
+          <code>SILINIB</code> — balansdan silinib, amortizasiya dayanıb;
+          <code>SAXLANMA</code> — istifadədə deyil, anbardadır.
+        </p>
+        <p>
+          <strong>cc_code:</strong> Aktivin xərc mərkəzi. ORG sxemindəki org.cost_center-dan götürülür.
+          Bu, "hansı şöbənin aktividir?" sualına cavabdır — amortizasiya xərcini düzgün
+          xərc mərkəzinə yazmaq üçün vacibdir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">asset_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Aktivin inventar nömrəsi. Mühasibatlıqda rəsmi inventar nömrəsi ilə uyğun olsun.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>AST-00001</strong><span class="val-hint">Tövsiyə: AST-artan nömrə</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">asset_name</span></td>
+            <td><span class="col-explain">Aktivin azərbaycanca adı. Aktiv siyahısı hesabatında görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Siyəzən Fabriyi Yem Dəyirmanı #1</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">asset_category_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Aktivin kateqoriyası. asset.asset_category cədvəlindən götürülür. Amortizasiya qaydaları bu kateqoriyadan götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">AC-AVADANLIK → asset.asset_category.asset_category_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Aktivin yerləşdiyi fiziki obyekt. org.site cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">SITE-FAB-SIY → org.site.site_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">acquisition_date</span></td>
+            <td><span class="col-explain">Aktivin alındığı/istifadəyə verildiyi tarix. Amortizasiya bu tarixdən başlayır.</span></td>
+            <td>Tarix (YYYY-MM-DD)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2020-06-15</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">acquisition_cost</span></td>
+            <td><span class="col-explain">Aktivin tam maliyyəti (alış + çatdırılma + quraşdırma). Mühasibat sənədiylə uyğun olmalıdır.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>85000.00</strong><span class="val-hint">AZN ilə. Alış fakturasından götürün.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">currency</span></td>
+            <td><span class="col-explain">Alış valyutası. İdxal avadanlıqları EUR/USD ilə alınıbsa burada qeyd edin.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">cc_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Aktivin aid olduğu xərc mərkəzi. Amortizasiya xərci bu mərkəzə yazılır. org.cost_center cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">CC-YEM-SIY → org.cost_center.cc_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">status</span></td>
+            <td><span class="col-explain">Aktivin cari vəziyyəti. AKTIV olan aktivlər üçün amortizasiya hesablanır.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AKTIV</strong><span class="val-hint">AKTIV, SILINIB, SAXLANMA</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Aktivin sistemdəki aktiv qeydiyyatı.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə 1 — Avadanlıq aktivı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">asset_code</div><div class="sf-val">AST-00001</div></div>
+          <div class="sample-field"><div class="sf-key">asset_name</div><div class="sf-val">Siyəzən Yem Dəyirmanı #1</div></div>
+          <div class="sample-field"><div class="sf-key">asset_category_code</div><div class="sf-val">AC-AVADANLIK</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FAB-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">acquisition_date</div><div class="sf-val">2020-06-15</div></div>
+          <div class="sample-field"><div class="sf-key">acquisition_cost</div><div class="sf-val">85000.00</div></div>
+          <div class="sample-field"><div class="sf-key">cc_code</div><div class="sf-val">CC-YEM-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">status</div><div class="sf-val">AKTIV</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə 2 — Bina aktivı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">asset_code</div><div class="sf-val">AST-00002</div></div>
+          <div class="sample-field"><div class="sf-key">asset_name</div><div class="sf-val">Digah Ferması Kəsimxana Binası</div></div>
+          <div class="sample-field"><div class="sf-key">asset_category_code</div><div class="sf-val">AC-BINA</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">acquisition_cost</div><div class="sf-val">450000.00</div></div>
+          <div class="sample-field"><div class="sf-key">status</div><div class="sf-val">AKTIV</div></div>
+        </div>
+        <div class="sample-note">💡 Alış qiymətini mühasibat sənədlərindən (faktura, kontrakt) köçürün. Bu rəqəm balans hesabatının əsasıdır.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Amortizasiya sütunları:</strong> acquisition_date, acquisition_cost, asset_category_code — bu üç sütun amortizasiya hesablaması üçün vacibdir. Boş buraxılsa ERP düzgün amortizasiya hesablaya bilməz. Baş mühasibə soruşun.
+      </div>
+    </div>
+
+    <!-- asset.equipment -->
+    <div class="table-section">
+      <h3><span class="tbl-name">asset.equipment</span><span class="tbl-desc"> — Avadanlıq texniki məlumatları</span></h3>
+      <div class="table-one-liner">
+        Avadanlıqların texniki pasport məlumatları: istehsalçı, qurulma tarixi, güc/tutum,
+        qeydlər. Maliyyə uçotundan deyil, texniki baxış planlamasından istifadə edilir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl avadanlıq üçün ayrıca "texniki kart"dır. asset.asset-dəki aktivin texniki
+          detalları — istehsalçı şirkəti, modeli, qurulma tarixi, güc parametrləri — burada
+          saxlanılır. Texniki xidmət müdiri bu cədvəldən istifadə edərək baxış cədvəli hazırlaya bilər.
+        </p>
+        <p>
+          <strong>asset_code ilə əlaqə:</strong> Bu cədvəl asset.asset-ə <em>ixtiyari</em> istinad edir —
+          yəni bir avadanlıq mütləq bir balans aktivinə bağlanmaq məcburiyyətindədir deyil.
+          Kiçik, balans qiymətinə alınmayan, birbaşa xərcə yazılan avadanlıqlar da bu cədvəldə
+          texniki məlumat saxlama məqsədi ilə qeydə alına bilər.
+        </p>
+        <p>
+          <strong>capacity sütunu:</strong> Avadanlığın işləmə gücü. Məsələn, yem dəyirmanı
+          saatda 5 ton — bu "5" capacity, "ton/saat" isə notes sütununda qeyd edilə bilər.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">equipment_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Avadanlığın texniki kartının kodu. asset.asset kodundan fərqli ola bilər.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>EQP-DEYRMAN-001</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">equipment_name</span></td>
+            <td><span class="col-explain">Avadanlığın azərbaycanca adı. Texniki baxış sənədlərindəki adla uyğun olsun.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Yem Dəyirmanı (Siyəzən)</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">asset_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu avadanlığın aid olduğu balans aktivinin kodu. asset.asset cədvəlindən götürülür. İxtiyaridir.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">AST-00001 → asset.asset.asset_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Avadanlığın yerləşdiyi obyekt. org.site cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">SITE-FAB-SIY → org.site.site_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">equipment_type</span></td>
+            <td><span class="col-explain">Avadanlıq növü. Texniki baxış planlamasında qruplaşdırma üçün istifadə olunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>DEYRMAN</strong><span class="val-hint">DEYRMAN, KESIM_XETTI, SOYUDUCU, PRESLEME, KONVEYER</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">manufacturer</span></td>
+            <td><span class="col-explain">İstehsalçı şirkətin adı. Texniki baxış, ehtiyat hissə sifarişi üçün lazımdır.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Van Aarsen International</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">install_date</span></td>
+            <td><span class="col-explain">Avadanlığın qurulma tarixi. Texniki baxış intervalı bu tarixdən hesablanır.</span></td>
+            <td>Tarix (YYYY-MM-DD)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2020-07-20</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">capacity</span></td>
+            <td><span class="col-explain">Avadanlığın işləmə gücü (say olaraq). Vahid notes sütununda qeyd edilir.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>5</strong><span class="val-hint">5 ton/saat, 500 baş/gün — vahidi notes-ə yazın</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">notes</span></td>
+            <td><span class="col-explain">Texniki qeydlər. Model nömrəsi, seriya nömrəsi, baxış intervalı, enerji istehlakı qeyd edilə bilər.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Model: VDL-500; 5 ton/saat; 3 aylıq texniki baxış; 45 kVt</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Yem dəyirmanı texniki kartı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">equipment_code</div><div class="sf-val">EQP-DEYRMAN-001</div></div>
+          <div class="sample-field"><div class="sf-key">equipment_name</div><div class="sf-val">Yem Dəyirmanı (Siyəzən)</div></div>
+          <div class="sample-field"><div class="sf-key">asset_code</div><div class="sf-val">AST-00001</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FAB-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">equipment_type</div><div class="sf-val">DEYRMAN</div></div>
+          <div class="sample-field"><div class="sf-key">manufacturer</div><div class="sf-val">Van Aarsen Int.</div></div>
+          <div class="sample-field"><div class="sf-key">install_date</div><div class="sf-val">2020-07-20</div></div>
+          <div class="sample-field"><div class="sf-key">capacity</div><div class="sf-val">5</div></div>
+          <div class="sample-field"><div class="sf-key">notes</div><div class="sf-val">5 ton/saat; 45kVt; 3 aylıq baxış</div></div>
+        </div>
+        <div class="sample-note">💡 Texniki xidmət müdiri bu cədvəli doldurur. Avadanlığın texniki pasportunu yanınızda saxlayın. asset_code — həmin avadanlığın balans kodu ilə eynidir.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Cədvəllər arası əlaqə xəritəsi (ASSET daxilində)</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">FINANCE.account</span>
+        <span class="fo-arrow">+</span>
+        <span class="fo-step">ORG.site/cc</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">1. asset_category</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. asset</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">3. equipment</span>
+      </div>
+      <div class="fill-order-note">asset_category əvvəlcə doldurulur. Sonra asset. Sonra istəyə görə equipment (texniki detallar). ORG + FINANCE hər ikisi əvvəl tamamlanmış olmalıdır.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">asset.asset_category.account_code</span> → <span class="rel-code">finance.account.account_code</span>
+          <div class="rel-explain">Amortizasiya yazılışının aparılacağı mühasibat hesabı FINANCE-dən götürülür. FINANCE əvvəl doldurulmalıdır.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">asset.asset.asset_category_code</span> → <span class="rel-code">asset.asset_category.asset_category_code</span>
+          <div class="rel-explain">Hər aktiv mütləq bir kateqoriyaya aiddir. Kateqoriya mövcud olmadan aktiv yazıla bilməz.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">asset.asset.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">Aktiv fiziki olaraq hansı obyektdədir. ORG sxemi əvvəl doldurulmalıdır.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">asset.asset.cc_code</span> → <span class="rel-code">org.cost_center.cc_code</span>
+          <div class="rel-explain">Amortizasiya xərci hansı xərc mərkəzinə yazılır. İxtiyari amma doldurulması tövsiyə olunur.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">asset.equipment.asset_code</span> → <span class="rel-code">asset.asset.asset_code</span>
+          <div class="rel-explain">İxtiyari: avadanlıq texniki kartı bir balans aktivinə bağlana bilər. Boş buraxılsa texniki kart müstəqildir.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>ASSET-dən nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">ORG</span></td>
+          <td>org.site + org.cost_center</td>
+          <td>Aktivin yerləşmə yeri və xərc mərkəzi ORG-dan gəlir. ORG mütləq əvvəl doldurulmalıdır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">FINANCE</span></td>
+          <td>finance.account.account_code → asset_category</td>
+          <td>Amortizasiya hesabı FINANCE-dən alınır. FINANCE mütləq əvvəl doldurulmalıdır.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li><strong>ORG sxemi</strong> (Dərs 1) tamamlanıb — site_code və cc_code mövcuddur
+        <span class="check-note">asset.site_code ORG-dan, cc_code ORG.cost_center-dən gəlir.</span>
+      </li>
+      <li><strong>FINANCE sxemi</strong> (Dərs 2) tamamlanıb — amortizasiya hesabları mövcuddur
+        <span class="check-note">asset_category.account_code FINANCE-dən gəlir.</span>
+      </li>
+      <li><strong>asset.asset_category</strong> cədvəli baş mühasibatla birlikdə hazırlanıb
+        <span class="check-note">Amortizasiya metodu və müddəti mühasibat siyasətinə uyğun olmalıdır.</span>
+      </li>
+      <li>Hər aktivin <strong>acquisition_cost</strong> dəyəri alış fakturasından götürülüb
+        <span class="check-note">Bu rəqəm balans hesabatında görünəcək — mühasibat sənədiylə tam uyğun olmalıdır.</span>
+      </li>
+      <li>Amortizasiya hesablanacaq aktivlərin <strong>acquisition_date</strong> sütunu doldurulub
+        <span class="check-note">Amortizasiya bu tarixdən başlanır. Boş buraxılan aktiv üçün ERP amortizasiya hesablamaz.</span>
+      </li>
+      <li><strong>asset.equipment</strong> cədvəli texniki xidmət müdiri tərəfindən doldurulub
+        <span class="check-note">Bu cədvəl maliyyə uçotundan deyil, texniki baxış planlamasından istifadə edir.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_8_hr.html">‹ Dərs 8 — HR</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; ASSET Sxemi (Dərs 9/11)</div>
+  <div><a class="next-link" href="ders_10_quality.html">Dərs 10 → QUALITY ›</a></div>
+</div>
+
+</body>
+</html>

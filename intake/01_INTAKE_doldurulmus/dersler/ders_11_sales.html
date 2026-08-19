@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 11 — SALES Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .success-box { background:#e8f5e9; border-left:5px solid #2e7d32; border-radius:6px; padding:20px 24px; margin-top:16px; line-height:1.8; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .done-box { background:#e8f5e9; border:2px solid #2e7d32; border-radius:10px; padding:24px 28px; margin-top:30px; }
+  .done-box h3 { color:#1a5c3a; font-size:1.3em; margin-bottom:14px; }
+  .done-box p { line-height:1.8; color:#333; margin-bottom:12px; }
+  .done-box ul { padding-left:22px; }
+  .done-box ul li { margin-bottom:8px; line-height:1.6; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 11 / 11 — SALES Sxemi · Son Dərs</div>
+  <h1>Satış (SALES)</h1>
+  <p class="subtitle">
+    Satış hədəfləri: il, ay, obyekt, məhsul, müştəri üzrə planlaşdırılmış satış rəqəmləri.
+    Bu sxem "nə qədər satmağı hədəfləyirik?" sualını rəqəmsallaşdırır.
+  </p>
+  <p class="hero-note">
+    📋 SALES sxeminin yeganə cədvəli (sales.sales_target) ORG, PRODUCT və PARTNER
+    sxemlərinə ixtiyari istinad edir. Bu sxem bütün digər sxemlər doldurulduqdan sonra
+    (son olaraq) doldurulur. Bütün xarici referanslar ixtiyaridir — amma
+    doldurulması satış analizi üçün tövsiyə olunur.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">sales.sales_target</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>SALES sxemi ERP-in satış planlaşdırma modülünün əsasıdır.</strong>
+        "Yanvar ayında Bakı bölgəsindən 50 ton toyuq əti satacağıq" — bu bir satış
+        hədəfidir. sales.sales_target cədvəlindəki hər sətir belə bir "plan" vahididir.
+      </p>
+      <p>
+        <strong>Plan–Fakt müqayisəsi:</strong> Hədəf dəyərlər bu cədvəldə saxlandıqdan
+        sonra ERP faktiki satış əməliyyatlarını (satış sifarişləri) bu hədəflərlə müqayisə
+        edə bilər. "Yanvar ayı üçün 50 ton hədəfimiz var, indi 32 ton satılıb — 18 ton
+        qalır" kimi real vaxt hesabatı mümkün olur. Bu müqayisə satış rəhbərliyinin
+        ən vacib idarəetmə alətidir.
+      </p>
+      <p>
+        <strong>Çevik quruluş:</strong> Hədəf müxtəlif səviyyələrdə qeyd oluna bilər:
+        yalnız il + ay (ümumi hədəf), ya da il + ay + mal kodu + müştəri (çox ətraflı hədəf).
+        Bütün xarici referans sütunları ixtiyaridir — şirkətin idarəetmə ehtiyacına görə
+        seçim edilir.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      Satış direktoru (il üzrə ümumi hədəflər), regional satış menecerləri (obyekt üzrə
+      bölgülər), satış analitiki (məhsul / müştəri üzrə hədəflər). Bu cədvəl hər il
+      başında yeni rəqəmlərlə doldurulur.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəl</h2>
+
+    <!-- sales.sales_target -->
+    <div class="table-section">
+      <h3><span class="tbl-name">sales.sales_target</span><span class="tbl-desc"> — Satış hədəfləri</span></h3>
+      <div class="table-one-liner">
+        Dövr (il+ay), obyekt, məhsul, müştəri üzrə planlaşdırılmış satış həcmi
+        (miqdar + məbləğ). Plan-fakt müqayisəsinin əsasını təşkil edir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəlin hər sətri bir satış hədəfi seqmentidir. Müxtəlif detal səviyyələri
+          mümkündür:
+        </p>
+        <p>
+          <strong>Ən sadə:</strong> 2026, Yanvar ayı — ümumi hədəf: 500,000 AZN.
+          (yalnız period_year + period_month + target_amount, digərləri boş)
+        </p>
+        <p>
+          <strong>Orta detal:</strong> 2026, Yanvar, Cəlilabad distribüsiya bölgəsi —
+          50 ton toyuq əti, 350,000 AZN.
+          (period_year + period_month + site_code + item_code + target_qty + target_amount)
+        </p>
+        <p>
+          <strong>Ən ətraflı:</strong> 2026, Yanvar, Bravo Supermarket müştərisi,
+          toyuq broyleri — 10 ton, 85,000 AZN.
+          (bütün sütunlar dolu)
+        </p>
+        <p>
+          <strong>Nəyi seçmək lazımdır?</strong> Satış idarəetmənizin hansı səviyyədə
+          hesabat aldığını düşünün. Başlanğıcda yalnız il + ay + ümumi hədəf yetər.
+          Sonradan daha ətraflı hədəflər əlavə edilə bilər.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">target_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Hədəfin unikal kodu. Hesabat sorğularında bu kod vasitəsilə hədəfə istinad edilir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>ST-2026-01-CEL</strong><span class="val-hint">Tövsiyə: ST-İL-AY-OBYEKTqısa</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">period_year</span></td>
+            <td><span class="col-explain">Hədəfin aid olduğu il. Plan-fakt müqayisəsindəki zaman oxunun əsasıdır.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>2026</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">period_month</span></td>
+            <td><span class="col-explain">Hədəfin aid olduğu ay (1–12). İl üzrə ümumi hədəf üçün boş buraxın.</span></td>
+            <td>Tam ədəd (1–12)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>1</strong><span class="val-hint">1=Yanvar, 6=İyun, 12=Dekabr</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu hədəf hansı satış bölgəsi/obyekti üçündür? org.site cədvəlindən götürülür. İxtiyari — ümumi hədəflər üçün boş buraxın.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">SITE-DIST-CEL → org.site.site_code</span><span class="val-hint">Cəlilabad distribüsiyası, Bakı ofisi və s.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">item_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu hədəf hansı məhsul üçündür? product.item cədvəlindən götürülür. İxtiyari — məhsul üzrə hədəf lazım deyilsə boş buraxın.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">MAL-TOY-BRO-001 → product.item.item_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">customer_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu hədəf hansı müştəri üçündür? partner.partner cədvəlindən götürülür. İxtiyari — müştəri üzrə hədəf lazım deyilsə boş buraxın.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">MUS-001 → partner.partner.partner_code</span><span class="val-hint">Yalnız MUSHTERI tipli tərəflər seçiləbilər</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">target_qty</span></td>
+            <td><span class="col-explain">Hədəf satış miqdarı (kq, ton, ədəd). item_code yazılıbsa, həmin malın base_uom-u ilə uyğun olmalıdır.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>50000</strong><span class="val-hint">50000 kq = 50 ton. Miqdar hədəfi yoxdursa boş buraxın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">target_amount</span></td>
+            <td><span class="col-explain">Hədəf satış məbləği (AZN). Plan-fakt müqayisəsinin əsas rəqəmidir — mütləq doldurun.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>350000.00</strong><span class="val-hint">AZN ilə. Satış direktoru tərəfindən təsdiqlenmiş rəqəm.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">currency</span></td>
+            <td><span class="col-explain">Hədəf məbləğinin valyutası.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə 1 — Cəlilabad bölgəsi yanvar hədəfi (mal üzrə)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">target_code</div><div class="sf-val">ST-2026-01-CEL</div></div>
+          <div class="sample-field"><div class="sf-key">period_year</div><div class="sf-val">2026</div></div>
+          <div class="sample-field"><div class="sf-key">period_month</div><div class="sf-val">1</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-DIST-CEL</div></div>
+          <div class="sample-field"><div class="sf-key">item_code</div><div class="sf-val">MAL-TOY-BRO-001</div></div>
+          <div class="sample-field"><div class="sf-key">target_qty</div><div class="sf-val">50000</div></div>
+          <div class="sample-field"><div class="sf-key">target_amount</div><div class="sf-val">350000.00</div></div>
+          <div class="sample-field"><div class="sf-key">currency</div><div class="sf-val">AZN</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə 2 — Bravo Supermarket üçün yanvar hədəfi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">target_code</div><div class="sf-val">ST-2026-01-BRAVO</div></div>
+          <div class="sample-field"><div class="sf-key">period_year</div><div class="sf-val">2026</div></div>
+          <div class="sample-field"><div class="sf-key">period_month</div><div class="sf-val">1</div></div>
+          <div class="sample-field"><div class="sf-key">customer_code</div><div class="sf-val">MUS-001</div></div>
+          <div class="sample-field"><div class="sf-key">target_qty</div><div class="sf-val">15000</div></div>
+          <div class="sample-field"><div class="sf-key">target_amount</div><div class="sf-val">105000.00</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə 3 — Ümumi aylıq hədəf (bütün bölgə, bütün məhsul)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">target_code</div><div class="sf-val">ST-2026-01-UMUMI</div></div>
+          <div class="sample-field"><div class="sf-key">period_year</div><div class="sf-val">2026</div></div>
+          <div class="sample-field"><div class="sf-key">period_month</div><div class="sf-val">1</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">(boş)</div></div>
+          <div class="sample-field"><div class="sf-key">item_code</div><div class="sf-val">(boş)</div></div>
+          <div class="sample-field"><div class="sf-key">target_amount</div><div class="sf-val">500000.00</div></div>
+        </div>
+        <div class="sample-note">💡 Hədəfləri iyerarxik şəkildə qoyun: əvvəlcə ümumi hədəf (ST-2026-01-UMUMI), sonra bölgə üzrə (ST-2026-01-CEL), sonra müştəri üzrə (ST-2026-01-BRAVO). Eyni dövr üçün müxtəlif səviyyəli hədəflər paralel mövcud ola bilər.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Xarici asılılıqlar:</strong>
+        <ul>
+          <li>site_code: ORG sxemindən (Dərs 1) — doldurulmamışsa boş buraxın</li>
+          <li>item_code: PRODUCT sxemindən (Dərs 4) — doldurulmamışsa boş buraxın</li>
+          <li>customer_code: PARTNER sxemindən (Dərs 3) — doldurulmamışsa boş buraxın</li>
+          <li>Bütün bunlar ixtiyaridir — ən azı period_year + period_month + target_amount doldurun</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Xarici əlaqə xəritəsi</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">ORG + PRODUCT + PARTNER</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">sales.sales_target</span>
+      </div>
+      <div class="fill-order-note">Bu cədvəl üç sxemə ixtiyari istinad edir. Hər üçü tamamlandıqdan sonra doldurulması tövsiyə olunur, amma texniki cəhətdən bütün xarici sütunlar boş olaraq da qeydə alına bilər.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">sales.sales_target.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">Hədəfin aid olduğu satış bölgəsi/obyekti. İxtiyari — bölgəyə görə hədəf lazımdırsa doldurun.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">sales.sales_target.item_code</span> → <span class="rel-code">product.item.item_code</span>
+          <div class="rel-explain">Hədəfin aid olduğu məhsul. İxtiyari — məhsul üzrə hədəf lazımdırsa doldurun.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">sales.sales_target.customer_code</span> → <span class="rel-code">partner.partner.partner_code</span>
+          <div class="rel-explain">Hədəfin aid olduğu müştəri. İxtiyari — müştəri üzrə hədəf lazımdırsa doldurun. Yalnız MUSHTERI tipli tərəflər seçilsin.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>SALES-dən nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">ORG</span></td>
+          <td>org.site.site_code</td>
+          <td>Satış hədəfi hansı bölgəyə aiddir — ORG-dan götürülür.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">PRODUCT</span></td>
+          <td>product.item.item_code</td>
+          <td>Satış hədəfi hansı məhsula aiddir — PRODUCT-dan götürülür.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">PARTNER</span></td>
+          <td>partner.partner.partner_code (müştəri)</td>
+          <td>Satış hədəfi hansı müştəriyə aiddir — PARTNER-dən götürülür.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li>Hər hədəf sütunundakı <strong>period_year</strong> və <strong>period_month</strong> doldurulub
+        <span class="check-note">Bu iki sütun mütləqdir — digərləri ixtiyaridir.</span>
+      </li>
+      <li><strong>target_amount</strong> satış direktoru tərəfindən təsdiqlenmiş rəqəmdir
+        <span class="check-note">Bu rəqəm plan-fakt hesabatlarında "hədəf" sütununda görünəcək.</span>
+      </li>
+      <li>customer_code yazılıbsa, həmin kod partner.partner-dəki MUSHTERI tipi tərəfə aiddir
+        <span class="check-note">TECHIZATCHI tipi tərəfin customer_code olaraq yazılması məntiqi xətadır.</span>
+      </li>
+      <li>Hər ay üçün eyni bölgə/məhsul/müştəri kombinasiyası bir dəfə yazılıb (dublikat yoxdur)
+        <span class="check-note">Dublikat hədəflər plan-fakt hesabatını şişirdir.</span>
+      </li>
+      <li>Məbləğlər <strong>nöqtə ilə onluq</strong> formatında yazılıb (350000.00, vergül yox)
+        <span class="check-note">350.000,00 formatı sistem tərəfindən qəbul edilmir.</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- COMPLETION BOX -->
+  <div class="done-box">
+    <h3>Təbrik edirik — 01_INTAKE Doldurma Dərsləri Tamamlandı!</h3>
+    <p>
+      Siz 11 sxemin, 37 cədvəlin, 200-dən çox sütunun doldurulma qaydalarını öyrəndiniz.
+      Bu dərslər seriyasını uğurla tamamlayanlara bir xatırlatma:
+    </p>
+    <ul>
+      <li><strong>Ardıcıllığa riayət edin:</strong> ORG → FINANCE → PARTNER → PRODUCT → INVENTORY → PRODUCTION → LOGISTICS → HR → ASSET → QUALITY → SALES</li>
+      <li><strong>FK-ları yoxlayın:</strong> Bir cədvəl başqa cədvələ istinad edirsə, istinad edilən cədvəl mütləq əvvəl dolu olmalıdır.</li>
+      <li><strong>Məxfi məlumatlar:</strong> HR sxemindəki şəxsi məlumatlar yalnız səlahiyyətli şəxslərə göndərilsin.</li>
+      <li><strong>Yoxlama öncəsi:</strong> Bazaya yükləmədən əvvəl hər sxemin dərsindəki "Son yoxlama" siyahısını keçin.</li>
+      <li><strong>Ümumi əlaqə xəritəsi:</strong> Bütün sxemlərin bir-biri ilə əlaqəsini görmək üçün <a href="ZARAT_INTAKE_ELAQE_XERITESI.html">ZARAT ERP Əlaqə Xəritəsini</a> açın.</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_10_quality.html">‹ Dərs 10 — QUALITY</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; SALES Sxemi (Dərs 11/11)</div>
+  <div><a class="next-link" href="ZARAT_INTAKE_ELAQE_XERITESI.html">Əlaqə Xəritəsi ›</a></div>
+</div>
+
+</body>
+</html>

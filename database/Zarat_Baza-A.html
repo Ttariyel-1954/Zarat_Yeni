@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zarat_baza-A — zarat_erp_2 Tam Bərpa Dərsi</title>
+<style>
+  :root{
+    --bg:#0f1420;--bg-elev:#151b2b;--bg-elev-2:#1b2338;--line:#262f47;
+    --text:#e6e8ee;--text-dim:#9aa4bf;--accent:#e8a33d;--accent-2:#4fd1c5;
+    --accent-red:#ef6461;--code-bg:#0a0e18;--radius:10px;
+    --mono:'JetBrains Mono','Fira Code',ui-monospace,Menlo,Consolas,monospace;
+    --sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.65;font-size:16px;}
+  a{color:var(--accent-2);}
+  .shell{display:grid;grid-template-columns:300px 1fr;min-height:100vh;}
+  @media (max-width:920px){.shell{grid-template-columns:1fr;}.sidebar{position:relative;height:auto;}}
+  .sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg-elev);border-right:1px solid var(--line);padding:28px 20px 60px;}
+  .sidebar .brand{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+  .sidebar h1{font-size:19px;margin:0 0 6px;font-family:var(--mono);color:var(--text);}
+  .sidebar .sub{color:var(--text-dim);font-size:13px;margin-bottom:26px;}
+  .toc{list-style:none;margin:0;padding:0;}
+  .toc li{margin-bottom:2px;}
+  .toc a{display:flex;gap:10px;text-decoration:none;color:var(--text-dim);font-size:13px;padding:6px 10px;border-radius:8px;transition:.15s;}
+  .toc a:hover,.toc a.active{background:var(--bg-elev-2);color:var(--text);}
+  .toc .n{font-family:var(--mono);color:var(--accent);min-width:22px;}
+  main{padding:50px 56px 120px;max-width:1000px;}
+  @media (max-width:620px){main{padding:30px 18px 100px;}}
+  .hero{border:1px solid var(--line);background:linear-gradient(160deg,var(--bg-elev) 0%,var(--bg) 70%);border-radius:var(--radius);padding:36px;margin-bottom:50px;}
+  .hero .eyebrow{font-family:var(--mono);color:var(--accent);font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+  .hero h1{font-size:30px;margin:0 0 14px;line-height:1.25;}
+  .hero p{color:var(--text-dim);font-size:15.5px;max-width:700px;}
+  section{margin-bottom:56px;scroll-margin-top:20px;}
+  section h2{font-family:var(--mono);font-size:21px;display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:20px;}
+  section h2 .num{color:var(--accent);}
+  section h3{font-size:16px;color:var(--accent-2);margin-top:26px;}
+  p{color:var(--text);}
+  .lead{color:var(--text-dim);}
+  .callout{border-left:3px solid var(--accent);background:var(--bg-elev);padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:var(--text-dim);}
+  .callout.warn{border-left-color:var(--accent-red);}
+  .callout.ok{border-left-color:var(--accent-2);}
+  .callout strong{color:var(--text);}
+  .inline{background:var(--bg-elev-2);border:1px solid var(--line);padding:1px 7px;border-radius:5px;font-family:var(--mono);font-size:.9em;color:var(--accent-2);}
+  .code-wrap{position:relative;margin:14px 0 22px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);}
+  .code-label{background:var(--bg-elev-2);color:var(--text-dim);font-family:var(--mono);font-size:11.5px;padding:7px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);}
+  .copy-btn{background:transparent;border:1px solid var(--line);color:var(--text-dim);font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:6px;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent);color:#0f1420;border-color:var(--accent);}
+  pre{margin:0;background:var(--code-bg);padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:12.6px;line-height:1.55;}
+  .tok-c{color:#6a7385;}.tok-k{color:#e8a33d;}.tok-s{color:#8fd18f;}.tok-f{color:#4fd1c5;}.tok-p{color:#c792ea;}
+  .schema-badge{display:inline-block;background:var(--bg-elev-2);border:1px solid var(--line);color:var(--accent-2);font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;margin-left:8px;}
+  .checklist{list-style:none;padding:0;margin:16px 0;}
+  .checklist li{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);color:var(--text-dim);font-size:14px;}
+  .checklist li::before{content:"☐";color:var(--accent);font-family:var(--mono);}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding-top:24px;color:var(--text-dim);font-size:13px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="sidebar">
+    <div class="brand">Zarat ERP · FAZA-1 / database</div>
+    <h1>Zarat_baza-A</h1>
+    <div class="sub">zarat_erp_2 bazasının sıfırdan tam bərpası — struktur, view-lar, trigger-lər, data yükləmə.</div>
+    <ul class="toc" id="toc">
+      <li><a href="#s0"><span class="n">00</span> Bu dərs nə üçündür</a></li>
+      <li><a href="#s1"><span class="n">01</span> Baza yaradılması</a></li>
+      <li><a href="#s2"><span class="n">02</span> 13 sxemanın yaradılması</a></li>
+      <li><a href="#s3"><span class="n">03</span> ASSET cədvəlləri</a></li>
+      <li><a href="#s4"><span class="n">04</span> FINANCE cədvəlləri</a></li>
+      <li><a href="#s5"><span class="n">05</span> HR cədvəlləri</a></li>
+      <li><a href="#s6"><span class="n">06</span> INVENTORY cədvəlləri</a></li>
+      <li><a href="#s7"><span class="n">07</span> LOGISTICS cədvəlləri</a></li>
+      <li><a href="#s8"><span class="n">08</span> ORG cədvəlləri</a></li>
+      <li><a href="#s9"><span class="n">09</span> PARTNER cədvəlləri</a></li>
+      <li><a href="#s10"><span class="n">10</span> PRODUCTION cədvəlləri</a></li>
+      <li><a href="#s11"><span class="n">11</span> PURCHASE cədvəlləri</a></li>
+      <li><a href="#s12"><span class="n">12</span> QUALITY cədvəlləri</a></li>
+      <li><a href="#s13"><span class="n">13</span> SALES cədvəlləri</a></li>
+      <li><a href="#s14"><span class="n">14</span> SYSTEM cədvəlləri</a></li>
+      <li><a href="#s15"><span class="n">15</span> TRADE cədvəlləri</a></li>
+      <li><a href="#s16"><span class="n">16</span> Trigger-lər (updated_at)</a></li>
+      <li><a href="#s17"><span class="n">17</span> Hesabat View-ları</a></li>
+      <li><a href="#s18"><span class="n">18</span> Real datanın yüklənməsi</a></li>
+      <li><a href="#s19"><span class="n">19</span> Ehtiyat nüsxə (bir daha itirməmək)</a></li>
+      <li><a href="#s20"><span class="n">20</span> Tam bərpa yoxlama siyahısı</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <div class="eyebrow">Zarat ERP · Dərs A / 2</div>
+      <h1>zarat_erp_2: sıfırdan bugünkü vəziyyətə qədər tam yol xəritəsi</h1>
+      <p>Bu sənəd, bazanın ilk anından (boş `CREATE DATABASE`) indiki vəziyyətinə (13 sxema, 61 cədvəl, trigger-lər, hesabat view-ları, real doldurulmuş data) qədər olan hər addımı, birbaşa köçürülüb işlədilə bilən SQL kodları ilə sənədləşdirir. Fəlakət anında (bazanın yenidən sıfırlanması kimi) bu sənəd tək başına bazanı tam bərpa etmək üçün kifayətdir.</p>
+    </div>
+
+    <section id="s0">
+      <h2><span class="num">00</span> Bu dərs nə üçündür</h2>
+      <p class="lead">Bu, əvvəlki bir mərhələdə (PostgreSQL-in yenidən başlanğıc vəziyyətinə düşməsi nəticəsində) real datanın itirilməsindən sonra yazılan bir "sığorta sənədidir". Məqsəd: bir daha oxşar hadisə baş versə, heç bir söhbət tarixçəsinə ehtiyac olmadan, bu tək HTML faylındakı SQL kodlarını ardıcıl işlədərək bazanı tam bərpa edə bilməkdir.</p>
+      <div class="callout warn">
+        <strong>Şəffaflıq üçün vacib qeyd:</strong> Bu dərs bazanın <strong>strukturunu</strong> (sxema, cədvəl, trigger, view) 100% dəqiqliklə bərpa edir. Amma <strong>real sətir məlumatını</strong> (məsələn konkret işçi adları, konkret anbar qalıqları) bu fayl daxilində saxlamır — çünki bu, ya çox böyük olardı, ya da davamlı dəyişən canlı datadır. Bölmə 18 və 19-da bunun necə idarə olunacağı izah edilir.
+      </div>
+      <h3>Ümumi memarlıq xülasəsi</h3>
+      <table style="width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;">
+        <tr><td style="color:var(--text-dim);padding:6px 0;">Verilənlər bazası:</td><td><span class="inline">zarat_erp_2</span> (PostgreSQL 18)</td></tr>
+        <tr><td style="color:var(--text-dim);padding:6px 0;">Sxema sayı:</td><td>13 (asset, finance, hr, inventory, logistics, org, partner, production, purchase, quality, sales, system, trade)</td></tr>
+        <tr><td style="color:var(--text-dim);padding:6px 0;">Cədvəl sayı:</td><td>61 (org.org_structure daxil)</td></tr>
+        <tr><td style="color:var(--text-dim);padding:6px 0;">İdarəetmə:</td><td>Prisma (backend), birbaşa SQL (Shiny/R analitika qatı)</td></tr>
+      </table>
+    </section>
+
+    <section id="s1">
+      <h2><span class="num">01</span> Baza yaradılması</h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>bash — terminal</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code>/opt/homebrew/opt/postgresql@18/bin/psql -U royatalibova -p 5432 -d postgres \
+  -c "CREATE DATABASE zarat_erp_2;"</code></pre>
+      </div>
+      <p class="lead">Bundan sonrakı BÜTÜN SQL kodları bu bazaya qoşulmuş vəziyyətdə işlədilməlidir:</p>
+      <div class="code-wrap">
+        <div class="code-label"><span>bash</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code>/opt/homebrew/opt/postgresql@18/bin/psql -U royatalibova -p 5432 -d zarat_erp_2</code></pre>
+      </div>
+    </section>
+
+    <section id="s2">
+      <h2><span class="num">02</span> 13 sxemanın yaradılması</h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> asset;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> finance;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> hr;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> inventory;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> logistics;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> org;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> partner;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> production;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> purchase;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> quality;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> sales;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> system;
+<span class="tok-k">CREATE SCHEMA IF NOT EXISTS</span> trade;</code></pre>
+      </div>
+    </section>
+
+    <section id="s3">
+      <h2><span class="num">03</span> ASSET <span class="schema-badge">7 cədvəl</span></h2>
+      <p class="lead">Əsas vəsaitlər, baxım qrafikləri, ehtiyat hissələr.</p>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> asset.asset_category (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  category_code <span class="tok-f">VARCHAR</span>, category_name <span class="tok-f">VARCHAR</span>,
+  category_description <span class="tok-f">TEXT</span>, parent_category_id <span class="tok-f">INTEGER</span>,
+  depreciation_rate <span class="tok-f">NUMERIC</span>, useful_life_years <span class="tok-f">INTEGER</span>,
+  is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> asset.asset (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  asset_code <span class="tok-f">VARCHAR</span>, asset_name <span class="tok-f">VARCHAR</span>, asset_description <span class="tok-f">TEXT</span>,
+  category_id <span class="tok-f">INTEGER</span>, serial_number <span class="tok-f">VARCHAR</span>, barcode <span class="tok-f">VARCHAR</span>,
+  manufacturer <span class="tok-f">VARCHAR</span>, model <span class="tok-f">VARCHAR</span>, manufacturer_year <span class="tok-f">INTEGER</span>,
+  purchase_date <span class="tok-f">DATE</span>, purchase_price <span class="tok-f">NUMERIC</span>, current_value <span class="tok-f">NUMERIC</span>,
+  depreciation_method <span class="tok-f">VARCHAR</span>, location <span class="tok-f">VARCHAR</span>, status <span class="tok-f">VARCHAR</span>,
+  assigned_to <span class="tok-f">INTEGER</span>, department_id <span class="tok-f">INTEGER</span>, branch_id <span class="tok-f">INTEGER</span>,
+  warranty_expiry_date <span class="tok-f">DATE</span>, insurance_policy_number <span class="tok-f">VARCHAR</span>,
+  insurance_expiry_date <span class="tok-f">DATE</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> asset.maintenance_schedule (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  schedule_code <span class="tok-f">VARCHAR</span>, asset_id <span class="tok-f">INTEGER</span>, maintenance_type <span class="tok-f">VARCHAR</span>,
+  frequency_days <span class="tok-f">INTEGER</span>, next_maintenance_date <span class="tok-f">DATE</span>,
+  estimated_cost <span class="tok-f">NUMERIC</span>, priority <span class="tok-f">VARCHAR</span>, is_recurring <span class="tok-f">BOOLEAN</span>,
+  assigned_team <span class="tok-f">VARCHAR</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> asset.maintenance_task (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  task_number <span class="tok-f">VARCHAR</span>, asset_id <span class="tok-f">INTEGER</span>, schedule_id <span class="tok-f">INTEGER</span>,
+  task_title <span class="tok-f">VARCHAR</span>, task_description <span class="tok-f">TEXT</span>, task_type <span class="tok-f">VARCHAR</span>,
+  priority <span class="tok-f">VARCHAR</span>, status <span class="tok-f">VARCHAR</span>, reported_by <span class="tok-f">INTEGER</span>,
+  assigned_to <span class="tok-f">INTEGER</span>, approved_by <span class="tok-f">INTEGER</span>, start_date <span class="tok-f">DATE</span>,
+  end_date <span class="tok-f">DATE</span>, actual_start_date <span class="tok-f">DATE</span>, actual_end_date <span class="tok-f">DATE</span>,
+  estimated_hours <span class="tok-f">NUMERIC</span>, actual_hours <span class="tok-f">NUMERIC</span>,
+  estimated_cost <span class="tok-f">NUMERIC</span>, actual_cost <span class="tok-f">NUMERIC</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> asset.maintenance_history (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  task_id <span class="tok-f">INTEGER</span>, asset_id <span class="tok-f">INTEGER</span>, maintenance_date <span class="tok-f">DATE</span>,
+  maintenance_type <span class="tok-f">VARCHAR</span>, description <span class="tok-f">TEXT</span>, technician <span class="tok-f">VARCHAR</span>,
+  downtime_hours <span class="tok-f">NUMERIC</span>, cost <span class="tok-f">NUMERIC</span>, status <span class="tok-f">VARCHAR</span>,
+  resolution <span class="tok-f">TEXT</span>, part_replaced <span class="tok-f">TEXT</span>, notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> asset.spare_part (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  part_code <span class="tok-f">VARCHAR</span>, part_name <span class="tok-f">VARCHAR</span>, part_description <span class="tok-f">TEXT</span>,
+  category_id <span class="tok-f">INTEGER</span>, manufacturer <span class="tok-f">VARCHAR</span>, model <span class="tok-f">VARCHAR</span>,
+  manufacturer_part_number <span class="tok-f">VARCHAR</span>, supplier_id <span class="tok-f">INTEGER</span>, unit <span class="tok-f">VARCHAR</span>,
+  min_stock_qty <span class="tok-f">NUMERIC</span>, max_stock_qty <span class="tok-f">NUMERIC</span>, current_stock_qty <span class="tok-f">NUMERIC</span>,
+  reorder_point <span class="tok-f">NUMERIC</span>, unit_cost <span class="tok-f">NUMERIC</span>, last_purchase_price <span class="tok-f">NUMERIC</span>,
+  location <span class="tok-f">VARCHAR</span>, shelf_location <span class="tok-f">VARCHAR</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> asset.spare_part_usage (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  part_id <span class="tok-f">INTEGER</span>, task_id <span class="tok-f">INTEGER</span>, asset_id <span class="tok-f">INTEGER</span>,
+  usage_date <span class="tok-f">DATE</span>, quantity_used <span class="tok-f">NUMERIC</span>, unit <span class="tok-f">VARCHAR</span>,
+  unit_price <span class="tok-f">NUMERIC</span>, total_cost <span class="tok-f">NUMERIC</span>, reason <span class="tok-f">VARCHAR</span>,
+  used_by <span class="tok-f">INTEGER</span>, notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s4">
+      <h2><span class="num">04</span> FINANCE <span class="schema-badge">3 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> finance.chart_of_accounts (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  account_code <span class="tok-f">VARCHAR</span>, account_name <span class="tok-f">VARCHAR</span>, account_type <span class="tok-f">VARCHAR</span>,
+  parent_account_id <span class="tok-f">INTEGER</span>, normal_balance <span class="tok-f">VARCHAR</span>, account_level <span class="tok-f">INTEGER</span>,
+  is_active <span class="tok-f">BOOLEAN</span>, description <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> finance.budgets (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  budget_code <span class="tok-f">VARCHAR</span>, budget_name <span class="tok-f">VARCHAR</span>, budget_type <span class="tok-f">VARCHAR</span>,
+  account_id <span class="tok-f">INTEGER</span>, department_id <span class="tok-f">INTEGER</span>, fiscal_year <span class="tok-f">INTEGER</span>, period <span class="tok-f">INTEGER</span>,
+  planned_amount <span class="tok-f">NUMERIC</span>, actual_amount <span class="tok-f">NUMERIC</span>, status <span class="tok-f">VARCHAR</span>,
+  created_by <span class="tok-f">INTEGER</span>, approved_by <span class="tok-f">INTEGER</span>, approval_date <span class="tok-f">DATE</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> finance.general_ledger (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  transaction_date <span class="tok-f">DATE</span>, account_id <span class="tok-f">INTEGER</span>, debit <span class="tok-f">NUMERIC</span>, credit <span class="tok-f">NUMERIC</span>,
+  description <span class="tok-f">TEXT</span>, reference_number <span class="tok-f">VARCHAR</span>, source_type <span class="tok-f">VARCHAR</span>,
+  source_id <span class="tok-f">INTEGER</span>, source_table <span class="tok-f">VARCHAR</span>, posted_by <span class="tok-f">INTEGER</span>, approved_by <span class="tok-f">INTEGER</span>,
+  is_reconciled <span class="tok-f">BOOLEAN</span>, reconciliation_date <span class="tok-f">DATE</span>, notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s5">
+      <h2><span class="num">05</span> HR <span class="schema-badge">4 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> hr.departments (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  dept_code <span class="tok-f">VARCHAR</span>, dept_name <span class="tok-f">VARCHAR</span>, dept_head_id <span class="tok-f">INTEGER</span>,
+  location <span class="tok-f">VARCHAR</span>, budget <span class="tok-f">NUMERIC</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> hr.employees (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  employee_code <span class="tok-f">VARCHAR</span>, full_name <span class="tok-f">VARCHAR</span>, position <span class="tok-f">VARCHAR</span>,
+  department_id <span class="tok-f">INTEGER</span>, manager_id <span class="tok-f">INTEGER</span>, hire_date <span class="tok-f">DATE</span>,
+  termination_date <span class="tok-f">DATE</span>, monthly_salary <span class="tok-f">NUMERIC</span>, email <span class="tok-f">VARCHAR</span>,
+  phone <span class="tok-f">VARCHAR</span>, birth_date <span class="tok-f">DATE</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> hr.attendance (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  employee_id <span class="tok-f">INTEGER</span>, attendance_date <span class="tok-f">DATE</span>, check_in <span class="tok-f">TIME</span>, check_out <span class="tok-f">TIME</span>,
+  work_hours <span class="tok-f">NUMERIC</span>, overtime_hours <span class="tok-f">NUMERIC</span>, status <span class="tok-f">VARCHAR</span>,
+  notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> hr.leave_requests (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  employee_id <span class="tok-f">INTEGER</span>, leave_type <span class="tok-f">VARCHAR</span>, start_date <span class="tok-f">DATE</span>, end_date <span class="tok-f">DATE</span>,
+  total_days <span class="tok-f">INTEGER</span>, status <span class="tok-f">VARCHAR</span>, approved_by <span class="tok-f">INTEGER</span>, request_date <span class="tok-f">DATE</span>,
+  notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s6">
+      <h2><span class="num">06</span> INVENTORY <span class="schema-badge">4 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> inventory.categories (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  category_code <span class="tok-f">VARCHAR</span>, category_name <span class="tok-f">VARCHAR</span>, category_description <span class="tok-f">TEXT</span>,
+  parent_category_id <span class="tok-f">INTEGER</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> inventory.warehouses (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  warehouse_code <span class="tok-f">VARCHAR</span>, warehouse_name <span class="tok-f">VARCHAR</span>, warehouse_type <span class="tok-f">VARCHAR</span>,
+  location <span class="tok-f">VARCHAR</span>, manager_id <span class="tok-f">INTEGER</span>, capacity_m2 <span class="tok-f">NUMERIC</span>,
+  capacity_volume <span class="tok-f">NUMERIC</span>, temperature_min <span class="tok-f">NUMERIC</span>, temperature_max <span class="tok-f">NUMERIC</span>,
+  is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> inventory.products (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  product_code <span class="tok-f">VARCHAR</span>, product_name <span class="tok-f">VARCHAR</span>, description <span class="tok-f">TEXT</span>,
+  product_type <span class="tok-f">VARCHAR</span>, category_id <span class="tok-f">INTEGER</span>, unit_id <span class="tok-f">INTEGER</span>,
+  weight_kg <span class="tok-f">NUMERIC</span>, length_cm <span class="tok-f">NUMERIC</span>, width_cm <span class="tok-f">NUMERIC</span>, height_cm <span class="tok-f">NUMERIC</span>,
+  standard_cost <span class="tok-f">NUMERIC</span>, selling_price_local <span class="tok-f">NUMERIC</span>, selling_price_export <span class="tok-f">NUMERIC</span>,
+  min_stock_qty <span class="tok-f">NUMERIC</span>, max_stock_qty <span class="tok-f">NUMERIC</span>, reorder_point <span class="tok-f">NUMERIC</span>,
+  lead_time_days <span class="tok-f">INTEGER</span>, is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> inventory.inventory (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  product_id <span class="tok-f">INTEGER</span>, warehouse_id <span class="tok-f">INTEGER</span>, shelf_location <span class="tok-f">VARCHAR</span>,
+  batch_number <span class="tok-f">VARCHAR</span>, serial_number <span class="tok-f">VARCHAR</span>, quantity_on_hand <span class="tok-f">NUMERIC</span>,
+  reserved_quantity <span class="tok-f">NUMERIC</span>, damaged_quantity <span class="tok-f">NUMERIC</span>, last_cost_price <span class="tok-f">NUMERIC</span>,
+  last_selling_price <span class="tok-f">NUMERIC</span>, expiration_date <span class="tok-f">DATE</span>, received_date <span class="tok-f">DATE</span>,
+  last_count_date <span class="tok-f">DATE</span>, last_updated <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s7">
+      <h2><span class="num">07</span> LOGISTICS <span class="schema-badge">2 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> logistics.shipment (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  shipment_number <span class="tok-f">VARCHAR</span>, shipment_type <span class="tok-f">VARCHAR</span>, order_id <span class="tok-f">INTEGER</span>,
+  order_type <span class="tok-f">VARCHAR</span>, customer_id <span class="tok-f">INTEGER</span>, supplier_id <span class="tok-f">INTEGER</span>,
+  vehicle_id <span class="tok-f">INTEGER</span>, driver_id <span class="tok-f">INTEGER</span>, route_id <span class="tok-f">INTEGER</span>,
+  shipment_date <span class="tok-f">DATE</span>, planned_delivery_date <span class="tok-f">DATE</span>, actual_delivery_date <span class="tok-f">DATE</span>,
+  pickup_address <span class="tok-f">TEXT</span>, delivery_address <span class="tok-f">TEXT</span>, total_weight_kg <span class="tok-f">NUMERIC</span>,
+  total_volume_m3 <span class="tok-f">NUMERIC</span>, total_items <span class="tok-f">INTEGER</span>, status <span class="tok-f">VARCHAR</span>, priority <span class="tok-f">VARCHAR</span>,
+  handling_instructions <span class="tok-f">TEXT</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> logistics.delivery_tracking (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  shipment_id <span class="tok-f">INTEGER</span>, tracking_number <span class="tok-f">VARCHAR</span>, tracking_date <span class="tok-f">TIMESTAMP</span>,
+  tracking_status <span class="tok-f">VARCHAR</span>, location <span class="tok-f">VARCHAR</span>, latitude <span class="tok-f">NUMERIC</span>, longitude <span class="tok-f">NUMERIC</span>,
+  location_description <span class="tok-f">TEXT</span>, event_description <span class="tok-f">TEXT</span>, actual_time <span class="tok-f">TIMESTAMP</span>,
+  driver_notes <span class="tok-f">TEXT</span>, created_by <span class="tok-f">INTEGER</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s8">
+      <h2><span class="num">08</span> ORG <span class="schema-badge">6 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> org.companies (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  company_code <span class="tok-f">VARCHAR</span>, company_name <span class="tok-f">VARCHAR</span>, legal_name <span class="tok-f">VARCHAR</span>,
+  tax_id <span class="tok-f">VARCHAR</span>, registration_number <span class="tok-f">VARCHAR</span>, country <span class="tok-f">VARCHAR</span>, city <span class="tok-f">VARCHAR</span>,
+  address <span class="tok-f">TEXT</span>, phone <span class="tok-f">VARCHAR</span>, email <span class="tok-f">VARCHAR</span>, website <span class="tok-f">VARCHAR</span>,
+  industry <span class="tok-f">VARCHAR</span>, founded_date <span class="tok-f">DATE</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> org.branches (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  branch_code <span class="tok-f">VARCHAR</span>, branch_name <span class="tok-f">VARCHAR</span>, company_id <span class="tok-f">INTEGER</span>,
+  branch_type <span class="tok-f">VARCHAR</span>, country <span class="tok-f">VARCHAR</span>, city <span class="tok-f">VARCHAR</span>, address <span class="tok-f">TEXT</span>,
+  phone <span class="tok-f">VARCHAR</span>, email <span class="tok-f">VARCHAR</span>, manager_id <span class="tok-f">INTEGER</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> org.departments (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  dept_code <span class="tok-f">VARCHAR</span>, dept_name <span class="tok-f">VARCHAR</span>, dept_type <span class="tok-f">VARCHAR</span>,
+  parent_dept_id <span class="tok-f">INTEGER</span>, branch_id <span class="tok-f">INTEGER</span>, manager_id <span class="tok-f">INTEGER</span>,
+  budget <span class="tok-f">NUMERIC</span>, is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> org.positions (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  position_code <span class="tok-f">VARCHAR</span>, position_name <span class="tok-f">VARCHAR</span>, position_level <span class="tok-f">VARCHAR</span>,
+  job_description <span class="tok-f">TEXT</span>, department_id <span class="tok-f">INTEGER</span>, salary_min <span class="tok-f">NUMERIC</span>,
+  salary_max <span class="tok-f">NUMERIC</span>, is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> org.employees (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  employee_code <span class="tok-f">VARCHAR</span>, first_name <span class="tok-f">VARCHAR</span>, last_name <span class="tok-f">VARCHAR</span>,
+  middle_name <span class="tok-f">VARCHAR</span>, full_name <span class="tok-f">VARCHAR</span>, position_id <span class="tok-f">INTEGER</span>,
+  department_id <span class="tok-f">INTEGER</span>, branch_id <span class="tok-f">INTEGER</span>, manager_id <span class="tok-f">INTEGER</span>, company_id <span class="tok-f">INTEGER</span>,
+  email <span class="tok-f">VARCHAR</span>, phone <span class="tok-f">VARCHAR</span>, personal_email <span class="tok-f">VARCHAR</span>, birth_date <span class="tok-f">DATE</span>,
+  hire_date <span class="tok-f">DATE</span>, termination_date <span class="tok-f">DATE</span>, employment_type <span class="tok-f">VARCHAR</span>, salary <span class="tok-f">NUMERIC</span>,
+  is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> org.org_structure (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  org_code <span class="tok-f">VARCHAR</span>, org_name <span class="tok-f">VARCHAR</span>, org_type <span class="tok-f">VARCHAR</span>, parent_id <span class="tok-f">INTEGER</span>,
+  level <span class="tok-f">INTEGER</span>, company_id <span class="tok-f">INTEGER</span>, branch_id <span class="tok-f">INTEGER</span>, department_id <span class="tok-f">INTEGER</span>,
+  manager_id <span class="tok-f">INTEGER</span>, is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s9">
+      <h2><span class="num">09</span> PARTNER <span class="schema-badge">9 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.partner_type (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, type_code <span class="tok-f">VARCHAR</span>, type_name <span class="tok-f">VARCHAR</span>,
+  type_description <span class="tok-f">TEXT</span>, category <span class="tok-f">VARCHAR</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.partner_category (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, category_code <span class="tok-f">VARCHAR</span>, category_name <span class="tok-f">VARCHAR</span>,
+  category_description <span class="tok-f">TEXT</span>, parent_category_id <span class="tok-f">INTEGER</span>, priority_level <span class="tok-f">INTEGER</span>,
+  is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.partner (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>,
+  partner_code <span class="tok-f">VARCHAR</span>, partner_name <span class="tok-f">VARCHAR</span>, legal_name <span class="tok-f">VARCHAR</span>, trade_name <span class="tok-f">VARCHAR</span>,
+  type_id <span class="tok-f">INTEGER</span>, category_id <span class="tok-f">INTEGER</span>, tax_id <span class="tok-f">VARCHAR</span>, registration_number <span class="tok-f">VARCHAR</span>,
+  registration_date <span class="tok-f">DATE</span>, country <span class="tok-f">VARCHAR</span>, city <span class="tok-f">VARCHAR</span>, address <span class="tok-f">TEXT</span>,
+  postal_code <span class="tok-f">VARCHAR</span>, phone <span class="tok-f">VARCHAR</span>, email <span class="tok-f">VARCHAR</span>, website <span class="tok-f">VARCHAR</span>, industry <span class="tok-f">VARCHAR</span>,
+  employee_count <span class="tok-f">INTEGER</span>, annual_revenue <span class="tok-f">NUMERIC</span>, currency <span class="tok-f">VARCHAR</span>,
+  payment_terms <span class="tok-f">VARCHAR</span>, credit_limit <span class="tok-f">NUMERIC</span>, status <span class="tok-f">VARCHAR</span>, customer_segment <span class="tok-f">VARCHAR</span>,
+  sales_rep_id <span class="tok-f">INTEGER</span>, account_manager_id <span class="tok-f">INTEGER</span>, preferred_contact_method <span class="tok-f">VARCHAR</span>,
+  notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.address (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, partner_id <span class="tok-f">INTEGER</span>, address_type <span class="tok-f">VARCHAR</span>,
+  address_line1 <span class="tok-f">TEXT</span>, address_line2 <span class="tok-f">TEXT</span>, country <span class="tok-f">VARCHAR</span>, city <span class="tok-f">VARCHAR</span>,
+  state <span class="tok-f">VARCHAR</span>, postal_code <span class="tok-f">VARCHAR</span>, latitude <span class="tok-f">NUMERIC</span>, longitude <span class="tok-f">NUMERIC</span>,
+  is_primary <span class="tok-f">BOOLEAN</span>, is_active <span class="tok-f">BOOLEAN</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.bank_account (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, partner_id <span class="tok-f">INTEGER</span>, account_number <span class="tok-f">VARCHAR</span>,
+  iban <span class="tok-f">VARCHAR</span>, swift_bic <span class="tok-f">VARCHAR</span>, bank_name <span class="tok-f">VARCHAR</span>, bank_address <span class="tok-f">TEXT</span>,
+  account_holder_name <span class="tok-f">VARCHAR</span>, account_type <span class="tok-f">VARCHAR</span>, currency <span class="tok-f">VARCHAR</span>,
+  is_default <span class="tok-f">BOOLEAN</span>, is_active <span class="tok-f">BOOLEAN</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.contact_person (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, partner_id <span class="tok-f">INTEGER</span>, full_name <span class="tok-f">VARCHAR</span>,
+  position <span class="tok-f">VARCHAR</span>, department <span class="tok-f">VARCHAR</span>, email <span class="tok-f">VARCHAR</span>, phone <span class="tok-f">VARCHAR</span>,
+  mobile <span class="tok-f">VARCHAR</span>, whatsapp <span class="tok-f">VARCHAR</span>, telegram <span class="tok-f">VARCHAR</span>, linkedin <span class="tok-f">VARCHAR</span>,
+  is_primary <span class="tok-f">BOOLEAN</span>, is_decision_maker <span class="tok-f">BOOLEAN</span>, can_approve_orders <span class="tok-f">BOOLEAN</span>,
+  notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.contract (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, contract_number <span class="tok-f">VARCHAR</span>, partner_id <span class="tok-f">INTEGER</span>,
+  contract_name <span class="tok-f">VARCHAR</span>, contract_type <span class="tok-f">VARCHAR</span>, start_date <span class="tok-f">DATE</span>, end_date <span class="tok-f">DATE</span>,
+  renewal_date <span class="tok-f">DATE</span>, total_value <span class="tok-f">NUMERIC</span>, currency <span class="tok-f">VARCHAR</span>, payment_terms <span class="tok-f">VARCHAR</span>,
+  delivery_terms <span class="tok-f">VARCHAR</span>, incoterms <span class="tok-f">VARCHAR</span>, status <span class="tok-f">VARCHAR</span>,
+  signed_by_partner <span class="tok-f">INTEGER</span>, signed_by_company <span class="tok-f">INTEGER</span>, signed_date <span class="tok-f">DATE</span>,
+  document_url <span class="tok-f">TEXT</span>, special_conditions <span class="tok-f">TEXT</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.partner_rating (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, partner_id <span class="tok-f">INTEGER</span>, rating_date <span class="tok-f">DATE</span>,
+  overall_rating <span class="tok-f">NUMERIC</span>, criteria <span class="tok-f">JSONB</span>, reviewer_id <span class="tok-f">INTEGER</span>,
+  reviewer_notes <span class="tok-f">TEXT</span>, status <span class="tok-f">VARCHAR</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> partner.partner_activity_log (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, partner_id <span class="tok-f">INTEGER</span>, activity_type <span class="tok-f">VARCHAR</span>,
+  activity_date <span class="tok-f">TIMESTAMP</span>, subject <span class="tok-f">VARCHAR</span>, description <span class="tok-f">TEXT</span>, performed_by <span class="tok-f">INTEGER</span>,
+  duration_minutes <span class="tok-f">INTEGER</span>, outcome <span class="tok-f">VARCHAR</span>, next_action_date <span class="tok-f">DATE</span>,
+  next_action_description <span class="tok-f">TEXT</span>, attached_documents <span class="tok-f">TEXT[]</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s10">
+      <h2><span class="num">10</span> PRODUCTION <span class="schema-badge">3 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> production.recipes (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, product_id <span class="tok-f">INTEGER</span>, component_id <span class="tok-f">INTEGER</span>,
+  quantity_per_unit <span class="tok-f">NUMERIC</span>, waste_percent <span class="tok-f">NUMERIC</span>, scrap_percent <span class="tok-f">NUMERIC</span>,
+  is_critical <span class="tok-f">BOOLEAN</span>, alternative_component_id <span class="tok-f">INTEGER</span>, valid_from <span class="tok-f">DATE</span>,
+  valid_to <span class="tok-f">DATE</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> production.production_orders (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, order_number <span class="tok-f">VARCHAR</span>, product_id <span class="tok-f">INTEGER</span>,
+  recipe_id <span class="tok-f">INTEGER</span>, planned_quantity <span class="tok-f">NUMERIC</span>, produced_quantity <span class="tok-f">NUMERIC</span>,
+  rejected_quantity <span class="tok-f">NUMERIC</span>, start_date <span class="tok-f">DATE</span>, end_date <span class="tok-f">DATE</span>, status <span class="tok-f">VARCHAR</span>,
+  priority <span class="tok-f">INTEGER</span>, created_by <span class="tok-f">INTEGER</span>, approved_by <span class="tok-f">INTEGER</span>, sales_order_id <span class="tok-f">INTEGER</span>,
+  notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> production.batches (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, batch_number <span class="tok-f">VARCHAR</span>, production_order_id <span class="tok-f">INTEGER</span>,
+  batch_date <span class="tok-f">DATE</span>, planned_quantity <span class="tok-f">NUMERIC</span>, actual_quantity <span class="tok-f">NUMERIC</span>,
+  rejected_quantity <span class="tok-f">NUMERIC</span>, supervisor_id <span class="tok-f">INTEGER</span>, status <span class="tok-f">VARCHAR</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s11">
+      <h2><span class="num">11</span> PURCHASE <span class="schema-badge">4 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> purchase.suppliers (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, supplier_code <span class="tok-f">VARCHAR</span>, company_name <span class="tok-f">VARCHAR</span>,
+  tax_id <span class="tok-f">VARCHAR</span>, country <span class="tok-f">VARCHAR</span>, city <span class="tok-f">VARCHAR</span>, address <span class="tok-f">TEXT</span>, postal_code <span class="tok-f">VARCHAR</span>,
+  website <span class="tok-f">VARCHAR</span>, payment_terms <span class="tok-f">VARCHAR</span>, currency <span class="tok-f">VARCHAR</span>, rating <span class="tok-f">INTEGER</span>,
+  is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> purchase.supplier_contacts (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, supplier_id <span class="tok-f">INTEGER</span>, full_name <span class="tok-f">VARCHAR</span>,
+  position <span class="tok-f">VARCHAR</span>, email <span class="tok-f">VARCHAR</span>, phone <span class="tok-f">VARCHAR</span>, mobile <span class="tok-f">VARCHAR</span>,
+  is_primary <span class="tok-f">BOOLEAN</span>, notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> purchase.orders (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, po_number <span class="tok-f">VARCHAR</span>, supplier_id <span class="tok-f">INTEGER</span>,
+  order_date <span class="tok-f">DATE</span>, delivery_date <span class="tok-f">DATE</span>, total_amount <span class="tok-f">NUMERIC</span>, currency <span class="tok-f">VARCHAR</span>,
+  status <span class="tok-f">VARCHAR</span>, created_by <span class="tok-f">INTEGER</span>, approved_by <span class="tok-f">INTEGER</span>, shipping_address <span class="tok-f">TEXT</span>,
+  notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> purchase.order_lines (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, po_id <span class="tok-f">INTEGER</span>, line_number <span class="tok-f">INTEGER</span>,
+  product_id <span class="tok-f">INTEGER</span>, product_name <span class="tok-f">VARCHAR</span>, product_code <span class="tok-f">VARCHAR</span>,
+  ordered_qty <span class="tok-f">NUMERIC</span>, received_qty <span class="tok-f">NUMERIC</span>, unit_price <span class="tok-f">NUMERIC</span>,
+  discount_percent <span class="tok-f">NUMERIC</span>, line_total <span class="tok-f">NUMERIC</span>, notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s12">
+      <h2><span class="num">12</span> QUALITY <span class="schema-badge">4 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> quality.quality_control_plan (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, plan_code <span class="tok-f">VARCHAR</span>, plan_name <span class="tok-f">VARCHAR</span>,
+  plan_description <span class="tok-f">TEXT</span>, product_id <span class="tok-f">INTEGER</span>, product_category_id <span class="tok-f">INTEGER</span>,
+  plan_type <span class="tok-f">VARCHAR</span>, frequency <span class="tok-f">VARCHAR</span>, sample_size <span class="tok-f">INTEGER</span>,
+  acceptance_criteria <span class="tok-f">TEXT</span>, rejection_criteria <span class="tok-f">TEXT</span>, responsible_department_id <span class="tok-f">INTEGER</span>,
+  approved_by <span class="tok-f">INTEGER</span>, approval_date <span class="tok-f">DATE</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> quality.quality_inspection (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, inspection_number <span class="tok-f">VARCHAR</span>, control_plan_id <span class="tok-f">INTEGER</span>,
+  inspection_type <span class="tok-f">VARCHAR</span>, product_id <span class="tok-f">INTEGER</span>, batch_number <span class="tok-f">VARCHAR</span>, order_id <span class="tok-f">INTEGER</span>,
+  order_type <span class="tok-f">VARCHAR</span>, inspection_date <span class="tok-f">DATE</span>, inspector_id <span class="tok-f">INTEGER</span>, sample_size <span class="tok-f">INTEGER</span>,
+  accepted_qty <span class="tok-f">NUMERIC</span>, rejected_qty <span class="tok-f">NUMERIC</span>, status <span class="tok-f">VARCHAR</span>, overall_result <span class="tok-f">VARCHAR</span>,
+  report_url <span class="tok-f">TEXT</span>, notes <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> quality.quality_certificate (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, certificate_number <span class="tok-f">VARCHAR</span>, certificate_name <span class="tok-f">VARCHAR</span>,
+  standard_id <span class="tok-f">INTEGER</span>, product_id <span class="tok-f">INTEGER</span>, batch_number <span class="tok-f">VARCHAR</span>, issue_date <span class="tok-f">DATE</span>,
+  expiry_date <span class="tok-f">DATE</span>, issued_by <span class="tok-f">VARCHAR</span>, issued_to <span class="tok-f">VARCHAR</span>, certificate_type <span class="tok-f">VARCHAR</span>,
+  status <span class="tok-f">VARCHAR</span>, document_url <span class="tok-f">TEXT</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> quality.quality_audit (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, audit_number <span class="tok-f">VARCHAR</span>, audit_name <span class="tok-f">VARCHAR</span>,
+  audit_type <span class="tok-f">VARCHAR</span>, audit_scope <span class="tok-f">TEXT</span>, standard_id <span class="tok-f">INTEGER</span>, audit_lead <span class="tok-f">INTEGER</span>,
+  audit_team <span class="tok-f">TEXT[]</span>, audit_date <span class="tok-f">DATE</span>, start_date <span class="tok-f">DATE</span>, end_date <span class="tok-f">DATE</span>, location <span class="tok-f">VARCHAR</span>,
+  findings <span class="tok-f">TEXT</span>, non_conformances <span class="tok-f">TEXT</span>, observations <span class="tok-f">TEXT</span>, overall_rating <span class="tok-f">NUMERIC</span>,
+  status <span class="tok-f">VARCHAR</span>, report_url <span class="tok-f">TEXT</span>, corrective_actions <span class="tok-f">TEXT</span>, follow_up_date <span class="tok-f">DATE</span>,
+  notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s13">
+      <h2><span class="num">13</span> SALES <span class="schema-badge">2 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> sales.customers (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, customer_code <span class="tok-f">VARCHAR</span>, company_name <span class="tok-f">VARCHAR</span>,
+  tax_id <span class="tok-f">VARCHAR</span>, country <span class="tok-f">VARCHAR</span>, city <span class="tok-f">VARCHAR</span>, address <span class="tok-f">TEXT</span>, postal_code <span class="tok-f">VARCHAR</span>,
+  website <span class="tok-f">VARCHAR</span>, industry <span class="tok-f">VARCHAR</span>, payment_terms <span class="tok-f">VARCHAR</span>, credit_limit <span class="tok-f">NUMERIC</span>,
+  currency <span class="tok-f">VARCHAR</span>, customer_segment <span class="tok-f">VARCHAR</span>, sales_rep_id <span class="tok-f">INTEGER</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> sales.invoices (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, invoice_number <span class="tok-f">VARCHAR</span>, order_id <span class="tok-f">INTEGER</span>,
+  customer_id <span class="tok-f">INTEGER</span>, invoice_date <span class="tok-f">DATE</span>, due_date <span class="tok-f">DATE</span>, total_amount <span class="tok-f">NUMERIC</span>,
+  paid_amount <span class="tok-f">NUMERIC</span>, currency <span class="tok-f">VARCHAR</span>, status <span class="tok-f">VARCHAR</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s14">
+      <h2><span class="num">14</span> SYSTEM <span class="schema-badge">10 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.user_role (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, role_code <span class="tok-f">VARCHAR</span>, role_name <span class="tok-f">VARCHAR</span>,
+  role_description <span class="tok-f">TEXT</span>, role_level <span class="tok-f">INTEGER</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.user (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, username <span class="tok-f">VARCHAR</span>, password_hash <span class="tok-f">VARCHAR</span>,
+  email <span class="tok-f">VARCHAR</span>, full_name <span class="tok-f">VARCHAR</span>, employee_id <span class="tok-f">INTEGER</span>, role_id <span class="tok-f">INTEGER</span>,
+  language <span class="tok-f">VARCHAR</span>, timezone <span class="tok-f">VARCHAR</span>, last_login <span class="tok-f">TIMESTAMP</span>, last_ip <span class="tok-f">VARCHAR</span>,
+  failed_attempts <span class="tok-f">INTEGER</span>, is_locked <span class="tok-f">BOOLEAN</span>, lock_reason <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  must_change_password <span class="tok-f">BOOLEAN</span>, last_password_change <span class="tok-f">DATE</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.permission (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, permission_code <span class="tok-f">VARCHAR</span>, permission_name <span class="tok-f">VARCHAR</span>,
+  permission_description <span class="tok-f">TEXT</span>, resource <span class="tok-f">VARCHAR</span>, action <span class="tok-f">VARCHAR</span>, module <span class="tok-f">VARCHAR</span>,
+  is_active <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.role_permission (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, role_id <span class="tok-f">INTEGER</span>, permission_id <span class="tok-f">INTEGER</span>,
+  is_granted <span class="tok-f">BOOLEAN</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.login_history (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, user_id <span class="tok-f">INTEGER</span>, username <span class="tok-f">VARCHAR</span>,
+  login_time <span class="tok-f">TIMESTAMP</span>, logout_time <span class="tok-f">TIMESTAMP</span>, ip_address <span class="tok-f">VARCHAR</span>, user_agent <span class="tok-f">TEXT</span>,
+  login_method <span class="tok-f">VARCHAR</span>, session_id <span class="tok-f">VARCHAR</span>, is_successful <span class="tok-f">BOOLEAN</span>, failure_reason <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.audit_log (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, user_id <span class="tok-f">INTEGER</span>, username <span class="tok-f">VARCHAR</span>, action <span class="tok-f">VARCHAR</span>,
+  resource <span class="tok-f">VARCHAR</span>, resource_id <span class="tok-f">VARCHAR</span>, module <span class="tok-f">VARCHAR</span>, ip_address <span class="tok-f">VARCHAR</span>,
+  user_agent <span class="tok-f">TEXT</span>, old_values <span class="tok-f">JSONB</span>, new_values <span class="tok-f">JSONB</span>, additional_info <span class="tok-f">JSONB</span>,
+  status <span class="tok-f">VARCHAR</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.error_log (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, error_code <span class="tok-f">VARCHAR</span>, error_type <span class="tok-f">VARCHAR</span>,
+  severity <span class="tok-f">VARCHAR</span>, module <span class="tok-f">VARCHAR</span>, method <span class="tok-f">VARCHAR</span>, url <span class="tok-f">VARCHAR</span>, ip_address <span class="tok-f">VARCHAR</span>,
+  user_id <span class="tok-f">INTEGER</span>, username <span class="tok-f">VARCHAR</span>, error_message <span class="tok-f">TEXT</span>, stack_trace <span class="tok-f">TEXT</span>,
+  request_data <span class="tok-f">JSONB</span>, response_data <span class="tok-f">JSONB</span>, resolved <span class="tok-f">BOOLEAN</span>, resolved_at <span class="tok-f">TIMESTAMP</span>,
+  resolved_by <span class="tok-f">INTEGER</span>, resolution_note <span class="tok-f">TEXT</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.backup_log (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, backup_id <span class="tok-f">VARCHAR</span>, backup_type <span class="tok-f">VARCHAR</span>,
+  backup_method <span class="tok-f">VARCHAR</span>, backup_location <span class="tok-f">TEXT</span>, backup_size_bytes <span class="tok-f">BIGINT</span>,
+  duration_seconds <span class="tok-f">INTEGER</span>, status <span class="tok-f">VARCHAR</span>, started_by <span class="tok-f">INTEGER</span>, completed_by <span class="tok-f">INTEGER</span>,
+  start_time <span class="tok-f">TIMESTAMP</span>, end_time <span class="tok-f">TIMESTAMP</span>, error_message <span class="tok-f">TEXT</span>, notes <span class="tok-f">TEXT</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.notification (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, user_id <span class="tok-f">INTEGER</span>, notification_type <span class="tok-f">VARCHAR</span>,
+  title <span class="tok-f">VARCHAR</span>, message <span class="tok-f">TEXT</span>, link <span class="tok-f">VARCHAR</span>, priority <span class="tok-f">VARCHAR</span>, is_read <span class="tok-f">BOOLEAN</span>,
+  read_at <span class="tok-f">TIMESTAMP</span>, is_dismissed <span class="tok-f">BOOLEAN</span>, dismissed_at <span class="tok-f">TIMESTAMP</span>, created_by <span class="tok-f">INTEGER</span>,
+  expires_at <span class="tok-f">TIMESTAMP</span>, created_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> system.system_config (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, config_key <span class="tok-f">VARCHAR</span>, config_value <span class="tok-f">TEXT</span>,
+  config_type <span class="tok-f">VARCHAR</span>, config_group <span class="tok-f">VARCHAR</span>, is_encrypted <span class="tok-f">BOOLEAN</span>, description <span class="tok-f">TEXT</span>,
+  created_by <span class="tok-f">INTEGER</span>, updated_by <span class="tok-f">INTEGER</span>, created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+    </section>
+
+    <section id="s15">
+      <h2><span class="num">15</span> TRADE <span class="schema-badge">2 cədvəl</span></h2>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE TABLE IF NOT EXISTS</span> trade.export_order (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, export_number <span class="tok-f">VARCHAR</span>, contract_id <span class="tok-f">INTEGER</span>,
+  customer_id <span class="tok-f">INTEGER</span>, customer_name <span class="tok-f">VARCHAR</span>, customer_country <span class="tok-f">VARCHAR</span>,
+  order_date <span class="tok-f">DATE</span>, expected_delivery <span class="tok-f">DATE</span>, actual_delivery <span class="tok-f">DATE</span>,
+  total_amount <span class="tok-f">NUMERIC</span>, currency <span class="tok-f">VARCHAR</span>, status <span class="tok-f">VARCHAR</span>, shipping_method <span class="tok-f">VARCHAR</span>,
+  port_of_loading <span class="tok-f">VARCHAR</span>, port_of_discharge <span class="tok-f">VARCHAR</span>, incoterms <span class="tok-f">VARCHAR</span>,
+  responsible_employee_id <span class="tok-f">INTEGER</span>, approved_by <span class="tok-f">INTEGER</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);
+
+<span class="tok-k">CREATE TABLE IF NOT EXISTS</span> trade.import_order (
+  id <span class="tok-f">SERIAL PRIMARY KEY</span>, import_number <span class="tok-f">VARCHAR</span>, contract_id <span class="tok-f">INTEGER</span>,
+  supplier_id <span class="tok-f">INTEGER</span>, supplier_name <span class="tok-f">VARCHAR</span>, supplier_country <span class="tok-f">VARCHAR</span>,
+  order_date <span class="tok-f">DATE</span>, expected_delivery <span class="tok-f">DATE</span>, actual_delivery <span class="tok-f">DATE</span>,
+  total_amount <span class="tok-f">NUMERIC</span>, currency <span class="tok-f">VARCHAR</span>, status <span class="tok-f">VARCHAR</span>, shipping_method <span class="tok-f">VARCHAR</span>,
+  port_of_loading <span class="tok-f">VARCHAR</span>, port_of_discharge <span class="tok-f">VARCHAR</span>, incoterms <span class="tok-f">VARCHAR</span>,
+  responsible_employee_id <span class="tok-f">INTEGER</span>, approved_by <span class="tok-f">INTEGER</span>, notes <span class="tok-f">TEXT</span>, is_active <span class="tok-f">BOOLEAN</span>,
+  created_at <span class="tok-f">TIMESTAMP</span>, updated_at <span class="tok-f">TIMESTAMP</span>
+);</code></pre>
+      </div>
+      <div class="callout ok"><strong>13 sxema, 61 cədvəl tamamlandı.</strong> İndi trigger və view-lara keçirik.</div>
+    </section>
+
+    <section id="s16">
+      <h2><span class="num">16</span> Trigger-lər — <span class="inline">updated_at</span> avtomatik yenilənməsi</h2>
+      <p class="lead">Real ERP-lərdə bir qayda var: bir sətir dəyişəndə, <span class="inline">updated_at</span> sütunu əl ilə yox, sistem tərəfindən avtomatik yenilənməlidir. Bunun üçün bir funksiya yazırıq, sonra onu <span class="inline">updated_at</span> sütunu olan HƏR cədvələ "bağlayırıq" — əl ilə 40+ dəfə etmək əvəzinə, bir kod bloku ilə avtomatik edirik.</p>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql — 1. Ortaq funksiya</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE FUNCTION</span> set_updated_at()
+<span class="tok-k">RETURNS TRIGGER AS</span> <span class="tok-s">$$</span>
+<span class="tok-k">BEGIN</span>
+  <span class="tok-p">NEW</span>.updated_at = <span class="tok-f">NOW()</span>;
+  <span class="tok-k">RETURN</span> <span class="tok-p">NEW</span>;
+<span class="tok-k">END</span>;
+<span class="tok-s">$$</span> <span class="tok-k">LANGUAGE</span> plpgsql;</code></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql — 2. Bu funksiyanı bütün uyğun cədvəllərə avtomatik bağla</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">DO</span> <span class="tok-s">$$</span>
+<span class="tok-k">DECLARE</span>
+  r <span class="tok-f">RECORD</span>;
+<span class="tok-k">BEGIN</span>
+  <span class="tok-k">FOR</span> r <span class="tok-k">IN</span>
+    <span class="tok-k">SELECT</span> table_schema, table_name
+    <span class="tok-k">FROM</span> information_schema.columns
+    <span class="tok-k">WHERE</span> column_name = <span class="tok-s">'updated_at'</span>
+      <span class="tok-k">AND</span> table_schema <span class="tok-k">IN</span> (<span class="tok-s">'asset','finance','hr','inventory','logistics',
+                            'org','partner','production','purchase',
+                            'quality','sales','system','trade'</span>)
+  <span class="tok-k">LOOP</span>
+    <span class="tok-k">EXECUTE</span> <span class="tok-f">format</span>(
+      <span class="tok-s">'DROP TRIGGER IF EXISTS trg_set_updated_at ON %I.%I;
+       CREATE TRIGGER trg_set_updated_at
+       BEFORE UPDATE ON %I.%I
+       FOR EACH ROW EXECUTE FUNCTION set_updated_at();'</span>,
+      r.table_schema, r.table_name, r.table_schema, r.table_name
+    );
+  <span class="tok-k">END LOOP</span>;
+<span class="tok-k">END</span> <span class="tok-s">$$</span>;</code></pre>
+      </div>
+      <div class="callout">
+        <strong>Necə işləyir:</strong> Bu blok <span class="inline">information_schema.columns</span>-a baxıb, <span class="inline">updated_at</span> sütunu olan BÜTÜN cədvəlləri özü tapır (əl ilə siyahı yazmağa ehtiyac yoxdur) və hər birinə trigger bağlayır. Gələcəkdə yeni cədvəl əlavə etsəniz və onda da <span class="inline">updated_at</span> olsa, bu blok yenidən işlədilməklə o da avtomatik daxil olacaq.
+      </div>
+    </section>
+
+    <section id="s17">
+      <h2><span class="num">17</span> Hesabat View-ları</h2>
+      <p class="lead">View-lar — tez-tez lazım olan mürəkkəb sorğuları "əvvəlcədən hazırlanmış cədvəl" kimi saxlayan qısayollardır. Bunlar Shiny/AI tətbiqinin (<span class="inline">app.R</span>) artıq işlətdiyi sorğu məntiqini əsas götürür.</p>
+
+      <h3>17.1 — hr.v_department_headcount</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> hr.v_department_headcount <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> d.dept_name, <span class="tok-k">COUNT</span>(e.id) <span class="tok-k">AS</span> employee_count,
+       <span class="tok-k">ROUND</span>(<span class="tok-k">AVG</span>(e.monthly_salary),2) <span class="tok-k">AS</span> avg_salary,
+       <span class="tok-k">SUM</span>(e.monthly_salary) <span class="tok-k">AS</span> total_monthly_cost
+<span class="tok-k">FROM</span> hr.employees e
+<span class="tok-k">JOIN</span> hr.departments d <span class="tok-k">ON</span> e.department_id = d.id
+<span class="tok-k">WHERE</span> e.is_active
+<span class="tok-k">GROUP BY</span> d.dept_name;</code></pre>
+      </div>
+
+      <h3>17.2 — finance.v_monthly_pl</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> finance.v_monthly_pl <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> <span class="tok-k">TO_CHAR</span>(<span class="tok-k">DATE_TRUNC</span>(<span class="tok-s">'month'</span>, gl.transaction_date), <span class="tok-s">'YYYY-MM'</span>) <span class="tok-k">AS</span> month,
+       <span class="tok-k">SUM</span>(<span class="tok-k">CASE WHEN</span> coa.account_type = <span class="tok-s">'revenue'</span> <span class="tok-k">THEN</span> gl.credit - gl.debit <span class="tok-k">ELSE</span> 0 <span class="tok-k">END</span>) <span class="tok-k">AS</span> income,
+       <span class="tok-k">SUM</span>(<span class="tok-k">CASE WHEN</span> coa.account_type = <span class="tok-s">'expense'</span> <span class="tok-k">THEN</span> gl.debit - gl.credit <span class="tok-k">ELSE</span> 0 <span class="tok-k">END</span>) <span class="tok-k">AS</span> expense
+<span class="tok-k">FROM</span> finance.general_ledger gl
+<span class="tok-k">JOIN</span> finance.chart_of_accounts coa <span class="tok-k">ON</span> gl.account_id = coa.id
+<span class="tok-k">GROUP BY</span> month <span class="tok-k">ORDER BY</span> month;</code></pre>
+      </div>
+
+      <h3>17.3 — inventory.v_stock_valuation</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> inventory.v_stock_valuation <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> c.category_name,
+       <span class="tok-k">SUM</span>(i.quantity_on_hand * <span class="tok-k">COALESCE</span>(i.last_selling_price, p.selling_price_local, p.standard_cost, 0)) <span class="tok-k">AS</span> total_value,
+       <span class="tok-k">SUM</span>(i.quantity_on_hand) <span class="tok-k">AS</span> total_qty
+<span class="tok-k">FROM</span> inventory.inventory i
+<span class="tok-k">JOIN</span> inventory.products p <span class="tok-k">ON</span> i.product_id = p.id
+<span class="tok-k">LEFT JOIN</span> inventory.categories c <span class="tok-k">ON</span> p.category_id = c.id
+<span class="tok-k">GROUP BY</span> c.category_name;</code></pre>
+      </div>
+
+      <h3>17.4 — inventory.v_low_stock</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> inventory.v_low_stock <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> p.product_code, p.product_name,
+       <span class="tok-k">SUM</span>(i.quantity_on_hand) <span class="tok-k">AS</span> quantity, p.reorder_point
+<span class="tok-k">FROM</span> inventory.inventory i
+<span class="tok-k">JOIN</span> inventory.products p <span class="tok-k">ON</span> i.product_id = p.id
+<span class="tok-k">GROUP BY</span> p.product_code, p.product_name, p.reorder_point
+<span class="tok-k">HAVING</span> <span class="tok-k">SUM</span>(i.quantity_on_hand) < p.reorder_point;</code></pre>
+      </div>
+
+      <h3>17.5 — trade.v_all_shipments</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> trade.v_all_shipments <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> export_number <span class="tok-k">AS</span> doc_number, <span class="tok-s">'İxrac'</span> <span class="tok-k">AS</span> direction,
+       customer_country <span class="tok-k">AS</span> country, status, total_amount, currency
+<span class="tok-k">FROM</span> trade.export_order
+<span class="tok-k">UNION ALL</span>
+<span class="tok-k">SELECT</span> import_number, <span class="tok-s">'İdxal'</span>, supplier_country, status, total_amount, currency
+<span class="tok-k">FROM</span> trade.import_order;</code></pre>
+      </div>
+
+      <h3>17.6 — asset.v_upcoming_maintenance</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> asset.v_upcoming_maintenance <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> a.asset_name, ms.next_maintenance_date, ms.priority,
+       (ms.next_maintenance_date - <span class="tok-k">CURRENT_DATE</span>) <span class="tok-k">AS</span> days_left
+<span class="tok-k">FROM</span> asset.maintenance_schedule ms
+<span class="tok-k">JOIN</span> asset.asset a <span class="tok-k">ON</span> ms.asset_id = a.id
+<span class="tok-k">WHERE</span> ms.is_active <span class="tok-k">AND</span> ms.next_maintenance_date <span class="tok-k">IS NOT NULL</span>
+<span class="tok-k">ORDER BY</span> ms.next_maintenance_date;</code></pre>
+      </div>
+
+      <h3>17.7 — quality.v_expiring_certificates</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> quality.v_expiring_certificates <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> certificate_name, expiry_date, (expiry_date - <span class="tok-k">CURRENT_DATE</span>) <span class="tok-k">AS</span> days_left
+<span class="tok-k">FROM</span> quality.quality_certificate
+<span class="tok-k">WHERE</span> status = <span class="tok-s">'active'</span> <span class="tok-k">AND</span> expiry_date <span class="tok-k">IS NOT NULL</span>
+<span class="tok-k">ORDER BY</span> expiry_date;</code></pre>
+      </div>
+
+      <h3>17.8 — purchase.v_supplier_performance</h3>
+      <div class="code-wrap">
+        <div class="code-label"><span>sql</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">CREATE OR REPLACE VIEW</span> purchase.v_supplier_performance <span class="tok-k">AS</span>
+<span class="tok-k">SELECT</span> s.company_name, s.rating,
+       <span class="tok-k">COUNT</span>(<span class="tok-k">DISTINCT</span> o.id) <span class="tok-k">AS</span> total_orders,
+       <span class="tok-k">SUM</span>(o.total_amount) <span class="tok-k">AS</span> total_purchased,
+       <span class="tok-k">ROUND</span>(100.0 * <span class="tok-k">SUM</span>(ol.received_qty) / <span class="tok-k">NULLIF</span>(<span class="tok-k">SUM</span>(ol.ordered_qty),0), 1) <span class="tok-k">AS</span> fulfillment_pct
+<span class="tok-k">FROM</span> purchase.suppliers s
+<span class="tok-k">LEFT JOIN</span> purchase.orders o <span class="tok-k">ON</span> o.supplier_id = s.id
+<span class="tok-k">LEFT JOIN</span> purchase.order_lines ol <span class="tok-k">ON</span> ol.po_id = o.id
+<span class="tok-k">GROUP BY</span> s.company_name, s.rating;</code></pre>
+      </div>
+      <div class="callout">
+        <strong>Nə üçün view, cədvəl deyil?</strong> View "canlı" sorğudur — arxasındakı cədvəllər dəyişən kimi (yeni işçi, yeni faktura), view-un nəticəsi də avtomatik yenilənir. Ayrıca "sinxronizasiya" lazım deyil.
+      </div>
+    </section>
+
+    <section id="s18">
+      <h2><span class="num">18</span> Real datanın yüklənməsi</h2>
+      <p class="lead">Struktur (13 sxema, 61 cədvəl, trigger, view-lar) indi tamdır — amma boşdur. Real data iki mənbədən gəlir:</p>
+      <ol style="color:var(--text-dim);">
+        <li><strong>Şirkətdən gələn 3 Excel faylı</strong> (<span class="inline">Zarat_verdikleri</span>) — Claude Code tərəfindən artıq bir hissəsi <span class="inline">01_INTAKE_doldurulmus/</span> qovluğuna uyğunlaşdırılıb. Bunları bazaya yükləmək üçün, valideyn cədvəllərdən başlayaraq (ORG → digərləri), Python/pandas + <span class="inline">psycopg2</span> (və ya R/<span class="inline">DBI</span>) ilə hər vərəqi müvafiq cədvələ <span class="inline">INSERT</span> edin.</li>
+        <li><strong>Sizin əl ilə daxil edəcəyiniz qalan sahələr</strong> — mövcud sənəddə "boş qaldı" kimi qeyd olunan sütunlar (<span class="inline">ZARAT_INTAKE_DOLDURMA_HESABATI.md</span>-yə baxın).</li>
+      </ol>
+      <div class="code-wrap">
+        <div class="code-label"><span>python — nümunə yükləmə skripti (bir cədvəl üçün)</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">import</span> pandas <span class="tok-k">as</span> pd
+<span class="tok-k">from</span> sqlalchemy <span class="tok-k">import</span> create_engine
+
+engine = create_engine(<span class="tok-s">"postgresql://royatalibova@localhost:5432/zarat_erp_2"</span>)
+
+df = pd.read_excel(<span class="tok-s">"01_INTAKE_doldurulmus/org.xlsx"</span>, sheet_name=<span class="tok-s">"companies"</span>)
+df.to_sql(<span class="tok-s">"companies"</span>, engine, schema=<span class="tok-s">"org"</span>, if_exists=<span class="tok-s">"append"</span>, index=<span class="tok-k">False</span>)</code></pre>
+      </div>
+      <div class="callout warn">
+        <strong>Sıra vacibdir:</strong> <span class="inline">org.companies</span> → <span class="inline">org.branches</span> → <span class="inline">org.departments</span> → <span class="inline">org.positions</span> → <span class="inline">org.employees</span>, sonra digər sxemlər (çünki onlar ORG-a istinad edir). Əks sırada yükləsəniz, "foreign key" xətaları almasanız belə (bizim DDL-də hard FK yoxdur), məlumat MƏNTİQƏN uyğunsuz qalar (id-lər boş cədvələ işarə edər).
+      </div>
+    </section>
+
+    <section id="s19">
+      <h2><span class="num">19</span> Ehtiyat nüsxə — bir daha itirməmək üçün</h2>
+      <p class="lead">Bu bütün proses, məhz ehtiyat nüsxəsi olmadığı üçün lazım oldu. İndi struktur da, ilk real data da yerinə düşəndən sonra, DƏRHAL bir tam baza dump-ı (backup) alın:</p>
+      <div class="code-wrap">
+        <div class="code-label"><span>bash</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code>mkdir -p ~/Desktop/FAZA-1/database/backups
+/opt/homebrew/opt/postgresql@18/bin/pg_dump -U royatalibova -p 5432 -d zarat_erp_2 \
+  -F c -f ~/Desktop/FAZA-1/database/backups/zarat_erp_2_$(date +%Y%m%d_%H%M).dump</code></pre>
+      </div>
+      <div class="callout ok">
+        <strong>Tövsiyə:</strong> Bunu həftəlik təkrarlayın (əl ilə, ya da <span class="inline">cron</span>/Automator ilə avtomatlaşdırın). Bərpa əmri: <span class="inline">pg_restore -U royatalibova -p 5432 -d zarat_erp_2 -c &lt;fayl&gt;.dump</span>.
+      </div>
+    </section>
+
+    <section id="s20">
+      <h2><span class="num">20</span> Tam bərpa yoxlama siyahısı</h2>
+      <ul class="checklist">
+        <li>CREATE DATABASE zarat_erp_2 işlədildi</li>
+        <li>13 sxema yaradıldı (Bölmə 02)</li>
+        <li>61 cədvəl yaradıldı (Bölmə 03–15)</li>
+        <li><span class="inline">set_updated_at()</span> funksiyası və trigger-lər bağlandı (Bölmə 16)</li>
+        <li>8 hesabat view-u yaradıldı (Bölmə 17)</li>
+        <li><span class="inline">\dn</span> ilə 13 sxema, <span class="inline">\dt asset.*</span> (və s.) ilə cədvəllər təsdiqləndi</li>
+        <li>Real data (01_INTAKE_doldurulmus) valideyn→uşaq sırası ilə yükləndi</li>
+        <li>Backend <span class="inline">.env</span>-də DATABASE_URL yeni bazaya işarə edir, <span class="inline">npx prisma db pull</span> uğurla bitdi</li>
+        <li>İlk <span class="inline">pg_dump</span> backup-ı alındı (Bölmə 19)</li>
+      </ul>
+    </section>
+
+    <footer>Zarat ERP · FAZA-1/database · Zarat_baza-A · Növbəti: Zarat_baza-B (40 yoxlama sorğusu)</footer>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pre = btn.closest('.code-wrap').querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Kopyalandı ✓';
+        setTimeout(() => btn.textContent = original, 1500);
+      });
+    });
+  });
+  const sections = document.querySelectorAll('section');
+  const links = document.querySelectorAll('.toc a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

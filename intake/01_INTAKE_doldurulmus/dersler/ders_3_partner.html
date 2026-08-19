@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 3 — PARTNER Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .error-box { background:#fdecea; border-left:5px solid var(--danger); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .error-box strong { color:var(--danger); }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 3 / 11 — PARTNER Sxemi</div>
+  <h1>Partnyor (PARTNER)</h1>
+  <p class="subtitle">
+    Təchizatçılar, müştərilər, ödəniş şərtləri və bank hesabları. Bu sxem kimə nə satırsınız
+    və kimdən nə alırsınız — hər iki tərəfi bir yerdə idarə edir. ERP-in "ticari əlaqə" kitabıdır.
+  </p>
+  <p class="hero-note">
+    📋 PARTNER sxemi ORG-dan sonra doldurulur. Tərəf (partner.partner) yüklənmədən
+    nə təchizatçı (partner.supplier), nə müştəri (partner.customer), nə də bank hesabı
+    (partner.bank_account) yazıla bilər. Ödəniş şərtləri (partner.payment_term) isə
+    ən əvvəl doldurulur, çünki partnyorlar ona istinad edə bilər.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">partner.payment_term</span>
+    <span class="tbl-chip">partner.partner</span>
+    <span class="tbl-chip">partner.supplier</span>
+    <span class="tbl-chip">partner.customer</span>
+    <span class="tbl-chip">partner.bank_account</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>PARTNER sxemi ERP-in "kim ilə iş görürük?" sualını cavablandırır.</strong>
+        Zarat Qrupunun satınaldığı taxıl və əlav satıcıları <strong>supplier</strong> olaraq,
+        məhsul satdığı market şəbəkələri, restoranlar, distributorlər <strong>customer</strong>
+        olaraq burada qeyd edilir. Lakin bir partnyor həm təchizatçı, həm müştəri ola bilir —
+        bu halda <code>partner_kind = HER_IKISI</code> seçilir.
+      </p>
+      <p>
+        <strong>İki səviyyəli struktur:</strong> partner.partner cədvəli hər iki rolu üçün
+        ortaq olan məlumatları saxlayır (ad, VÖEN, ünvan). Bunun üzərinə partner.supplier
+        (yalnız təchizatçıya aid: kateqoriya, idxal/yerli, reytinq) və partner.customer
+        (yalnız müştəriyə aid: kredit limiti, qiymət siyahısı) əlavə olunur. Bu dizayn
+        dublikat məlumatın qarşısını alır.
+      </p>
+      <p>
+        <strong>Ödəniş şərtləri (payment_term):</strong> "14 gün ərzində ödəniş" kimi qaydalar
+        bir dəfə müəyyən edilib bütün partnyorlara tətbiq oluna bilər. Məsələn, böyük
+        distributorlara 30 günlük möhlət, kiçik pərakəndəçilərə isə ön ödəniş tələbi.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      Satın alma şöbəsi (supplier məlumatları), satış şöbəsi (customer məlumatları),
+      mühasibatlıq (bank_account, payment_term). Ödəniş şərtlərini mütləq <strong>maliyyə
+      direktoru ilə razılaşdırın</strong> — kredit limitləri hüquqi öhdəlik yaradır.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəllər</h2>
+
+    <!-- partner.payment_term -->
+    <div class="table-section">
+      <h3><span class="tbl-name">partner.payment_term</span><span class="tbl-desc"> — Ödəniş şərtləri</span></h3>
+      <div class="table-one-liner">
+        Ödəniş qaydaları: neçə gün möhlət var, ön ödənişmi tələb olunur. Partnyorlara
+        standart ödəniş şərtlərini tətbiq etmək üçün istifadə olunur.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Ödəniş şərtlərini əvvəlcədən müəyyən etmək vaxtınıza qənaət edir: hər dəfə
+          sifariş yaratdıqda şərti sıfırdan yazmaq əvəzinə, sadəcə bir kod seçirsiniz.
+          Məsələn, "30-gün-möhlət" — bu bir ödəniş şərtidir; müştərinin hesabına yazılanda
+          sistem avtomatik son ödəniş tarixini hesablayır.
+        </p>
+        <p>
+          <strong>type sütunu:</strong> <code>PESHIN</code> — mal çatdırılmadan əvvəl
+          ödəniş tələb olunur (riskli müştərilər üçün); <code>MOHLET</code> — mal
+          göndərildikdən X gün sonra ödəniş qəbul edilir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">term_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Ödəniş şərtinin unikal kodu. partner.partner cədvəlindəki payment_term_code bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>OD-30</strong><span class="val-hint">Tövsiyə: OD-GUNLER (OD-14, OD-30, PESHIN)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">term_name</span></td>
+            <td><span class="col-explain">Ödəniş şərtinin tam azərbaycanca adı. Faktura və sifarişlərdə görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>30 gün möhlət</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">days</span></td>
+            <td><span class="col-explain">Möhlət günlərinin sayı. Ön ödəniş üçün 0 yazın.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>30</strong><span class="val-hint">0 = ön ödəniş, 14 = 2 həftə, 30 = 1 ay</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">type</span></td>
+            <td><span class="col-explain">Ödəniş növü — əvvəlcə mi, sonra mı?</span></td>
+            <td>Seçim</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">PESHIN &nbsp;|&nbsp; MOHLET</span><span class="val-hint">PESHIN: mal çatmadan ödəniş; MOHLET: maldan sonra ödəniş</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">notes</span></td>
+            <td><span class="col-explain">Şərt haqqında əlavə qeydlər. Məsələn, "yalnız korporativ müştərilərə tətbiq olunur."</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Korporativ müştərilər üçün standart şərt</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Ön ödəniş</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">term_code</div><div class="sf-val">PESHIN</div></div>
+          <div class="sample-field"><div class="sf-key">term_name</div><div class="sf-val">Ön ödəniş (100%)</div></div>
+          <div class="sample-field"><div class="sf-key">days</div><div class="sf-val">0</div></div>
+          <div class="sample-field"><div class="sf-key">type</div><div class="sf-val">PESHIN</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — 30 gün möhlət</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">term_code</div><div class="sf-val">OD-30</div></div>
+          <div class="sample-field"><div class="sf-key">term_name</div><div class="sf-val">30 gün möhlət</div></div>
+          <div class="sample-field"><div class="sf-key">days</div><div class="sf-val">30</div></div>
+          <div class="sample-field"><div class="sf-key">type</div><div class="sf-val">MOHLET</div></div>
+        </div>
+        <div class="sample-note">💡 Bu cədvəl ən əvvəl doldurulmalıdır — partner.partner cədvəlindəki payment_term_code bu kodlara istinad edir.</div>
+      </div>
+    </div>
+
+    <!-- partner.partner -->
+    <div class="table-section">
+      <h3><span class="tbl-name">partner.partner</span><span class="tbl-desc"> — Tərəflər (əsas cədvəl)</span></h3>
+      <div class="table-one-liner">
+        Bütün iş tərəflərinin — istər təchizatçı, istər müştəri — ümumi məlumatları: ad,
+        VÖEN, ünvan, əlaqə. Hər partnyor üçün yeganə qeyd bu cədvəldədir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl "tərəf kartı" rolunu oynayır. Hər təchizatçı və hər müştəri əvvəlcə
+          burada qeyd olunur. Sonra həmin tərəfin rolu — təchizatçı mı, müştəri mi, hər
+          ikisi mi — <code>partner_kind</code> sütunu ilə müəyyən edilir.
+        </p>
+        <p>
+          <strong>HER_IKISI nümunəsi:</strong> Zarat bir şirkətin həm quş yemi alıb həm
+          də həmin şirkətə hazır toyuq məhsulu satırsa, həmin şirkəti <code>HER_IKISI</code>
+          kimi qeyd edin. Sonra partner.supplier-dəki supplier cədvəlinə VƏ partner.customer
+          cədvəlinə eyni <code>partner_code</code> ilə iki ayrı sətir əlavə edin.
+        </p>
+        <p>
+          <strong>is_resident sütunu:</strong> Azərbaycan şirkətidir (yerli) <code>BELI</code>,
+          xarici şirkətdirsə (idxal/ixrac) <code>XEYR</code> yazın. Vergi hesablamaları
+          üçün vacibdir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">partner_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Tərəfin sistemdəki unikal kodu. partner.supplier, partner.customer, partner.bank_account cədvəlləri bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>SUP-001</strong><span class="val-hint">Tövsiyə: SUP-NNN (təchizatçı), MUS-NNN (müştəri), PAR-NNN (hər ikisi)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">partner_name</span></td>
+            <td><span class="col-explain">Tərəfin tam hüquqi adı. Müqavilə və fakturalarda göründüyü kimi yazın.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Azərbaycan Taxıl MMC</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">partner_kind</span></td>
+            <td><span class="col-explain">Tərəfin rolu: yalnız bizdən alırmı, yalnız bizə satırmı, yoxsa hər ikisi?</span></td>
+            <td>Seçim</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="val-choices">TECHIZATCHI &nbsp;|&nbsp; MUSHTERI &nbsp;|&nbsp; HER_IKISI</span><span class="val-hint">Gələcəkdə rolu dəyişəcəksə HER_IKISI seçin</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">voen</span></td>
+            <td><span class="col-explain">VÖEN (Vergi ödəyicisinin eyniləşdirmə nömrəsi). Yerli şirkətlər üçün vacib; vergi sənədlərindəki VÖEN-lə uyğun olmalıdır.</span></td>
+            <td>Mətn (max 20)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>1234567890</strong><span class="val-hint">10 rəqəmli VÖEN. Vergi sənədi ilə uyğunluğu yoxlayın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">country</span></td>
+            <td><span class="col-explain">Tərəfin qeydiyyat ölkəsi. Yerli üçün "Azərbaycan", xarici üçün ölkənin adı.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Azərbaycan</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_resident</span></td>
+            <td><span class="col-explain">Azərbaycan rezidentidirmi? Vergi tətbiqindəki fərqlər üçün vacib.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">address</span></td>
+            <td><span class="col-explain">Tərəfin ünvanı. Çatdırılma üçün istifadə oluna bilər.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Bakı, Nizami 10</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">phone</span></td>
+            <td><span class="col-explain">Telefon nömrəsi. Standart format istifadə edin: +994 XX XXX XX XX</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>+994 12 555 01 01</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">email</span></td>
+            <td><span class="col-explain">E-poçt ünvanı. Elektron faktura, bildiriş üçün istifadə olunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>info@taxil.az</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">payment_term_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu tərəf üçün standart ödəniş şərti. partner.payment_term cədvəlindəki bir koddur. İxtiyaridir, lakin doldurulması tövsiyə olunur — hər əməliyyatda ayrıca şərt yazmağa ehtiyac qalmaz.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">OD-30 → partner.payment_term.term_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Tərəfin aktiv olub-olmadığı. Ləğv edilmiş tərəfləri silmək əvəzinə deaktiv edin.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Yalnız Təchizatçı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">SUP-001</div></div>
+          <div class="sample-field"><div class="sf-key">partner_name</div><div class="sf-val">Azərbaycan Taxıl MMC</div></div>
+          <div class="sample-field"><div class="sf-key">partner_kind</div><div class="sf-val">TECHIZATCHI</div></div>
+          <div class="sample-field"><div class="sf-key">voen</div><div class="sf-val">1234567890</div></div>
+          <div class="sample-field"><div class="sf-key">is_resident</div><div class="sf-val">BELI</div></div>
+          <div class="sample-field"><div class="sf-key">payment_term_code</div><div class="sf-val">OD-30</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Yalnız Müştəri</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">MUS-001</div></div>
+          <div class="sample-field"><div class="sf-key">partner_name</div><div class="sf-val">Bravo Supermarket Şəbəkəsi</div></div>
+          <div class="sample-field"><div class="sf-key">partner_kind</div><div class="sf-val">MUSHTERI</div></div>
+          <div class="sample-field"><div class="sf-key">payment_term_code</div><div class="sf-val">OD-14</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 3 — Həm Təchizatçı, Həm Müştəri</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">PAR-001</div></div>
+          <div class="sample-field"><div class="sf-key">partner_name</div><div class="sf-val">Kənd Təsərrüfatı Kooperativi</div></div>
+          <div class="sample-field"><div class="sf-key">partner_kind</div><div class="sf-val">HER_IKISI</div></div>
+        </div>
+        <div class="sample-note">💡 payment_term_code yazılırsa, həmin kod partner.payment_term cədvəlində mövcud olmalıdır. Əvvəlcə payment_term doldurun.</div>
+      </div>
+    </div>
+
+    <!-- partner.supplier -->
+    <div class="table-section">
+      <h3><span class="tbl-name">partner.supplier</span><span class="tbl-desc"> — Təchizatçı ətraflı məlumatı</span></h3>
+      <div class="table-one-liner">
+        Yalnız təchizatçılara aid əlavə məlumatlar: mal kateqoriyası, idxal/yerli, qiymətlənmə,
+        çatdırılma müddəti. Bu cədvəl partner.partner-i genişləndirir — partner_code eynidir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl partner.partner ilə "bir-birə" (1:1) əlaqəyə malikdir. Yəni hər
+          sətir partner.partner-dəki bir tərəfə uyğundur. partner_code həm bu cədvəldə PK,
+          həm də partner.partner-ə FK-dır.
+        </p>
+        <p>
+          <strong>supply_category sütunu:</strong> Bu təchizatçıdan əsasən nə alınır?
+          Məsələn, "YEMLIK" (yem xammalı), "VETERINAR" (veterinarlıq malları), "QABLASDIRMA"
+          (qablaşdırma materialları). Bu kateqoriyalar satınalma analizlərini asanlaşdırır.
+        </p>
+        <p>
+          <strong>lead_time_days:</strong> Sifariş verildikdən malın gəlişinə qədər orta
+          gün sayı. Anbar planlamasında kritik göstəricidir — əgər mal 10 gündə gəlirsə,
+          anbarda ən azı 10 günlük ehtiyat saxlanmalıdır.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">partner_code</span><span class="pk-badge">PK</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">partner.partner cədvəlindəki partner_code ilə eyni. Bu cədvəlin PK-sıdır, eyni zamanda partner.partner-ə FK-dır.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">SUP-001 → partner.partner.partner_code</span><span class="val-hint">Bu kodu partner.partner-dən köçürün. Yeni kod yaratmayın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">supply_category</span></td>
+            <td><span class="col-explain">Bu təchizatçıdan alınan mal/xidmət kateqoriyası. Satınalma hesabatlarında filtrləmə üçün istifadə olunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>YEMLIK</strong><span class="val-hint">YEMLIK, VETERINAR, QABLASDIRMA, AVADANLIK, DIGƏR</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">default_currency</span></td>
+            <td><span class="col-explain">Bu təchizatçı ilə əməliyyatlarda əsas valyuta. İdxal üçün USD/EUR, yerli üçün AZN.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">lead_time_days</span></td>
+            <td><span class="col-explain">Sifarişdən çatdırılmaya qədər orta gün sayı. Anbar ehtiyat hesablamalarında istifadə olunur.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>7</strong><span class="val-hint">Orta çatdırılma günü sayı. Dəqiq bilinmirsə, 0 buraxın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_import</span></td>
+            <td><span class="col-explain">İdxal təchizatçısıdırmı? Gömrük, idxat sənədləri tələb olunan tərəflər üçün BELI yazın.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">rating</span></td>
+            <td><span class="col-explain">Təchizatçı qiymətlənmə reytinqi. Keyfiyyət, çatdırılma vaxtına əməl, qiymət rəqabətliliyi üzrə daxili qiymətləndirmə.</span></td>
+            <td>Onluq ədəd (1–5)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>4.5</strong><span class="val-hint">1.0 (ən pis) — 5.0 (əla). Satınalma şöbəsi qiymətləndirir.</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Yerli yem xammalı təchizatçısı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">SUP-001</div></div>
+          <div class="sample-field"><div class="sf-key">supply_category</div><div class="sf-val">YEMLIK</div></div>
+          <div class="sample-field"><div class="sf-key">default_currency</div><div class="sf-val">AZN</div></div>
+          <div class="sample-field"><div class="sf-key">lead_time_days</div><div class="sf-val">5</div></div>
+          <div class="sample-field"><div class="sf-key">is_import</div><div class="sf-val">XEYR</div></div>
+          <div class="sample-field"><div class="sf-key">rating</div><div class="sf-val">4.5</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə — Xarici avadanlıq idxalatçısı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">SUP-007</div></div>
+          <div class="sample-field"><div class="sf-key">supply_category</div><div class="sf-val">AVADANLIK</div></div>
+          <div class="sample-field"><div class="sf-key">default_currency</div><div class="sf-val">EUR</div></div>
+          <div class="sample-field"><div class="sf-key">lead_time_days</div><div class="sf-val">45</div></div>
+          <div class="sample-field"><div class="sf-key">is_import</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-note">💡 partner_code partner.partner cədvəlindən götürülür. Həmin kod orada TECHIZATCHI və ya HER_IKISI olaraq qeydə alınmış olmalıdır.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Məcburi şərt:</strong> partner.supplier-dəki hər partner_code mütləq partner.partner cədvəlindəki bir koda uyğun gəlməlidir. Yeni kod yaratmayın — partner.partner-dən köçürün.
+      </div>
+    </div>
+
+    <!-- partner.customer -->
+    <div class="table-section">
+      <h3><span class="tbl-name">partner.customer</span><span class="tbl-desc"> — Müştəri ətraflı məlumatı</span></h3>
+      <div class="table-one-liner">
+        Yalnız müştərilərə aid əlavə məlumatlar: kredit limiti, müştəri kateqoriyası,
+        qiymət siyahısı. partner.partner-i müştəri baxımından genişləndirir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl də partner.partner ilə "bir-birə" əlaqəlidir. Müştərilər üçün ən
+          vacib sütun <code>credit_limit</code>-dir: bu müştəriyə maksimum nə qədər
+          kredit verilə bilər? Bu limit aşıldıqda sistem satış əməkdaşını xəbərdar edir.
+        </p>
+        <p>
+          <strong>price_list_code sütunu:</strong> Müştəriyə tətbiq edilən qiymət siyahısı.
+          Bu, PRODUCT sxemindəki partner.price_list cədvəlinə istinafdır. Məsələn,
+          böyük distributorlara topdan qiymət siyahısı, pərakəndəçilərə pərakəndə qiymət
+          siyahısı tətbiq edilir. PRODUCT sxemi hələ doldurulmamışsa, bu sütunu boş buraxın.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">partner_code</span><span class="pk-badge">PK</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">partner.partner cədvəlindəki partner_code ilə eyni. Həmin tərəf MUSHTERI və ya HER_IKISI olmalıdır.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">MUS-001 → partner.partner.partner_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">customer_category</span></td>
+            <td><span class="col-explain">Müştərinin kateqoriyası. Satış analizlərini müştəri tipinə görə süzmək üçün istifadə olunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>SUPERMARKET</strong><span class="val-hint">SUPERMARKET, RESTORANT, DISTRIBUTOR, TOPDANSAT, PƏRAKƏNDƏ</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">credit_limit</span></td>
+            <td><span class="col-explain">Bu müştəriyə verilə biləcək maksimum kredit məbləği. Bu limitdən artıq borc yaranarsa sistem xəbərdarlıq verir.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>50000.00</strong><span class="val-hint">AZN ilə. 0 yazıldıqda kredit limiti yoxdur (ön ödəniş tələb olunur).</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">default_currency</span></td>
+            <td><span class="col-explain">Bu müştəri ilə satış əməliyyatlarında standart valyuta.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">price_list_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu müştəriyə tətbiq edilən qiymət siyahısının kodu. PRODUCT sxemindəki product.price_list cədvəlindən götürülür. İxtiyaridir — PRODUCT sxemi doldurulmamışsa boş buraxın.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">PL-TOPDAN → product.price_list.price_list_code</span><span class="val-hint">PRODUCT sxemi (Dərs 4) doldurulduqdan sonra yazın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Müştərinin aktiv olub-olmadığı. Silinmək əvəzinə deaktiv edin.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Supermarket müştərisi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">MUS-001</div></div>
+          <div class="sample-field"><div class="sf-key">customer_category</div><div class="sf-val">SUPERMARKET</div></div>
+          <div class="sample-field"><div class="sf-key">credit_limit</div><div class="sf-val">100000.00</div></div>
+          <div class="sample-field"><div class="sf-key">default_currency</div><div class="sf-val">AZN</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Distributor müştərisi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">MUS-003</div></div>
+          <div class="sample-field"><div class="sf-key">customer_category</div><div class="sf-val">DISTRIBUTOR</div></div>
+          <div class="sample-field"><div class="sf-key">credit_limit</div><div class="sf-val">250000.00</div></div>
+          <div class="sample-field"><div class="sf-key">price_list_code</div><div class="sf-val">PL-TOPDAN</div></div>
+        </div>
+        <div class="sample-note">💡 price_list_code-u PRODUCT sxemi (Dərs 4) doldurulduqdan sonra doldurmaq olar. İlk mərhələdə boş buraxmaq mümkündür.</div>
+      </div>
+    </div>
+
+    <!-- partner.bank_account -->
+    <div class="table-section">
+      <h3><span class="tbl-name">partner.bank_account</span><span class="tbl-desc"> — Tərəflərin bank hesabları</span></h3>
+      <div class="table-one-liner">
+        Hər tərəfin (istər təchizatçı, istər müştəri) bank rekvizitləri: bank adı, IBAN,
+        SWIFT. Ödəniş tapşırıqları bu məlumatlarla avtomatik doldurulur.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bir tərəfin birdən çox bank hesabı ola bilər — məsələn, AZN hesabı BankA-da,
+          USD hesabı BankB-da. Hər hesab ayrı sətir kimi qeyd olunur. <code>is_default</code>
+          sütunu əməliyyatlar üçün hansının əsas hesab olduğunu göstərir.
+        </p>
+        <p>
+          <strong>IBAN formatı:</strong> Azərbaycan IBAN formatı AZ ilə başlayır,
+          cəmi 28 simvoldur. Məsələn: <code>AZ21NABZ00000000137010001944</code>.
+          Düzgün IBAN yazılmasa, köçürmə kəsilə bilər.
+        </p>
+        <p>
+          <strong>Təhlükəsizlik:</strong> Bank rekvizitlərini mühasibliklə birgə
+          doldurun. Bu məlumatlar mühasibat proqramı tərəfindən ödəniş tapşırıqlarında
+          birbaşa istifadə olunur — yanlış IBAN ödənişin itirülməsinə səbəb ola bilər.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">account_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Bank hesabının sistemdəki unikal kodu. Əgər tərəfin birdən çox bank hesabı varsa, hər biri ayrı koda sahib olmalıdır.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>BA-SUP001-AZN</strong><span class="val-hint">Tövsiyə: BA-PARTNERKODU-VALYUTA</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">partner_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu bank hesabının aid olduğu tərəfin kodu. partner.partner cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">SUP-001 → partner.partner.partner_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">bank_name</span></td>
+            <td><span class="col-explain">Bankın tam adı. Ödəniş tapşırıqlarında göstərilir.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Kapital Bank</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">iban</span></td>
+            <td><span class="col-explain">Beynəlxalq bank hesab nömrəsi. Azərbaycan üçün AZ ilə başlayan 28 simvol.</span></td>
+            <td>Mətn (28 sim.)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZ21NABZ00000000137010001944</strong><span class="val-hint">Bank tərəfindən verilən rəsmi IBAN-ı yazın. Boşluq olmadan.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">currency</span></td>
+            <td><span class="col-explain">Bu hesabın valyutası. Çox valyutalı əməliyyatlar üçün vacibdir.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong><span class="val-hint">AZN, USD, EUR</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">swift</span></td>
+            <td><span class="col-explain">SWIFT/BIC kodu. Beynəlxalq ödənişlər üçün tələb olunur. Yerli ödənişlər üçün boş buraxıla bilər.</span></td>
+            <td>Mətn (8–11 sim.)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AIIBAZ2X</strong><span class="val-hint">İdxal/ixrac ödənişləri üçün mütləq doldurulmalıdır.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_default</span></td>
+            <td><span class="col-explain">Tərəfin birdən çox bank hesabı olduqda bu hesabın əsas hesab olub-olmadığı. Ödəniş tapşırıqlarında standart olaraq bu hesab seçilir.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — AZN əsas hesab</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">BA-SUP001-AZN</div></div>
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">SUP-001</div></div>
+          <div class="sample-field"><div class="sf-key">bank_name</div><div class="sf-val">Kapital Bank</div></div>
+          <div class="sample-field"><div class="sf-key">iban</div><div class="sf-val">AZ21NABZ0000…</div></div>
+          <div class="sample-field"><div class="sf-key">currency</div><div class="sf-val">AZN</div></div>
+          <div class="sample-field"><div class="sf-key">is_default</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — USD ikinci hesab (idxal üçün)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">BA-SUP007-USD</div></div>
+          <div class="sample-field"><div class="sf-key">partner_code</div><div class="sf-val">SUP-007</div></div>
+          <div class="sample-field"><div class="sf-key">bank_name</div><div class="sf-val">ABN AMRO Bank</div></div>
+          <div class="sample-field"><div class="sf-key">currency</div><div class="sf-val">USD</div></div>
+          <div class="sample-field"><div class="sf-key">swift</div><div class="sf-val">ABNANL2A</div></div>
+          <div class="sample-field"><div class="sf-key">is_default</div><div class="sf-val">XEYR</div></div>
+        </div>
+        <div class="sample-note">💡 IBAN-ı bank rekvizitlərindən (müqavilə və ya hesab çıxarışı) kopyalayın. Əl ilə yazmayın — bir simvol səhvi ödənişi itirə bilər.</div>
+      </div>
+      <div class="error-box">
+        <strong>⛔ Bank rekvizitlərini diqqətlə yoxlayın:</strong> Yanlış IBAN ya da SWIFT kodu ilə ödəniş göndərildikdə pul yanlış hesaba köçürülə bilər. Mühasibatlıq, hər tərəfin bank rekvizitlərini müqavilə sənədi ilə müqayisə etməlidir.
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Cədvəllər arası əlaqə xəritəsi (PARTNER daxilində)</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">1. payment_term</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. partner</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">3. supplier</span>
+      </div>
+      <div class="fill-order" style="margin-top:8px;">
+        <span class="fo-step">2. partner</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">3. customer</span>
+        <span class="fo-arrow">&amp;</span>
+        <span class="fo-step">3. bank_account</span>
+      </div>
+      <div class="fill-order-note">payment_term → partner → (supplier, customer, bank_account) ardıcıllığına riayət edin. supplier və customer eyni vaxtda doldurula bilər.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">partner.partner.payment_term_code</span> → <span class="rel-code">partner.payment_term.term_code</span>
+          <div class="rel-explain">Tərəfin standart ödəniş şərti. İxtiyaridir, lakin doldurulması hər sifarişdə şərt yazmağa ehtiyacı aradan qaldırır.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">partner.supplier.partner_code</span> → <span class="rel-code">partner.partner.partner_code</span>
+          <div class="rel-explain">Hər təchizatçı mütləq partner.partner-dəki bir tərəfə aiddir. Tərəf yoxdursa, əvvəlcə partner.partner-ə əlavə edin.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">partner.customer.partner_code</span> → <span class="rel-code">partner.partner.partner_code</span>
+          <div class="rel-explain">Hər müştəri mütləq partner.partner-dəki bir tərəfə aiddir.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">partner.customer.price_list_code</span> → <span class="rel-code">product.price_list.price_list_code</span>
+          <div class="rel-explain">Müştərinin qiymət siyahısı PRODUCT sxemindən gəlir. Bu sütun ixtiyaridir — PRODUCT (Dərs 4) doldurulmamışsa boş buraxın.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">partner.bank_account.partner_code</span> → <span class="rel-code">partner.partner.partner_code</span>
+          <div class="rel-explain">Bank hesabı mütləq bir tərəfə aiddir. Tərəf partner.partner-də mövcud olmalıdır.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>PARTNER-dən nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">PRODUCT</span></td>
+          <td>product.price_list ← partner.customer.price_list_code</td>
+          <td>Müştəriyə tətbiq olunan qiymət siyahısı PRODUCT sxemindədir. PARTNER ilk doldurulur, price_list_code sonradan (PRODUCT sxemi hazır olduqda) əlavə edilə bilər.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">SALES</span></td>
+          <td>partner.partner.partner_code</td>
+          <td>Satış hədəfləri (sales.sales_target) müştəri kodu üçün partner.partner-ə istinad edir.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li><strong>partner.payment_term</strong> cədvəli ən əvvəl doldurulub
+        <span class="check-note">partner.partner.payment_term_code bu cədvələ istinad edir.</span>
+      </li>
+      <li><strong>partner.partner</strong> cədvəlindəki hər tərəfin <code>partner_kind</code> sütunu düzgün seçilib
+        <span class="check-note">TECHIZATCHI, MUSHTERI, HER_IKISI — yalnız bu üç dəyər qəbul olunur.</span>
+      </li>
+      <li><strong>partner.supplier</strong> cədvəlindəki hər partner_code partner.partner-də mövcuddur
+        <span class="check-note">Əvvəlcə partner.partner-ə yazın, sonra supplier-ə köçürün.</span>
+      </li>
+      <li><strong>partner.customer</strong> cədvəlindəki hər partner_code partner.partner-də mövcuddur
+        <span class="check-note">Eyni qaydada — əvvəl partner, sonra customer.</span>
+      </li>
+      <li><strong>partner.bank_account</strong>-dakı IBAN-lar rəsmi bank sənədləri ilə yoxlanılıb
+        <span class="check-note">IBAN səhvi ödənişin itirilməsinə səbəb ola bilər.</span>
+      </li>
+      <li>İdxal təchizatçılarının bank hesablarında <strong>SWIFT kodu</strong> yazılıb
+        <span class="check-note">Xarici ödənişlər üçün SWIFT olmadan köçürmə mümkün deyil.</span>
+      </li>
+      <li>Hər tərəfin əsas bank hesabında <strong>is_default = BELI</strong> seçilib
+        <span class="check-note">Bir tərəfdə yalnız bir əsas hesab olmalıdır.</span>
+      </li>
+      <li><code>credit_limit</code> dəyərləri <strong>maliyyə direktoru tərəfindən təsdiqlənilib</strong>
+        <span class="check-note">Kredit limiti hüquqi öhdəlik yarada bilər — rəhbərliyin icazəsi tələb olunur.</span>
+      </li>
+      <li><code>price_list_code</code> sütunları boş buraxılıb (PRODUCT sxemi hələ doldurulmamışsa)
+        <span class="check-note">Bu ixtiyari sütun PRODUCT sxemi (Dərs 4) tamamlandıqdan sonra doldurula bilər.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_2_finance.html">‹ Dərs 2 — FINANCE</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; PARTNER Sxemi (Dərs 3/11)</div>
+  <div><a class="next-link" href="ders_4_product.html">Dərs 4 → PRODUCT ›</a></div>
+</div>
+
+</body>
+</html>

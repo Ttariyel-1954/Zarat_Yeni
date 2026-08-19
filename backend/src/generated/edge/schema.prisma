@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/edge"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_EDGE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cihaz {
+  kod           String        @id @db.VarChar(20)
+  sensorTipiKod String        @map("sensor_tipi_kod") @db.VarChar(20)
+  ad            String        @db.VarChar(100)
+  yer           String?       @db.VarChar(100)
+  status        String        @default("aktiv") @db.VarChar(15)
+  qurasdirilma  DateTime?     @db.Date
+  yaradilma     DateTime      @default(now()) @db.Timestamptz(6)
+  sensorTipi    sensor_tipi   @relation(fields: [sensorTipiKod], references: [kod], onDelete: NoAction, onUpdate: NoAction)
+  olcme         olcme[]
+  xeberdarliq   xeberdarliq[]
+
+  @@index([sensorTipiKod], map: "idx_cihaz_tipi")
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model olcme {
+  id         BigInt   @default(autoincrement())
+  cihazKod   String   @map("cihaz_kod") @db.VarChar(20)
+  olcmeVaxti DateTime @map("olcme_vaxti") @db.Timestamptz(6)
+  qiymet     Decimal  @db.Decimal(12, 4)
+  keyfiyyet  Int      @default(1) @db.SmallInt
+  syncStatus Int      @default(0) @map("sync_status") @db.SmallInt
+  yaradilma  DateTime @default(now()) @db.Timestamptz(6)
+  cihaz      cihaz    @relation(fields: [cihazKod], references: [kod], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([id, olcmeVaxti])
+  @@index([cihazKod, olcmeVaxti(sort: Desc)], map: "idx_olcme_cihaz_vaxt")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model sensor_tipi {
+  kod       String   @id @db.VarChar(20)
+  ad        String   @db.VarChar(80)
+  vahid     String   @db.VarChar(15)
+  minHedd   Decimal? @map("min_hedd") @db.Decimal(10, 3)
+  maxHedd   Decimal? @map("max_hedd") @db.Decimal(10, 3)
+  tesvir    String?
+  yaradilma DateTime @default(now()) @db.Timestamptz(6)
+  cihaz     cihaz[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model xeberdarliq {
+  id         BigInt   @id @default(autoincrement())
+  cihazKod   String   @map("cihaz_kod") @db.VarChar(20)
+  olcmeVaxti DateTime @map("olcme_vaxti") @db.Timestamptz(6)
+  qiymet     Decimal  @db.Decimal(12, 4)
+  novu       String   @db.VarChar(20)
+  mesaj      String?
+  hellOlundu Boolean  @default(false) @map("hell_olundu")
+  yaradilma  DateTime @default(now()) @db.Timestamptz(6)
+  cihaz      cihaz    @relation(fields: [cihazKod], references: [kod], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([cihazKod, yaradilma(sort: Desc)], map: "idx_xeber_cihaz")
+}

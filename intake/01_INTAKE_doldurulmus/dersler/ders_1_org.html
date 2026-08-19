@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 1 — ORG Sxemi | Zarat ERP</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #e67e22;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --light-bg: #f8f9fa;
+    --border: #dee2e6;
+    --pk-color: #1a3a5c;
+    --fk-color: #e67e22;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; color: #2c3e50; background: #fff; line-height: 1.6; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #1a3a5c 0%, #2980b9 100%); color: #fff; padding: 52px 40px 40px; }
+  .hero .badge { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 14px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-size: 2.3em; font-weight: 700; margin-bottom: 10px; }
+  .hero .subtitle { font-size: 1.08em; opacity: 0.9; max-width: 750px; line-height: 1.75; margin-bottom: 8px; }
+  .hero .hero-note { font-size: 0.92em; opacity: 0.75; max-width: 750px; line-height: 1.6; margin-top: 10px; font-style: italic; }
+  .hero .tables-list { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero .tbl-chip { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); border-radius: 6px; padding: 6px 14px; font-size: 13px; font-family: monospace; }
+
+  /* LAYOUT */
+  .container { max-width: 980px; margin: 0 auto; padding: 0 28px 70px; }
+
+  /* SECTION */
+  .section { margin-top: 50px; }
+  .section > h2 { font-size: 1.4em; color: var(--primary); border-bottom: 3px solid var(--primary); padding-bottom: 9px; margin-bottom: 22px; }
+
+  /* PURPOSE BOX */
+  .purpose-box { background: #eaf3fb; border-left: 5px solid #2980b9; border-radius: 6px; padding: 20px 24px; line-height: 1.8; }
+  .purpose-box p { margin-bottom: 14px; }
+  .purpose-box p:last-child { margin-bottom: 0; }
+
+  /* INFO BOX */
+  .info-box { background: #e8f5e9; border-left: 5px solid #27ae60; border-radius: 6px; padding: 16px 20px; margin-top: 16px; line-height: 1.75; }
+  .info-box strong { color: #1b5e20; }
+
+  /* TABLE SECTION */
+  .table-section { margin-top: 42px; }
+  .table-section h3 { font-size: 1.15em; color: #fff; background: var(--primary); padding: 12px 18px; border-radius: 6px 6px 0 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .table-section h3 .tbl-name { font-family: monospace; font-size: 1.08em; }
+  .table-section h3 .tbl-desc { font-size: 0.88em; opacity: 0.85; font-weight: 400; }
+  .table-one-liner { background: #f1f8fe; border: 1px solid #b8d9f0; border-top: none; padding: 12px 18px; font-size: 0.97em; color: #1a3a5c; line-height: 1.65; }
+  .table-expanded-desc { background: #fafcff; border: 1px solid #b8d9f0; border-top: none; padding: 14px 18px; font-size: 0.93em; color: #444; line-height: 1.75; }
+  .table-expanded-desc p { margin-bottom: 10px; }
+  .table-expanded-desc p:last-child { margin-bottom: 0; }
+
+  /* COLUMN TABLE */
+  .col-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-top: none; }
+  .col-table thead tr { background: #ecf0f1; }
+  .col-table th { padding: 10px 13px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #555; border-bottom: 2px solid var(--border); }
+  .col-table td { padding: 11px 13px; border-bottom: 1px solid #eee; vertical-align: top; font-size: 14px; }
+  .col-table tr:last-child td { border-bottom: none; }
+  .col-table tr:hover td { background: #fafafa; }
+  .col-name { font-family: monospace; font-weight: 700; color: #1a3a5c; font-size: 13.5px; }
+  .col-explain { font-size: 13px; color: #333; line-height: 1.55; }
+  .col-explain em { color: #666; }
+  .pk-badge { display: inline-block; background: var(--pk-color); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; letter-spacing: 0.5px; margin-left: 4px; }
+  .fk-badge { display: inline-block; background: var(--fk-color); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; margin-left: 4px; }
+  .req-badge { display: inline-block; background: var(--danger); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 3px; }
+  .opt-badge { display: inline-block; background: #95a5a6; color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 3px; }
+  .fk-ref { font-family: monospace; font-size: 12px; color: var(--fk-color); display: block; margin-top: 3px; }
+  .val-hint { display: block; font-size: 12px; color: #888; margin-top: 3px; font-style: italic; }
+  .val-choices { display: block; font-size: 12px; color: #27ae60; margin-top: 3px; font-family: monospace; }
+
+  /* SAMPLE ROW */
+  .sample-block { background: #f0fff4; border: 1px solid #a5d6a7; border-top: none; border-radius: 0 0 6px 6px; padding: 16px 18px; }
+  .sample-block .sample-title { font-size: 12px; text-transform: uppercase; color: #2e7d32; letter-spacing: 0.7px; margin-bottom: 12px; font-weight: 700; }
+  .sample-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .sample-row:last-child { margin-bottom: 0; }
+  .sample-field { background: #fff; border: 1px solid #c8e6c9; border-radius: 5px; padding: 7px 13px; min-width: 130px; }
+  .sample-field .sf-key { font-size: 11px; color: #888; font-family: monospace; margin-bottom: 2px; }
+  .sample-field .sf-val { font-size: 14px; font-weight: 700; color: #1b5e20; }
+  .sample-note { font-size: 13px; color: #555; font-style: italic; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #c8e6c9; }
+
+  /* WARNING */
+  .warn-box { background: #fff8e1; border-left: 5px solid var(--warning); border-radius: 5px; padding: 13px 16px; margin-top: 14px; font-size: 14px; line-height: 1.7; }
+  .warn-box strong { color: #e65100; }
+  .warn-box ul { margin-top: 8px; padding-left: 20px; }
+  .warn-box ul li { margin-bottom: 5px; }
+
+  /* ERROR BOX */
+  .error-box { background: #fdecea; border-left: 5px solid var(--danger); border-radius: 5px; padding: 13px 16px; margin-top: 14px; font-size: 14px; line-height: 1.7; }
+  .error-box strong { color: var(--danger); }
+
+  /* RELATIONSHIP */
+  .rel-box { background: #f9f0ff; border: 1px solid #ce93d8; border-radius: 8px; padding: 20px 22px; margin-top: 10px; }
+  .rel-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 14px; line-height: 1.6; padding-bottom: 14px; border-bottom: 1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .rel-arrow { color: #9c27b0; font-weight: 700; font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+  .rel-code { font-family: monospace; font-weight: 700; color: #4a148c; background: #f3e5f5; padding: 1px 7px; border-radius: 3px; }
+  .rel-explain { font-size: 13px; color: #555; margin-top: 4px; font-style: italic; }
+
+  /* CROSS-SCHEMA */
+  .cross-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .cross-table th { background: #fce4ec; color: #880e4f; padding: 10px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .cross-table td { padding: 11px 14px; border-bottom: 1px solid #fce4ec; font-size: 14px; vertical-align: top; line-height: 1.55; }
+  .cross-table tr:last-child td { border-bottom: none; }
+  .cross-table tr:hover td { background: #fff9fb; }
+  .schema-chip { display: inline-block; background: #e8eaf6; color: #3949ab; border-radius: 4px; padding: 3px 9px; font-family: monospace; font-size: 12px; font-weight: 700; }
+
+  /* FILL ORDER */
+  .fill-order-box { background: #e8f5e9; border-radius: 8px; padding: 16px 20px; margin-top: 10px; }
+  .fill-order { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .fo-step { background: #1b5e20; color: #fff; border-radius: 5px; padding: 5px 13px; font-weight: 700; font-size: 13px; font-family: monospace; }
+  .fo-arrow { color: #1b5e20; font-size: 20px; font-weight: 700; }
+  .fill-order-note { font-size: 13px; color: #2e7d32; margin-top: 10px; line-height: 1.6; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; margin-top: 10px; }
+  .checklist li { padding: 10px 0 10px 36px; position: relative; border-bottom: 1px solid #eee; font-size: 14px; line-height: 1.65; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; color: #1a3a5c; font-size: 20px; top: 8px; line-height: 1; }
+  .checklist li .check-note { display: block; font-size: 12.5px; color: #777; margin-top: 3px; font-style: italic; }
+
+  /* FOOTER */
+  .footer { margin-top: 70px; padding: 22px 40px; background: var(--primary); color: rgba(255,255,255,0.8); display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+  .footer a { color: rgba(255,255,255,0.95); text-decoration: none; }
+  .footer .next-link { background: rgba(255,255,255,0.15); border-radius: 6px; padding: 8px 18px; transition: background 0.2s; }
+
+  code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 13px; color: #c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 1 / 11 — ORG Sxemi</div>
+  <h1>Təşkilat Strukturu (ORG)</h1>
+  <p class="subtitle">
+    Bütün ERP sisteminin özülü — şirkətlər, fiziki obyektlər, şöbələr, vəzifələr və xərc mərkəzləri.
+    Bu sxem doldurulmadan <strong>heç bir digər sxem işləyə bilməz</strong>, çünki sistem "bu işçi harada çalışır?",
+    "bu anbar hansı müəssisəyə aiddir?", "bu büdcə hansı xərc mərkəzinə yazılır?" suallarına
+    ORG sxemi vasitəsilə cavab tapır.
+  </p>
+  <p class="hero-note">
+    📋 Bu cədvəldəki hər kod (company_code, site_code, dept_code, position_code, cc_code) digər sxemlərdə
+    istinad nöqtəsi kimi istifadə olunur. Kodu bir dəfə düzgün yazın — sonra dəyişdirmək çətin olacaq.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">org.company</span>
+    <span class="tbl-chip">org.site</span>
+    <span class="tbl-chip">org.department</span>
+    <span class="tbl-chip">org.position</span>
+    <span class="tbl-chip">org.cost_center</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PURPOSE -->
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>ORG sxemi Zarat Qrupunun hüquqi və fiziki quruluşunu sistemə tanıdır.</strong>
+        Qrup bir neçə MMC/ASC-dən ibarətdir; hər şirkətin öz fermasi, fabrikası, anbarı var;
+        hər obyektin öz şöbələri, hər şöbənin öz vəzifələri var. ERP bu çoxqatlı strukturu
+        bilmədən heç bir hesabatı doğru ümumiləşdirə bilməz.
+      </p>
+      <p>
+        <strong>Real nümunə:</strong> Siyəzən Yem Zavodunda çalışan texnoloq Vüsal Həsənov
+        sistemə daxil ediləndə, onun hansı şirkətə (ZRT-SIY), hansı obyektə (SIY-YEM), hansı
+        şöbəyə (ISTEHSAL-SIY), hansı vəzifəyə (TEXNOLOQ) aid olduğu göstərilməlidir. Bu
+        dörd məlumatın hamısı ORG sxemindən gəlir. HR sxemi yalnız bu dörd kodun mövcud
+        olduğunu <em>görürsə</em> işçini qeydə alır.
+      </p>
+      <p>
+        <strong>Xərc mərkəzləri nə üçündür?</strong> Müəssisənin hər hissəsinin nə qədər
+        xərc etdiyini ayrı-ayrı izləmək üçün. Məsələn "Yem fabrikinin elektrik xərci nə qədər
+        oldu?" sualına cavab vermək üçün avadanlıq xərcləri <em>CC-YEM-SIY</em> koduna, ferma
+        xərcləri isə <em>CC-FERMA-DIG</em> koduna yazılır. FINANCE sxemindəki büdcə sətirləri
+        bu kodlara bağlanır.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>ORG ilə HR arasındakı fərq (çox soruşulan sual):</strong><br>
+      ORG sxemi <em>qurumun quruluşunu</em> müəyyən edir — şirkət var, şöbə var, vəzifə var.
+      Bu, işçidən asılı deyil; şöbə boş olsa belə mövcuddur.<br><br>
+      HR sxemi isə <em>konkret insanları</em> (ad, soyad, FİN, əmək müqaviləsi, maaş) bu
+      quruluşa bağlayır. Texnoloq vəzifəsi ORG-da var; Vüsal Həsənov o vəzifədə çalışır —
+      bu HR-dadır.
+    </div>
+  </div>
+
+  <!-- TABLES -->
+  <div class="section">
+    <h2>Cədvəllər</h2>
+
+    <!-- ===== org.company ===== -->
+    <div class="table-section">
+      <h3>
+        <span class="tbl-name">org.company</span>
+        <span class="tbl-desc">— Hüquqi şəxslər (MMC, ASC və s.)</span>
+      </h3>
+      <div class="table-one-liner">
+        Zarat Qrupuna daxil olan hər bir hüquqi şəxs bu cədvəldə bir sətir kimi qeyd olunur.
+        Hər şirkətin öz VÖEN-i, hüquqi ünvanı və qısa kodu olur.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl bütün ERP-in başlanğıc nöqtəsidir. Qrup bir neçə MMC-dən ibarətdirsə
+          (məsələn, idxal fəaliyyəti ayrı bir hüquqi şəxs adına aparılırsa), hər biri ayrıca
+          sətir olmalıdır. Muhasibatlıq standartlarına görə hər MMC müstəqil balans aparır —
+          sistemdəki bütün maliyyə hərəkətləri (satınalma, satış, maaş) mütləq hansısa bir
+          şirkət adına yazılır.
+        </p>
+        <p>
+          <strong>company_code</strong> sütunu bütün digər cədvəllərdə istinad nöqtəsidir.
+          Bu kodu bir dəfə <em>qısa, böyük hərflə, tire ilə</em> yazın (məs. <code>ZRT-IMP</code>)
+          və bir daha dəyişdirməyin — sonradan dəyişdirmək bütün bağlı sətirləri pozacaq.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead>
+          <tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">company_code</span><span class="pk-badge">PK</span></td>
+            <td>
+              <span class="col-explain">Şirkətin sistemdəki unikal qısa kodu. Bütün digər cədvəllər bu koda istinad edir. <em>Bir dəfə düzgün yazın.</em></span>
+            </td>
+            <td>Kod (max 20 simvol)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>ZRT-IMP</strong>
+              <span class="val-hint">Böyük hərflər, yalnız tire (-) işarəsinə icazə var. Boşluq yoxdur.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">legal_name</span></td>
+            <td>
+              <span class="col-explain">Dövlət qeydiyyatındakı tam rəsmi ad. Müqavilə, hesab-faktura və hesabatlarda görünən addır.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>Zarat İdxal və İxrac MMC</strong>
+              <span class="val-hint">VÖEN arayışındakı adı tam köçürün, abbreviatura işlətməyin.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">short_name</span></td>
+            <td>
+              <span class="col-explain">Hesabatlarda və ekranlarda görünən qısa, işlək ad. Məcburi deyil, amma olsa sistem daha oxunaqlı hesabatlar çıxarır.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>Zarat İdxal</strong>
+              <span class="val-hint">Adətən "Zarat + fəaliyyət növü" formatında olur.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">voen</span></td>
+            <td>
+              <span class="col-explain">Vergi ödəyicisinin eyniləşdirmə nömrəsi. Vergi orqanlarına göndərilən sənədlərdə mütləq istifadə olunur. Mövcuddursa mütləq daxil edin.</span>
+            </td>
+            <td>Mətn (rəqəm)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>1234567890</strong>
+              <span class="val-hint">10 rəqəm. VÖEN arayışından götürün.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">legal_form</span></td>
+            <td>
+              <span class="col-explain">Şirkətin hüquqi forması. Hesabat və müqavilələrdə "MMC" və ya "ASC" kimi görünür.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>MMC</strong>
+              <span class="val-hint">Ümumiyyətlə: MMC, ASC, SC, Fərdi müəssisə</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">reg_date</span></td>
+            <td>
+              <span class="col-explain">Hüquqi şəxsin dövlət qeydiyyatına alındığı tarix. Vergi uçotu üçün vacibdir.</span>
+            </td>
+            <td>Tarix (GG.AA.İİİİ)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>15.03.2010</strong>
+              <span class="val-hint">Format gün.ay.il — məs. 01.07.2015</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">address</span></td>
+            <td>
+              <span class="col-explain">Hüquqi ünvan — dövlət qeydiyyatında qeydə alınmış ünvan. Faktiki yerləşmə ünvanından fərqli ola bilər.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>Bakı ş., Nizami küç. 14</strong>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">phone</span></td>
+            <td>
+              <span class="col-explain">Şirkətin rəsmi əlaqə nömrəsi. Müştərilər və tərəfdaşlarla ünsiyyət üçün.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>+994 12 555 0101</strong>
+              <span class="val-hint">Format: +994 XX XXX XXXX</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">email</span></td>
+            <td>
+              <span class="col-explain">Şirkətin rəsmi elektron poçt ünvanı. Hesab-faktura və yazışmalar üçün.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>info@zarat.az</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td>
+              <span class="col-explain">Şirkətin hazırda fəal olub-olmadığı. <code>XEYR</code> yazılsa, həmin şirkət üzrə yeni əməliyyat aparılmasının qarşısı alınır, amma köhnə tarixçə silinmir.</span>
+            </td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span>
+              <span class="val-hint">Boş buraxılsa sistem BELI qəbul edir. Yeni şirkətlər üçün BELI yazın.</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — İdxal şirkəti</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">company_code</div><div class="sf-val">ZRT-IMP</div></div>
+          <div class="sample-field"><div class="sf-key">legal_name</div><div class="sf-val">Zarat İdxal və İxrac MMC</div></div>
+          <div class="sample-field"><div class="sf-key">short_name</div><div class="sf-val">Zarat İdxal</div></div>
+          <div class="sample-field"><div class="sf-key">legal_form</div><div class="sf-val">MMC</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — İstehsal şirkəti</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">company_code</div><div class="sf-val">ZRT-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">legal_name</div><div class="sf-val">Siyəzən Yem Zavodu MMC</div></div>
+          <div class="sample-field"><div class="sf-key">short_name</div><div class="sf-val">Siyəzən Yem</div></div>
+          <div class="sample-field"><div class="sf-key">voen</div><div class="sf-val">9876543210</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-note">💡 Qrupda neçə MMC varsa, o qədər sətir yazın. Hər sətir bir hüquqi şəxsdir.</div>
+      </div>
+    </div>
+
+    <!-- ===== org.site ===== -->
+    <div class="table-section">
+      <h3>
+        <span class="tbl-name">org.site</span>
+        <span class="tbl-desc">— Fiziki obyektlər (müəssisə / sayt)</span>
+      </h3>
+      <div class="table-one-liner">
+        Qrupun yerləşdiyi fiziki nöqtələr: Digah ferması, Siyəzən yem fabriği, Bakı anbarı, Cəlilabad bazası, Bakı baş ofisi.
+        Hər obyekt bir şirkətə (company_code) məxsusdur.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          "Obyekt" (site) anlayışı həm fiziki ünvanı, həm də fəaliyyət növünü əhatə edir.
+          Məsələn, eyni Siyəzən ərazisindəki yem fabriği və quş kəsim sexinin ayrı-ayrı obyekt
+          kimi qeydə alınması mümkündür — bu, hər birinin xərc-gəlirini ayrı izləməyə imkan verir.
+        </p>
+        <p>
+          <strong>Niyə vacibdir?</strong> HR sxemindəki hər işçi, INVENTORY sxemindəki hər anbar,
+          PRODUCTION sxemindəki hər iş mərkəzi mütləq bir site_code-a bağlanır. Bu bağlılıq
+          sayəsində sistem "Digah fermasının ümumi iş qüvvəsi xərci nə qədərdir?" kimi sualları
+          asanlıqla cavablandıra bilər.
+        </p>
+        <p>
+          <strong>site_type sütununa diqqət:</strong> Yalnız aşağıdakı dörd sözdən birini yazın.
+          Başqa söz daxil etsəniz sistem sizi qəbul etməyəcək:
+          <code>OFIS</code>, <code>FERMA</code>, <code>FABRIK</code>, <code>ANBAR</code>
+        </p>
+      </div>
+      <table class="col-table">
+        <thead>
+          <tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="pk-badge">PK</span></td>
+            <td>
+              <span class="col-explain">Obyektin sistemdəki unikal qısa kodu. HR, INVENTORY, PRODUCTION, LOGISTICS, ASSET sxemləri bu koda istinad edir.</span>
+            </td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>DIGAH</strong>
+              <span class="val-hint">Sadə, başa düşülən: SIY-YEM, BAK-OFIS, CEL-BAZA</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">company_code</span><span class="fk-badge">FK</span></td>
+            <td>
+              <span class="col-explain">Bu obyektin mənsub olduğu şirkətin kodu. <strong>org.company cədvəlindən</strong> götürülür. Həmin kod orada mövcud olmalıdır.</span>
+            </td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <span class="fk-ref">ZRT-IMP → org.company.company_code</span>
+              <span class="val-hint">org.company-dəki siyahıdan seçin.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_name</span></td>
+            <td>
+              <span class="col-explain">Obyektin tam, anlaşıqlı adı. Hesabatlarda bu ad görünür.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>Digah Quşçuluq Ferması</strong>
+              <span class="val-hint">Qısa, lakin dəqiq. İki eyni adlı obyekt olmaqdan çəkinin.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_type</span></td>
+            <td>
+              <span class="col-explain">Obyektin fəaliyyət növü. Bu sütun sisteminə obyektlər üzrə filtrləmə imkanı verir (məs. bütün fermaların siyahısı).</span>
+            </td>
+            <td>Seçim siyahısı</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <span class="val-choices">OFIS &nbsp;|&nbsp; FERMA &nbsp;|&nbsp; FABRIK &nbsp;|&nbsp; ANBAR</span>
+              <span class="val-hint">Yalnız bu dörd sözdən birini yazın — başqa söz qəbul edilməyəcək.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">region</span></td>
+            <td>
+              <span class="col-explain">Obyektin yerləşdiyi inzibati rayon və ya şəhər. Regional hesabatlar üçün faydalıdır.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>Siyəzən</strong>
+              <span class="val-hint">Bakı, Siyəzən, Cəlilabad, Digah kəndi və s.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">address</span></td>
+            <td>
+              <span class="col-explain">Obyektin faktiki ünvanı. Çatdırılma sənədlərində istifadə olunur.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Digah kəndi, Siyəzən r.</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">phone</span></td>
+            <td>
+              <span class="col-explain">Obyektin əlaqə nömrəsi. Logistika və çatdırılma koordinasiyası üçün lazımdır.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>+994 50 222 0001</strong>
+              <span class="val-hint">Format: +994 XX XXX XXXX</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td>
+              <span class="col-explain">Obyektin hazırda istifadədə olub-olmadığı. Bağlı obyektlər üçün <code>XEYR</code> yazın — məlumat silinmir, lakin yeni əməliyyat aparılmır.</span>
+            </td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Ferma</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">DIGAH</div></div>
+          <div class="sample-field"><div class="sf-key">company_code</div><div class="sf-val">ZRT-IMP</div></div>
+          <div class="sample-field"><div class="sf-key">site_name</div><div class="sf-val">Digah Quşçuluq Ferması</div></div>
+          <div class="sample-field"><div class="sf-key">site_type</div><div class="sf-val">FERMA</div></div>
+          <div class="sample-field"><div class="sf-key">region</div><div class="sf-val">Siyəzən</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Fabrik</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SIY-YEM</div></div>
+          <div class="sample-field"><div class="sf-key">company_code</div><div class="sf-val">ZRT-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">site_name</div><div class="sf-val">Siyəzən Yem Fabriği</div></div>
+          <div class="sample-field"><div class="sf-key">site_type</div><div class="sf-val">FABRIK</div></div>
+          <div class="sample-field"><div class="sf-key">region</div><div class="sf-val">Siyəzən</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 3 — Baş ofis</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">BAK-OFIS</div></div>
+          <div class="sample-field"><div class="sf-key">company_code</div><div class="sf-val">ZRT-IMP</div></div>
+          <div class="sample-field"><div class="sf-key">site_name</div><div class="sf-val">Bakı Baş Ofisi</div></div>
+          <div class="sample-field"><div class="sf-key">site_type</div><div class="sf-val">OFIS</div></div>
+          <div class="sample-field"><div class="sf-key">region</div><div class="sf-val">Bakı</div></div>
+        </div>
+        <div class="sample-note">💡 Bütün Zarat Qrupunun obyektlərini bu cədvəldə sıralayın: Digah ferması, Siyəzən fabriği, Bakı ofisi, Cəlilabad bazası, anbarlar — hər biri ayrı sətir.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Doldurma sırası — Bu cədvəli doldurmazdan əvvəl:</strong>
+        <ul>
+          <li><strong>org.company</strong> cədvəlini tam doldurun. Burada yazdığınız hər <code>company_code</code> dəyəri org.company-də mövcud olmalıdır — əks halda sistem bu sətri qəbul etməyəcək.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== org.department ===== -->
+    <div class="table-section">
+      <h3>
+        <span class="tbl-name">org.department</span>
+        <span class="tbl-desc">— Şöbələr</span>
+      </h3>
+      <div class="table-one-liner">
+        Hər obyektin daxilindəki idarəetmə vahidləri: maliyyə şöbəsi, istehsalat, keyfiyyət, satış, HR və s.
+        Şöbənin bağlı olduğu obyekt (<code>site_code</code>) mütləq göstərilməlidir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Şöbə qeydiyyatı işçilərin, xərclərin və məsuliyyətin strukturlaşdırılmasının əsasıdır.
+          HR sxemindəki işçilər şöbəyə bağlanır; büdcə analizi şöbə üzrə aparıla bilər;
+          vəzifələr mütləq bir şöbəyə aiddir.
+        </p>
+        <p>
+          <strong>İç-içə struktur:</strong> Böyük şöbənin alt şöbələri varsa,
+          <code>parent_dept_code</code> sütununu doldurun. Məsələn, "İstehsalat Departamenti"
+          ana şöbədir; onun altında "Yem Sexti" və "Kəsim Sexti" alt şöbələr kimi qeyd edilə bilər.
+          Alt şöbəni yazmadan əvvəl ana şöbənin cədvəldə mövcud olduğundan əmin olun.
+        </p>
+        <p>
+          <strong>Bir obyektdə eyni şöbə adı ola bilər mi?</strong> Kod unikaldır, ad deyil.
+          <code>MALIYYE-BAK</code> və <code>MALIYYE-SIY</code> iki ayrı şöbədir (hər biri öz
+          obyektindədir), amma hər ikisinin <code>dept_name</code>-i "Maliyyə Şöbəsi" ola bilər.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead>
+          <tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">dept_code</span><span class="pk-badge">PK</span></td>
+            <td>
+              <span class="col-explain">Şöbənin sistemdəki unikal kodu. Vəzifələr (<code>org.position</code>) bu koda istinad edir; işçilər də bu koda bağlanır.</span>
+            </td>
+            <td>Kod (max 30)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>MALIYYE-BAK</strong>
+              <span class="val-hint">Tövsiyə: SAHƏADI-OBYEKTKİSALTMASI formatı (məs. ISTEHSAL-SIY, HR-BAK)</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">dept_name</span></td>
+            <td>
+              <span class="col-explain">Şöbənin tam adı. Hesabatlarda, emək müqavilələrində görünür.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>Maliyyə Şöbəsi (Bakı)</strong>
+              <span class="val-hint">Eyni adlı şöbələri fərqləndirmək üçün mötərizədə obyekti qeyd etmək tövsiyə olunur.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td>
+              <span class="col-explain">Bu şöbənin hansı fiziki obyektdə yerləşdiyi. <strong>org.site</strong>-dan götürülür. Şöbə mütləq bir obyektə aiddir.</span>
+            </td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <span class="fk-ref">BAK-OFIS → org.site.site_code</span>
+              <span class="val-hint">org.site cədvəlindəki mövcud kodlardan birini yazın.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">parent_dept_code</span><span class="fk-badge">FK</span></td>
+            <td>
+              <span class="col-explain">
+                Alt şöbə üçün: ana (üst) şöbənin kodu. Əgər bu şöbənin üst şöbəsi yoxdursa (ən yuxarı səviyyədirsə) <em>boş buraxın</em>.
+                Bu sütun eyni cədvəldəki başqa bir sətirə istinad edir.
+              </span>
+            </td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <span class="fk-ref">ISTEHSAL-SIY → org.department.dept_code (özünə istinad)</span>
+              <span class="val-hint">Bu kod mövcud olmalıdır. Əvvəlcə ana şöbəni yazın, sonra alt şöbəni.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td>
+              <span class="col-explain">Şöbənin aktiv olub-olmadığı. Ləğv olunan şöbələr üçün <code>XEYR</code> yazın — köhnə məlumatlar tarixçədə qalır.</span>
+            </td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Üst səviyyəli şöbə</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">ISTEHSAL-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">dept_name</div><div class="sf-val">İstehsalat Departamenti</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SIY-YEM</div></div>
+          <div class="sample-field"><div class="sf-key">parent_dept_code</div><div class="sf-val">(boş)</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Alt şöbə</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">YEM-SEXI-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">dept_name</div><div class="sf-val">Yem Sexti</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SIY-YEM</div></div>
+          <div class="sample-field"><div class="sf-key">parent_dept_code</div><div class="sf-val">ISTEHSAL-SIY</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 3 — Bakı ofisi şöbəsi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">MALIYYE-BAK</div></div>
+          <div class="sample-field"><div class="sf-key">dept_name</div><div class="sf-val">Maliyyə Şöbəsi</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">BAK-OFIS</div></div>
+          <div class="sample-field"><div class="sf-key">parent_dept_code</div><div class="sf-val">(boş)</div></div>
+        </div>
+        <div class="sample-note">💡 İç-içə struktur üçün əvvəlcə ana şöbəni yazın. Yem Sexti üçün parent_dept_code yazarkən ISTEHSAL-SIY artıq yuxarı sətirlərdə mövcud olmalıdır.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Doldurma sırası — Bu cədvəli doldurmazdan əvvəl:</strong>
+        <ul>
+          <li><strong>org.site</strong> cədvəlini tam doldurun — <code>site_code</code> orada mövcud olmalıdır.</li>
+          <li>İç-içə struktur varsa — əvvəlcə <strong>ana (üst) şöbələri</strong>, sonra alt şöbələri yazın. Əksinə yazmaq sistem xətasına yol açar.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== org.position ===== -->
+    <div class="table-section">
+      <h3>
+        <span class="tbl-name">org.position</span>
+        <span class="tbl-desc">— Vəzifələr / ştat cədvəli</span>
+      </h3>
+      <div class="table-one-liner">
+        Müəssisənin ştat cədvəlindəki vəzifə adları. Hər vəzifə konkret bir şöbəyə aiddir.
+        HR sxemindəki işçilər bu vəzifələrə atanır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl əslində ştat cədvəlinin ERP-dəki əksidir. Burada "direktora köməkçi",
+          "baş texnoloq", "anbar müdiri" kimi vəzifə adları qeyd edilir. Hər vəzifənin hansı
+          şöbəyə aid olduğu <code>dept_code</code> vasitəsilə müəyyən edilir.
+        </p>
+        <p>
+          <strong>Eyni vəzifə iki şöbədə ola bilərmi?</strong> Bəli — "mühasib" həm
+          Maliyyə Şöbəsinin, həm də Siyəzən Yem Fabrikinin mühasibəsi ola bilər, amma bunlar
+          fərqli kodlara malik iki ayrı vəzifə olmalıdır: <code>MUHASIB-BAK</code> və
+          <code>MUHASIB-SIY</code>. Belə olduqda hansı mühasib hansı şöbədə çalışdığı dəqiq
+          müəyyən edilir.
+        </p>
+        <p>
+          <strong>grade sütunu nədir?</strong> Vəzifənin daxili dərəcəsi —
+          "Baş", "Aparıcı", "Kiçik". Bu, maaş bölgüsü üçün faydalı ola bilər, amma məcburi deyil.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead>
+          <tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">position_code</span><span class="pk-badge">PK</span></td>
+            <td>
+              <span class="col-explain">Vəzifənin sistemdəki unikal kodu. HR sxemindəki işçi kartında <code>position_code</code> olaraq istifadə olunur.</span>
+            </td>
+            <td>Kod (max 30)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>TEXNOLOQ-SIY</strong>
+              <span class="val-hint">Tövsiyə: VƏZİFƏADI-OBYEKTKİSALTMASI formatı (MUHASIB-BAK, ANBAR-MUD-CEL)</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">position_name</span></td>
+            <td>
+              <span class="col-explain">Vəzifənin tam adı. Emək müqavilələrində, əmr orderlərində görünən rəsmi vəzifə adıdır.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>Baş Texnoloq</strong>
+              <span class="val-hint">İş qanunverciliyinə uyğun rəsmi adı yazın.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">dept_code</span><span class="fk-badge">FK</span></td>
+            <td>
+              <span class="col-explain">Bu vəzifənin hansı şöbəyə aid olduğu. <strong>org.department</strong> cədvəlindəki mövcud bir koddan biri olmalıdır.</span>
+            </td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <span class="fk-ref">ISTEHSAL-SIY → org.department.dept_code</span>
+              <span class="val-hint">Şöbə mövcud olmalıdır. Əvvəlcə şöbəni yazın, sonra vəzifəni.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">grade</span></td>
+            <td>
+              <span class="col-explain">Vəzifənin daxili dərəcəsi. Eyni vəzifə adının "Baş" və "Kiçik" versiyalarını fərqləndirmək üçündür. İxtiyaridir.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <strong>Baş</strong>
+              <span class="val-hint">Məs.: Baş, Aparıcı, Kiçik, I dərəcəli, II dərəcəli</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td>
+              <span class="col-explain">Vəzifənin ştata daxil olub-olmadığı. Ştatdan çıxarılan vəzifəni <code>XEYR</code> ilə işarələyin — tarixçə silinmir.</span>
+            </td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — İstehsalat vəzifəsi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">position_code</div><div class="sf-val">TEXNOLOQ-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">position_name</div><div class="sf-val">Texnoloq</div></div>
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">ISTEHSAL-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">grade</div><div class="sf-val">Baş</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Maliyyə vəzifəsi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">position_code</div><div class="sf-val">MUHASIB-BAK</div></div>
+          <div class="sample-field"><div class="sf-key">position_name</div><div class="sf-val">Baş Mühasib</div></div>
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">MALIYYE-BAK</div></div>
+          <div class="sample-field"><div class="sf-key">grade</div><div class="sf-val">Baş</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 3 — Ferma vəzifəsi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">position_code</div><div class="sf-val">ZOOVET-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">position_name</div><div class="sf-val">Zoobaytarlıq Həkimi</div></div>
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">grade</div><div class="sf-val">(boş)</div></div>
+        </div>
+        <div class="sample-note">💡 Ştat cədvəlinizdəki hər vəzifəni burada qeydə alın. Hər işçi (HR sxemində) bu vəzifə kodlarından birinə bağlanacaq.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Doldurma sırası — Bu cədvəli doldurmazdan əvvəl:</strong>
+        <ul>
+          <li><strong>org.department</strong> cədvəlini tam doldurun — <code>dept_code</code> orada mövcud olmalıdır.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== org.cost_center ===== -->
+    <div class="table-section">
+      <h3>
+        <span class="tbl-name">org.cost_center</span>
+        <span class="tbl-desc">— Xərc mərkəzləri</span>
+      </h3>
+      <div class="table-one-liner">
+        Müəssisənin maya dəyəri analizi üçün xərc mərkəzləri. Hər əsas vəsait (ASSET sxemi)
+        və büdcə sətri (FINANCE sxemi) bu kodlardan birinə bağlanır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          <strong>Xərc mərkəzi nədir?</strong> Maliyyə analitikası üçün xərcləri qruplaşdıran
+          vahiddir. Məsələn, "Yem fabrikinin elektrik xərci nə qədər oldu?" sualına cavab vermək
+          üçün həmin xərclər <em>CC-YEM-SIY</em> koduna yazılır. Aylıq maliyyə hesabatında hər
+          xərc mərkəzinin büdcəsi və faktiki xərci müqayisəli göstərilir.
+        </p>
+        <p>
+          <strong>Şöbə ilə xərc mərkəzi arasındakı fərq:</strong> Şöbə (<code>org.department</code>)
+          insan idarəetməsi üçündür — kimin harada çalışdığı. Xərc mərkəzi (<code>org.cost_center</code>)
+          maliyyə uçotu üçündür — xərcin hara yazılacağı. Bəzən bir-birinə uyğun gəlir, bəzən gəlmir.
+          Məsələn, "Ümumi İnfrastruktur" xərc mərkəzi ola bilər ki, heç bir şöbəyə aid deyil —
+          bu halda <code>dept_code</code> sütununu boş buraxın.
+        </p>
+        <p>
+          <strong>Xərc mərkəzi kodunu kim müəyyən edir?</strong> Maliyyə şöbəsi. Bu cədvəli
+          doldurmaq üçün mütləq baş mühasib və ya maliyyə direktoru ilə məsləhətləşin.
+          Kodlar sonradan büdcə, hesabat və aktiv uçotuna çox güclü təsir edir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead>
+          <tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">cc_code</span><span class="pk-badge">PK</span></td>
+            <td>
+              <span class="col-explain">Xərc mərkəzinin unikal kodu. FINANCE sxemindəki büdcə sətirləri (<code>finance.budget_line</code>) və ASSET sxemindəki əsas vəsaitlər bu koda istinad edir.</span>
+            </td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>CC-YEM-SIY</strong>
+              <span class="val-hint">Tövsiyə: CC-FƏALİYYƏT-OBYEKT formatı (CC-FERMA-DIG, CC-KƏSIM-SIY)</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">cc_name</span></td>
+            <td>
+              <span class="col-explain">Xərc mərkəzinin tam adı. Büdcə hesabatlarında bu ad görünür.</span>
+            </td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <strong>Yem Fabriği — Siyəzən</strong>
+              <span class="val-hint">Anlaşıqlı, tam ad yazın. Muhasib bu adı hesabatda görəcək.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td>
+              <span class="col-explain">Bu xərc mərkəzinin hansı fiziki obyektə aid olduğu. <strong>org.site</strong>-dan götürülür. Məcburidir.</span>
+            </td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td>
+              <span class="fk-ref">SIY-YEM → org.site.site_code</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">dept_code</span><span class="fk-badge">FK</span></td>
+            <td>
+              <span class="col-explain">
+                Xərc mərkəzinin hansı şöbəyə uyğun olduğu. <em>İxtiyaridir</em> — əgər xərc mərkəzi
+                konkret bir şöbəyə bağlıdırsa yazın; ümumi (çox şöbəyə aid) bir xərc mərkəzidirsə
+                boş buraxın.
+              </span>
+            </td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td>
+              <span class="fk-ref">ISTEHSAL-SIY → org.department.dept_code</span>
+              <span class="val-hint">Ümumi infrastruktur xərc mərkəzləri üçün boş buraxın.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td>
+              <span class="col-explain">Xərc mərkəzinin aktiv olub-olmadığı. Bağlanan xərc mərkəzlərini <code>XEYR</code> ilə işarələyin — köhnə hesabat tarixçəsi qorunur.</span>
+            </td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Yem fabriği xərc mərkəzi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">cc_code</div><div class="sf-val">CC-YEM-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">cc_name</div><div class="sf-val">Yem Fabriği — Siyəzən</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SIY-YEM</div></div>
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">ISTEHSAL-SIY</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Ferma xərc mərkəzi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">cc_code</div><div class="sf-val">CC-FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">cc_name</div><div class="sf-val">Digah Quşçuluq Ferması</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">DIGAH</div></div>
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">(boş)</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 3 — Ümumi idarəetmə xərc mərkəzi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">cc_code</div><div class="sf-val">CC-IDARE-BAK</div></div>
+          <div class="sample-field"><div class="sf-key">cc_name</div><div class="sf-val">Ümumi İdarəetmə (Bakı)</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">BAK-OFIS</div></div>
+          <div class="sample-field"><div class="sf-key">dept_code</div><div class="sf-val">(boş)</div></div>
+        </div>
+        <div class="sample-note">💡 Xərc mərkəzlərini maliyyə şöbəsi ilə birgə müəyyən edin. Bunlar büdcə sənədinizin əsasını təşkil edir.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Doldurma sırası — Bu cədvəli doldurmazdan əvvəl:</strong>
+        <ul>
+          <li><strong>org.site</strong> cədvəlini tam doldurun — <code>site_code</code> orada mövcud olmalıdır.</li>
+          <li>Əgər <code>dept_code</code> daxil edəcəksinizsə, <strong>org.department</strong> cədvəli də doldurulmuş olmalıdır.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS INSIDE SCHEMA -->
+  <div class="section">
+    <h2>Cədvəllər arası əlaqə xəritəsi (ORG sxemi daxilində)</h2>
+    <p style="margin-bottom:14px; color:#555; font-size:14px;">
+      ORG sxemindəki cədvəllər bir-birinə sıra ilə bağlıdır — sanki bir ağacın budaqları kimi.
+      Kök hissəsi (<strong>company</strong>) olmadan heç bir qol mövcud ola bilməz.
+    </p>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">1. company</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. site</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">3. department</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">4. position</span>
+      </div>
+      <div class="fill-order" style="margin-top:8px;">
+        <span class="fo-step">2. site</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">4. cost_center</span>
+        <span style="font-size:13px; color:#2e7d32;">(şöbə ixtiyari)</span>
+      </div>
+      <div class="fill-order-note">
+        Nömrələr doldurulma sırasını göstərir. Eyni nömrəli cədvəllər (məs. position və cost_center hər ikisi 4-cü mərhələdə) paralel doldurula bilər.
+      </div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">org.site.company_code</span> → <span class="rel-code">org.company.company_code</span>
+          <div class="rel-explain">Hər fiziki obyekt (ferma, fabrik, anbar) mütləq bir hüquqi şəxsə (MMC/ASC) məxsusdur. Şirkət olmadan obyekt yaratmaq mümkün deyil.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">org.department.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">Hər şöbə konkret bir fiziki yerdə — Bakı ofisindəmi, Siyəzən fabrikindəmi, Digah fermasındamı? — yerləşir. Şöbəni bir obyektə bağlamadan ona işçi atana bilməzsiniz.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">org.department.parent_dept_code</span> → <span class="rel-code">org.department.dept_code</span>
+          <div class="rel-explain">İç-içə şöbə strukturu üçün. Məsələn "İstehsalat Departamenti" üst şöbədir; "Yem Sexti" onun altında yer alır. Bu istinad eyni cədvələ qapalıdır.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">org.position.dept_code</span> → <span class="rel-code">org.department.dept_code</span>
+          <div class="rel-explain">Hər vəzifə bir şöbəyə aiddir. "Texnoloq" vəzifəsi "İstehsalat Şöbəsi"nə bağlıdır; "Mühasib" isə "Maliyyə Şöbəsi"nə. Bu bağlılıq olmadan HR sxemindəki işçilər düzgün şöbəyə atana bilməz.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">org.cost_center.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">Xərc mərkəzinin hansı obyektə aid olduğu. Bir obyektin bir neçə xərc mərkəzi ola bilər (məs. Siyəzəndə həm yem fabriği, həm kəsim sexi ayrı xərc mərkəzi ola bilər).</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">org.cost_center.dept_code</span> → <span class="rel-code">org.department.dept_code</span>
+          <div class="rel-explain">İxtiyari bağlılıq. Xərc mərkəzini konkret bir şöbəyə bağlamaq istəyirsinizsə doldurun. Ümumi infrastruktur xərcləri üçün boş buraxın.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA RELATIONSHIPS -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <p style="margin-bottom:14px; color:#555; font-size:14px;">
+      ORG sxemi <strong>11 sxemdən 8-i tərəfindən birbaşa istifadə edilir</strong>.
+      Bu, ORG-un ən əvvəl doldurulması vacib olan sxem olduğunu göstərir.
+      Aşağıdakı cədvəl hansı sxemin ORG-dan nə istifadə etdiyini izah edir.
+    </p>
+    <table class="cross-table">
+      <thead>
+        <tr><th>Sxem</th><th>ORG-dan nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">HR</span></td>
+          <td><code>company_code</code>, <code>site_code</code>, <code>dept_code</code>, <code>position_code</code></td>
+          <td>Hər işçi bir şirkətə, bir obyektə, bir şöbəyə və bir vəzifəyə bağlanır. Bu 4 bağlılıq olmadan işçi qeydiyyatı mümkün deyil.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">INVENTORY</span></td>
+          <td><code>site_code</code></td>
+          <td>Hər anbar konkret bir obyektdə yerləşir. "Siyəzən anbarı" dedikdə sistem SIY-YEM site_code-undan istifadə edir.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">PRODUCTION</span></td>
+          <td><code>site_code</code></td>
+          <td>İstehsal iş mərkəzləri (yem xətti, kəsim xətti) və quş sürüləri konkret bir obyektə — adətən Siyəzən fabrikinə və ya Digah fermasına — bağlanır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">LOGISTICS</span></td>
+          <td><code>site_code</code></td>
+          <td>Hər nəqliyyat vasitəsi (TIR, soyuducu maşın) hansı obyektə aid olduğunu bildirir. Bu, nəqliyyat planlaması üçün lazımdır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">ASSET</span></td>
+          <td><code>site_code</code>, <code>cc_code</code></td>
+          <td>Əsas vəsaitlər (avadanlıq, bina) həm bir obyektə, həm də xərc mərkəzinə bağlanır. Amortizasiya xərci bu xərc mərkəzinə yazılır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">FINANCE</span></td>
+          <td><code>cc_code</code></td>
+          <td>Büdcə sətirləri xərc mərkəzinə görə yazılır. "Yem fabrikinin 2026 yanvar elektrik büdcəsi nə qədər?" sualı CC-YEM-SIY kodu ilə tapılır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">QUALITY</span></td>
+          <td><code>site_code</code></td>
+          <td>ISO 22000 və Halal sertifikatları konkret bir obyektə bağlanır. "Siyəzən fabrikinin sertifikatları" deyərkən SIY-YEM kodu istifadə olunur.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">SALES</span></td>
+          <td><code>site_code</code></td>
+          <td>Satış hədəfləri obyekt üzrə müəyyən edilə bilər. Məsələn, "Bakı ofisinin 2026 iyun hədəfi nə qədər?" kimi suallar için site_code lazımdır.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="error-box" style="margin-top:16px;">
+      <strong>🚫 Vacib xəbərdarlıq:</strong> ORG sxemindəki hər hansı bir kodu (company_code, site_code, dept_code, position_code, cc_code) sonradan dəyişdirsəniz, həmin koda istinad edən <em>bütün digər sxemlərdəki sətirləri</em> də manual olaraq yeniləməli olacaqsınız. Bu, böyük iş yükü deməkdir. Buna görə <strong>kodları bir dəfə doğru yazın</strong> — adı (name) istənilən vaxt dəyişmək mümkündür.
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <p style="margin-bottom:14px; color:#555; font-size:14px;">
+      ORG sxemini sistemə yükləməzdən əvvəl aşağıdakı hər bəndi yoxlayın.
+    </p>
+    <ul class="checklist">
+      <li>
+        Hər <strong>company_code</strong> bütün şirkətlər içərisində unikaldır — iki şirkətin kodu eyni deyil
+        <span class="check-note">ZRT-IMP, ZRT-SIY, ZRT-CEL kimi fərqli kodlar.</span>
+      </li>
+      <li>
+        <strong>site_type</strong> sütununda yalnız icazəli dörd sözdən biri yazılıb: <code>OFIS</code>, <code>FERMA</code>, <code>FABRIK</code>, <code>ANBAR</code>
+        <span class="check-note">Başqa söz daxil etsəniz sistem qəbul etməz.</span>
+      </li>
+      <li>
+        Hər <strong>org.site</strong> sətrindəki <code>company_code</code> — org.company cədvəlindəki siyahıda mövcuddur
+        <span class="check-note">Əvvəlcə şirkəti yazın, sonra obyekti.</span>
+      </li>
+      <li>
+        Hər <strong>org.department</strong> sətrindəki <code>site_code</code> — org.site cədvəlindəki siyahıda mövcuddur
+        <span class="check-note">Əvvəlcə obyekti yazın, sonra şöbəni.</span>
+      </li>
+      <li>
+        <strong>parent_dept_code</strong> doldurulubsa, həmin kod eyni cədvəldə yuxarıdakı sətirlərdə artıq mövcuddur
+        <span class="check-note">Ana şöbəni alt şöbədən əvvəl yazın. Əksi halda sistem xəta verir.</span>
+      </li>
+      <li>
+        Hər <strong>org.position</strong> sətrindəki <code>dept_code</code> — org.department cədvəlindəki siyahıda mövcuddur
+        <span class="check-note">Əvvəlcə şöbəni yazın, sonra vəzifəni.</span>
+      </li>
+      <li>
+        Hər <strong>org.cost_center</strong> sətrindəki <code>site_code</code> — org.site cədvəlindəki siyahıda mövcuddur
+        <span class="check-note">Xərc mərkəzini obyektdən sonra doldurun.</span>
+      </li>
+      <li>
+        Bütün kodlarda yalnız böyük hərflər, rəqəmlər və tire (-) işarəsi istifadə edilib — boşluq, nöqtə, vergül, kiçik hərf yoxdur
+        <span class="check-note">Düzgün: ZRT-IMP, SIY-YEM, CC-YEM-SIY. Səhv: zrt imp, SİY.yem, CC YEM</span>
+      </li>
+      <li>
+        Boz nümunə sətirləri silinib — cədvəldə yalnız real müəssisə məlumatı qalıb
+        <span class="check-note">Nümunə sətirləri işarəli şəkildə göstərilmişdi. Onları silin, yalnız öz məlumatlarınız qalsın.</span>
+      </li>
+      <li>
+        Maliyyə şöbəsi <strong>xərc mərkəzlərini (org.cost_center)</strong> yoxlayıb təsdiqləyib
+        <span class="check-note">Bu cədvəl birbaşa büdcəyə və maliyyə hesabatına təsir edir. Mütləq baş mühasib ilə razılaşdırın.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; ORG Sxemi (Dərs 1/11)</div>
+  <div>Növbəti: <a class="next-link" href="ders_2_hr.html">Dərs 2 → HR Sxemi ›</a></div>
+</div>
+
+</body>
+</html>

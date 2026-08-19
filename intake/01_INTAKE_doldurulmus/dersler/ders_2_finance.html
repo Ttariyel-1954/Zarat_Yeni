@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 2 — FINANCE Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .error-box { background:#fdecea; border-left:5px solid var(--danger); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .error-box strong { color:var(--danger); }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 2 / 11 — FINANCE Sxemi</div>
+  <h1>Maliyyə (FINANCE)</h1>
+  <p class="subtitle">
+    Mühasibat hesablar planı, ƏDV kodları və büdcə. Bu sxem sistemin pul hərəkətlərini
+    izləmək üçün çərçivəni müəyyən edir — hansı hesaba nə yazılır, hansı ƏDV dərəcəsi tətbiq
+    olunur, hər xərc mərkəzinin büdcəsi nə qədərdir.
+  </p>
+  <p class="hero-note">
+    📋 Bu sxem ORG sxemindən sonra doldurulur, çünki büdcə sətirləri
+    ORG-dakı xərc mərkəzi kodlarına (cc_code) istinad edir. ASSET sxemi isə bu sxemdəki
+    hesab kodlarına (account_code) bağlıdır — buna görə ASSET-dən əvvəl tamamlanmalıdır.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">finance.account</span>
+    <span class="tbl-chip">finance.vat_code</span>
+    <span class="tbl-chip">finance.budget</span>
+    <span class="tbl-chip">finance.budget_line</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>FINANCE sxemi ERP-in maliyyə dilini müəyyən edir.</strong> Mühasibatlıqda
+        hər əməliyyat — satınalma, satış, maaş, amortizasiya — mütləq hansısa bir hesaba
+        yazılır. "Hansı hesaba yazılır?" sualının cavabı <strong>finance.account</strong>
+        cədvəlindədir. "ƏDV necə hesablanır?" sualının cavabı <strong>finance.vat_code</strong>-dadır.
+        "Bu ilin büdcəsi nə qədərdir?" sualının cavabı isə <strong>finance.budget</strong>
+        və <strong>finance.budget_line</strong>-dadır.
+      </p>
+      <p>
+        <strong>Hesablar planı (Chart of Accounts):</strong> Azərbaycan mühasibat standartlarına
+        (MHBS) uyğun hesablar planınızı burada qeyd edin. İyerarxik struktur mümkündür —
+        211 hesabı "Əmtəə ehtiyatları"nın ana hesabı, 211.1 isə "Hazır məhsul ehtiyatları"
+        kimi onun alt hesabı ola bilər. <code>parent_account_code</code> sütunu bu iyerarxiyanı
+        qurur.
+      </p>
+      <p>
+        <strong>Büdcə idarəetməsi:</strong> finance.budget başlıq cədvəlidir (məsələn,
+        "2026 İllik Büdcəsi"), finance.budget_line isə ətraflı sətirdir — hansı hesaba,
+        hansı xərc mərkəzinə, neçə manatlıq büdcə ayrılıb. Bu iki cədvəl birgə "plan-fakt"
+        müqayisəsinin əsasını təşkil edir.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      Bu sxemi mütləq <strong>baş mühasib və ya maliyyə direktoru</strong> doldurmalıdır —
+      və ya onların birbaşa nəzarəti altında. Hesablar planı, ƏDV kodları və büdcə rəqəmləri
+      mühasibat standartlarına uyğun olmalıdır. Bu cədvəllərə yanlış məlumat daxil edilsə,
+      bütün maliyyə hesabatları yanlış çıxacaq.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəllər</h2>
+
+    <!-- finance.account -->
+    <div class="table-section">
+      <h3><span class="tbl-name">finance.account</span><span class="tbl-desc"> — Hesablar planı (Chart of Accounts)</span></h3>
+      <div class="table-one-liner">
+        Müəssisənin mühasibat hesablar planı. Bütün maliyyə əməliyyatları bu hesablardan birinə
+        yazılır. İyerarxik quruluş (ana hesab → alt hesab) dəstəklənir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Hesablar planı mühasibatlığın özülüdür. Hər bir debetlənmə və kreditlənmə bu
+          cədvəldəki hesab kodlarından birinə aid edilir. Məsələn, xammal alındıqda
+          211 (Əmtəə ehtiyatları) hesabı artır; nağd ödəniş edildikdə 221 (Kassa) azalır.
+        </p>
+        <p>
+          <strong>is_postable sütunu çox vacibdir:</strong> Yalnız <code>BELI</code> olan
+          hesablara əməliyyat yazıla bilər. Ana (qruplaşdırıcı) hesablar — məsələn "2-ci
+          sinif hesablar" — adətən <code>XEYR</code> olur; yalnız ən alt səviyyəli analitik
+          hesablar <code>BELI</code> olur. Bunu baş mühasiblə razılaşdırın.
+        </p>
+        <p>
+          <strong>account_type dəyərləri:</strong> <code>AKTIV</code> (əmlak hesabları, məs. kassa,
+          bank), <code>PASSIV</code> (öhdəliklər, məs. kreditorlar), <code>KAPITAL</code> (kapital
+          hesabları), <code>GELIR</code> (gəlir hesabları), <code>XERC</code> (xərc hesabları).
+          Bu bölgü mənfəət-zərər hesabatının düzgün formalaşması üçün vacibdir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">account_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Hesabın unikal kodu. Adətən rəqəmsal (211, 221, 531) olur, lakin hərflər də əlavə edilə bilər (211.1, 531-A). ASSET sxemindəki asset_category bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>211</strong><span class="val-hint">MHBS-ə uyğun hesab nömrəsi istifadə edin. Baş mühasiblə razılaşdırın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">account_name</span></td>
+            <td><span class="col-explain">Hesabın tam azərbaycanca adı. Hesabatlarda və jurnal yazılışlarında görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Əmtəə ehtiyatları</strong><span class="val-hint">MHBS terminologiyasına uyğun rəsmi adı yazın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">parent_account_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Ana hesabın kodu. İyerarxiya qurmaq üçün istifadə olunur. 211.1 hesabının ana kodu 211-dir. Ən üst səviyyəli hesablar üçün boş buraxın.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">211 → finance.account.account_code (özünə istinad)</span><span class="val-hint">Boş buraxılan hesab ən yuxarı səviyyə hesab edilir.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">account_type</span></td>
+            <td><span class="col-explain">Hesabın növü — balans hesabatında və mənfəət-zərər hesabatında düzgün yerləşdirilməsi üçün vacibdir.</span></td>
+            <td>Seçim</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="val-choices">AKTIV &nbsp;|&nbsp; PASSIV &nbsp;|&nbsp; KAPITAL &nbsp;|&nbsp; GELIR &nbsp;|&nbsp; XERC</span><span class="val-hint">Yalnız bu beş sözdən birini yazın. Baş mühasiblə razılaşdırın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_postable</span></td>
+            <td><span class="col-explain">Bu hesaba birbaşa yazılış aparıla bilərmi? <code>BELI</code> — analitik hesab (ən alt səviyyə, əməliyyat yazılır). <code>XEYR</code> — qruplaşdırıcı hesab (yalnız hesabatda toplanır, əməliyyat yazılmır).</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span><span class="val-hint">Boş buraxılsa BELI qəbul edilir. Ana hesablar üçün XEYR yazın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">currency</span></td>
+            <td><span class="col-explain">Hesabın əsas valyutası. Çox valyutalı uçot aparılırsa vacibdir. Ümumiyyətlə AZN yazılır.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong><span class="val-hint">AZN, USD, EUR</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Hesabın aktiv olub-olmadığı. İstifadədən çıxarılan hesabı <code>XEYR</code> edin — köhnə yazılışlar silinmir.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Ana hesab (is_postable = XEYR)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">211</div></div>
+          <div class="sample-field"><div class="sf-key">account_name</div><div class="sf-val">Əmtəə ehtiyatları</div></div>
+          <div class="sample-field"><div class="sf-key">parent_account_code</div><div class="sf-val">(boş)</div></div>
+          <div class="sample-field"><div class="sf-key">account_type</div><div class="sf-val">AKTIV</div></div>
+          <div class="sample-field"><div class="sf-key">is_postable</div><div class="sf-val">XEYR</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə — Alt hesab (is_postable = BELI)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">211.1</div></div>
+          <div class="sample-field"><div class="sf-key">account_name</div><div class="sf-val">Hazır məhsul ehtiyatları</div></div>
+          <div class="sample-field"><div class="sf-key">parent_account_code</div><div class="sf-val">211</div></div>
+          <div class="sample-field"><div class="sf-key">account_type</div><div class="sf-val">AKTIV</div></div>
+          <div class="sample-field"><div class="sf-key">is_postable</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə — Xərc hesabı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">701</div></div>
+          <div class="sample-field"><div class="sf-key">account_name</div><div class="sf-val">Satışların maya dəyəri</div></div>
+          <div class="sample-field"><div class="sf-key">account_type</div><div class="sf-val">XERC</div></div>
+          <div class="sample-field"><div class="sf-key">is_postable</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-note">💡 İyerarxik sıra vacibdir: əvvəlcə ana hesabları (211), sonra alt hesabları (211.1) yazın. Ana hesab mövcud olmadan alt hesab qəbul edilməz.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Doldurma sırası:</strong>
+        <ul>
+          <li>Əvvəlcə <strong>ana hesabları</strong> (parent_account_code boş olanları) yazın.</li>
+          <li>Sonra <strong>alt hesabları</strong> yazın — ana hesab artıq cədvəldə mövcud olmalıdır.</li>
+          <li>Bu cədvəli mütləq <strong>baş mühasib</strong> doldurmaldır.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- finance.vat_code -->
+    <div class="table-section">
+      <h3><span class="tbl-name">finance.vat_code</span><span class="tbl-desc"> — ƏDV kodları</span></h3>
+      <div class="table-one-liner">
+        Əlavə dəyər vergisi dərəcələri. Satış və satınalma sənədlərindəki ƏDV hesablaması
+        bu cədvəldəki kodlar vasitəsilə avtomatik aparılır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Azərbaycanda ƏDV dərəcəsi adətən 18%-dir, lakin bəzi məhsullar üçün azaldılmış
+          (0%) dərəcə tətbiq olunur (məsələn, ixrac əməliyyatları). Bu cədvəldə hər dərəcəyə
+          ayrıca kod verilir; sənəd doldurularkən həmin kod seçilir və sistem ƏDV məbləğini
+          özü hesablayır.
+        </p>
+        <p>
+          <strong>account_code sütunu:</strong> ƏDV öhdəliyi / tələbi hansı mühasibat hesabına
+          yazılmalıdır? Bu, finance.account cədvəlindəki mövcud bir koddur. Məsələn,
+          "ƏDV öhdəliyi" hesabı 521 ola bilər. Bu sütun ixtiyaridir, amma büdcə intiqrasiyası
+          üçün doldurulması tövsiyə olunur.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">vat_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">ƏDV kodunun unikal qısa işarəsi. Satış və satınalma sənədlərini doldurarkən bu kod seçilir.</span></td>
+            <td>Kod (max 10)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>EDV18</strong><span class="val-hint">Tövsiyə: EDV + faiz (EDV18, EDV0, EDVSIZ)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">vat_name</span></td>
+            <td><span class="col-explain">ƏDV kodunun tam adı. Sənədlərdə görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Standart ƏDV (18%)</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">rate_percent</span></td>
+            <td><span class="col-explain">ƏDV dərəcəsi faizlə. Sistem bu rəqəmi istifadə edərək ƏDV məbləğini avtomatik hesablayır.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>18</strong><span class="val-hint">18 (standart), 0 (sıfır dərəcəli/ixrac)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">account_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">ƏDV yazılışının aparılacağı mühasibat hesabı. finance.account cədvəlindən seçilir.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">521 → finance.account.account_code</span><span class="val-hint">Baş mühasiblə razılaşdırın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Bu ƏDV kodunun istifadədə olub-olmadığı.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Standart ƏDV</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">vat_code</div><div class="sf-val">EDV18</div></div>
+          <div class="sample-field"><div class="sf-key">vat_name</div><div class="sf-val">Standart ƏDV (18%)</div></div>
+          <div class="sample-field"><div class="sf-key">rate_percent</div><div class="sf-val">18</div></div>
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">521</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — İxrac (sıfır dərəcəli)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">vat_code</div><div class="sf-val">EDV0</div></div>
+          <div class="sample-field"><div class="sf-key">vat_name</div><div class="sf-val">Sıfır dərəcəli ƏDV (ixrac)</div></div>
+          <div class="sample-field"><div class="sf-key">rate_percent</div><div class="sf-val">0</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-note">💡 finance.account cədvəli doldurulmadan account_code yazılmamalıdır. ƏDV kodlarını finance.account-dan sonra doldurun.</div>
+      </div>
+    </div>
+
+    <!-- finance.budget -->
+    <div class="table-section">
+      <h3><span class="tbl-name">finance.budget</span><span class="tbl-desc"> — Büdcə başlığı</span></h3>
+      <div class="table-one-liner">
+        İllik (və ya başqa dövr üzrə) büdcənin başlığı. Ətraflı sətirləri (hər hesab, hər
+        xərc mərkəzi üzrə məbləğlər) növbəti cədvəl olan finance.budget_line saxlayır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Büdcə sistemdə iki hissədən ibarətdir: başlıq (bu cədvəl) və sətirləri
+          (finance.budget_line). Bu, sifarişlər, fakturalar kimi "başlıq + sətir" modelinin
+          maliyyəyə tətbiqidir. Məsələn, "2026 İllik Büdcəsi" bir başlıqdır; onun altında
+          701 hesabına CC-YEM-SIY xərc mərkəzi üçün yanvar ayına 15,000 AZN — bu bir
+          budget_line sətiridir.
+        </p>
+        <p>
+          <strong>status sütunu:</strong> Büdcənin iş vəziyyəti. Məsələn,
+          <code>LAYIHE</code> — hazırlanma mərhələsindədir; <code>TESDIQ</code> — rəhbərlik
+          tərəfindən təsdiqlənib; <code>BAGLI</code> — dövr bitib. Bu, büdcə idarəetmə
+          prosesi üçün əlavə nəzarət mexanizmidir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">budget_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Büdcənin sistemdəki unikal kodu. finance.budget_line cədvəlindəki bütün sətirləri bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>BUD-2026</strong><span class="val-hint">Tövsiyə: BUD-İL formatı. Bir neçə büdcə varsa: BUD-2026-Q1 (rüblük)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">budget_name</span></td>
+            <td><span class="col-explain">Büdcənin tam adı. Hesabatlarda görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Zarat Qrupu 2026 İllik Büdcəsi</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">fiscal_year</span></td>
+            <td><span class="col-explain">Büdcənin aid olduğu maliyyə ili. Plan-fakt müqayisəsini düzgün dövrə uyğunlaşdırmaq üçün lazımdır.</span></td>
+            <td>Tam ədəd (il)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>2026</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">currency</span></td>
+            <td><span class="col-explain">Büdcənin əsas valyutası. Çox valyutalı büdcə mümkündür.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">status</span></td>
+            <td><span class="col-explain">Büdcənin hazırkı vəziyyəti. Prosesi idarə etmək üçün istifadə olunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>TESDIQ</strong><span class="val-hint">LAYIHE, TESDIQ, BAGLI</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">notes</span></td>
+            <td><span class="col-explain">Büdcə haqqında əlavə qeydlər. Məsələn: "Rəhbərlik iclasında 15.01.2026 tarixdə təsdiqlənib."</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2026 yanvar iclasında təsdiqləndi</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">budget_code</div><div class="sf-val">BUD-2026</div></div>
+          <div class="sample-field"><div class="sf-key">budget_name</div><div class="sf-val">Zarat Qrupu 2026 İllik Büdcəsi</div></div>
+          <div class="sample-field"><div class="sf-key">fiscal_year</div><div class="sf-val">2026</div></div>
+          <div class="sample-field"><div class="sf-key">currency</div><div class="sf-val">AZN</div></div>
+          <div class="sample-field"><div class="sf-key">status</div><div class="sf-val">TESDIQ</div></div>
+        </div>
+        <div class="sample-note">💡 Adətən bir il üçün bir büdcə başlığı yaradılır. Sonra budget_line cədvəlini doldurursunuz.</div>
+      </div>
+    </div>
+
+    <!-- finance.budget_line -->
+    <div class="table-section">
+      <h3><span class="tbl-name">finance.budget_line</span><span class="tbl-desc"> — Büdcə sətirləri</span></h3>
+      <div class="table-one-liner">
+        Büdcənin ətraflı sətirləri: hansı hesaba, hansı xərc mərkəzinə, hansı ayda,
+        nə qədər məbləğ planlaşdırılıb. Hər sətir budget_code + account_code + cc_code + period_month
+        kombinasiyasıdır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl büdcənin real "ətini" təşkil edir. Məsələn: "BUD-2026 büdcəsindən,
+          701 hesabına (Satışların maya dəyəri), CC-YEM-SIY xərc mərkəzinə, yanvar ayı üçün,
+          45,000 AZN ayrılıb" — bu bir sətirdir.
+        </p>
+        <p>
+          <strong>period_month sütunu:</strong> Ayın rəqəmlə ifadəsi (1=Yanvar, 12=Dekabr).
+          Əgər büdcəni aylıq bölmürsünüzsə, bu sütunu boş buraxın — sistem büdcəni bütün il
+          üçün ümumi qəbul edir.
+        </p>
+        <p>
+          <strong>cc_code sütunu:</strong> ORG sxemindəki xərc mərkəzi kodundan birini göstərir.
+          Bu ixtiyaridir — ümumi hesab büdcələri üçün boş ola bilər.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">budget_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu sətrin aid olduğu büdcənin kodu. <strong>finance.budget</strong> cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">BUD-2026 → finance.budget.budget_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">line_no</span></td>
+            <td><span class="col-explain">Sətir nömrəsi. Eyni büdcədəki sətirləri sıralamaq və fərqləndirmək üçün. 1-dən başlayıb ardıcıl artırın.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>1</strong><span class="val-hint">1, 2, 3 … ardıcıl rəqəmlər</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">account_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu büdcə məbləğinin aid olduğu mühasibat hesabı. <strong>finance.account</strong>-dan götürülür. Yalnız <code>is_postable=BELI</code> olan hesabları seçin.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">701 → finance.account.account_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">cc_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu büdcə məbləğinin yazılacağı xərc mərkəzi. ORG sxemindəki <strong>org.cost_center</strong>-dən götürülür. İxtiyaridir — ümumi büdcə sətirləri üçün boş buraxın.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">CC-YEM-SIY → org.cost_center.cc_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">period_month</span></td>
+            <td><span class="col-explain">Büdcənin aid olduğu ay (1–12). Aylıq bölgü istənilmirsə boş buraxın.</span></td>
+            <td>Tam ədəd (1–12)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>1</strong><span class="val-hint">1=Yanvar, 6=İyun, 12=Dekabr</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">amount</span></td>
+            <td><span class="col-explain">Planlaşdırılan məbləğ (AZN və ya seçilmiş valyutada). Nöqtə ilə iki rəqəm onluq hissə göstərin.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>45000.00</strong><span class="val-hint">Format: 45000.00 (vergül yox, nöqtə istifadə edin)</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Yanvar ayı, yem fabriği maya dəyəri büdcəsi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">budget_code</div><div class="sf-val">BUD-2026</div></div>
+          <div class="sample-field"><div class="sf-key">line_no</div><div class="sf-val">1</div></div>
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">701</div></div>
+          <div class="sample-field"><div class="sf-key">cc_code</div><div class="sf-val">CC-YEM-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">period_month</div><div class="sf-val">1</div></div>
+          <div class="sample-field"><div class="sf-key">amount</div><div class="sf-val">45000.00</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə — Fevral ayı, ferma xərci büdcəsi</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">budget_code</div><div class="sf-val">BUD-2026</div></div>
+          <div class="sample-field"><div class="sf-key">line_no</div><div class="sf-val">2</div></div>
+          <div class="sample-field"><div class="sf-key">account_code</div><div class="sf-val">731</div></div>
+          <div class="sample-field"><div class="sf-key">cc_code</div><div class="sf-val">CC-FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">period_month</div><div class="sf-val">2</div></div>
+          <div class="sample-field"><div class="sf-key">amount</div><div class="sf-val">28500.00</div></div>
+        </div>
+        <div class="sample-note">💡 Bir büdcə başlığı (BUD-2026) üçün onlarca sətir ola bilər — hər hesab × hər xərc mərkəzi × hər ay bir sətirdir.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Doldurma sırası — Bu cədvəli doldurmazdan əvvəl:</strong>
+        <ul>
+          <li><strong>finance.account</strong> cədvəli doldurulmuş olmalıdır (account_code mövcud olmalıdır)</li>
+          <li><strong>finance.budget</strong> cədvəlindəki budget_code mövcud olmalıdır</li>
+          <li><strong>org.cost_center</strong> cədvəli doldurulmuş olmalıdır (cc_code istifadə edəcəksinizsə)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Cədvəllər arası əlaqə xəritəsi (FINANCE daxilində)</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">1. account</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. vat_code</span>
+      </div>
+      <div class="fill-order" style="margin-top:8px;">
+        <span class="fo-step">1. account</span>
+        <span class="fo-arrow">&amp;</span>
+        <span class="fo-step">ORG.cost_center</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. budget</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">3. budget_line</span>
+      </div>
+      <div class="fill-order-note">finance.account ən əvvəl doldurulur. vat_code və budget_line ona istinad edir.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">finance.account.parent_account_code</span> → <span class="rel-code">finance.account.account_code</span>
+          <div class="rel-explain">Hesabların iyerarxiyası: alt hesab ana hesaba istinad edir. Bu eyni cədvələ olan özünə istinafdır. Əvvəlcə ana hesabı yazın.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">finance.vat_code.account_code</span> → <span class="rel-code">finance.account.account_code</span>
+          <div class="rel-explain">ƏDV yazılışının aparılacağı mühasibat hesabı. İxtiyari, amma tövsiyə olunur.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">finance.budget_line.budget_code</span> → <span class="rel-code">finance.budget.budget_code</span>
+          <div class="rel-explain">Hər büdcə sətri hansı büdcəyə aid olduğunu bildirir. Büdcə başlığı olmadan sətir yazıla bilməz.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">finance.budget_line.account_code</span> → <span class="rel-code">finance.account.account_code</span>
+          <div class="rel-explain">Büdcə sətri hansı mühasibat hesabına aid olduğunu göstərir. Yalnız is_postable=BELI olan hesabları seçin.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">finance.budget_line.cc_code</span> → <span class="rel-code">org.cost_center.cc_code</span>
+          <div class="rel-explain">Büdcə sətri hansı xərc mərkəzinə aiddir. Bu xarici sxemə (ORG) istinafdır — cc_code ORG-da mövcud olmalıdır.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>FINANCE-dən nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">ORG</span></td>
+          <td>finance.budget_line cc_code → org.cost_center</td>
+          <td>ORG FINANCE-ə istinad etmir — əksinə, FINANCE ORG-a istinad edir (cc_code üçün). ORG əvvəl doldurulmalıdır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">ASSET</span></td>
+          <td>finance.account.account_code</td>
+          <td>Əsas vəsait kateqoriyaları (asset.asset_category) amortizasiya hesabını finance.account-dan götürür. FINANCE əvvəl doldurulmalıdır.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li>Bu sxemi <strong>baş mühasib və ya maliyyə direktoru</strong> doldurub (və ya nəzarət edib)
+        <span class="check-note">Hesablar planı, ƏDV dərəcələri, büdcə rəqəmləri peşəkar qərar tələb edir.</span>
+      </li>
+      <li><strong>finance.account</strong> cədvəlində ana hesablar alt hesablardan əvvəl yazılıb
+        <span class="check-note">211 hesabı 211.1-dən əvvəl olmalıdır. Əks halda sistem xəta verir.</span>
+      </li>
+      <li><strong>account_type</strong> sütununda yalnız icazəli beş sözdən biri: <code>AKTIV</code>, <code>PASSIV</code>, <code>KAPITAL</code>, <code>GELIR</code>, <code>XERC</code>
+        <span class="check-note">Hər hesabın tipi balansdakı yerini müəyyən edir.</span>
+      </li>
+      <li><strong>is_postable=BELI</strong> olan hesablar yalnız ən alt (analitik) səviyyəli hesablardır
+        <span class="check-note">Ana/qruplaşdırıcı hesablarda XEYR olmalıdır.</span>
+      </li>
+      <li><strong>finance.budget_line</strong> cədvəlindəki <code>budget_code</code> finance.budget-da mövcuddur
+        <span class="check-note">Büdcə başlığını əvvəlcə yazın, sonra sətirləri doldurun.</span>
+      </li>
+      <li><strong>finance.budget_line</strong> cədvəlindəki <code>account_code</code> finance.account-da mövcuddur
+        <span class="check-note">Hesab mövcud olmadan büdcə sətri yazıla bilməz.</span>
+      </li>
+      <li>Məbləğlər <strong>nöqtə ilə onluq</strong> formatında yazılıb (45000.00, vergül yox)
+        <span class="check-note">45.000,00 formatı sistem tərəfindən qəbul edilmir.</span>
+      </li>
+      <li><strong>ORG.cost_center</strong> cədvəlindəki cc_code-lar mövcuddur (cc_code istifadə edilirsə)
+        <span class="check-note">Büdcə sətirindəki cc_code ORG sxemindən gəlir — əvvəlcə ORG doldurun.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_1_org.html">‹ Dərs 1 — ORG</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; FINANCE Sxemi (Dərs 2/11)</div>
+  <div><a class="next-link" href="ders_3_partner.html">Dərs 3 → PARTNER ›</a></div>
+</div>
+
+</body>
+</html>

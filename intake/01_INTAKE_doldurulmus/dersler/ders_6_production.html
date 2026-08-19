@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 6 — PRODUCTION Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 6 / 11 — PRODUCTION Sxemi</div>
+  <h1>İstehsal (PRODUCTION)</h1>
+  <p class="subtitle">
+    İş mərkəzləri, sürü (flock) idarəsi, istehsal marşrutları. Bu sxem Zarat Qrupunun
+    istehsal gücünü — nə qədər quş, harada, hansı avadanlıqla — sistemə daxil edir.
+  </p>
+  <p class="hero-note">
+    📋 PRODUCTION sxemi ORG sxemindən (site_code üçün) VƏ PRODUCT sxemindən
+    (routing.item_code üçün) asılıdır. Hər iki sxem tamamlanmadan bu sxemə başlamayın.
+    Bu sxem hazır olduqdan sonra isə PRODUCT sxemindəki BOM-ların work_center_code sütunlarını
+    doldurmaq olar.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">production.work_center</span>
+    <span class="tbl-chip">production.flock</span>
+    <span class="tbl-chip">production.routing</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>PRODUCTION sxemi ERP-in "harada, nə ilə istehsal edilir?" sualını cavablandırır.</strong>
+        Kəsimxana (iş mərkəzi), yem fabriki xətti (iş mərkəzi), sürü (flock) — bunlar istehsalın
+        əsas resursu hesab olunur. İstehsal əmri yaradıldıqda sistem "hansı iş mərkəzinə, neçə
+        saatlıq, hansı sürüdən?" soruşur.
+      </p>
+      <p>
+        <strong>İş mərkəzi (work_center):</strong> Zarat Qrupu kontekstindəki nümunələr:
+        Siyəzən fabrikindəki "Yem Xətti-1", Digah fermasındakı "Kəsimxana A", "Qablaşdırma
+        Xətti". Hər iş mərkəzi günlük gücü (capacity_per_day) ilə birlikdə qeyd olunur.
+        Bu, planlaşdırma üçün kritikdir: "Sabah 5 ton yem istehsal etmək üçün gücümüz var?"
+      </p>
+      <p>
+        <strong>Sürü (flock):</strong> Quşçuluq müəssisəsinin ən vacib uçot vahididir.
+        Hər sürü ayrı bir sətirdir: yerləşdirmə tarixi, baş sayı, cins, vəziyyət. Sürü
+        idarəsi vasitəsilə "ferma doluluk dərəcəsi", "sürü başına gündəlik artım", "kəsimə hazırlıq"
+        kimi göstəricilər izlənilir.
+      </p>
+      <p>
+        <strong>İstehsal marşrutu (routing):</strong> Bir məhsulu istehsal etmək üçün
+        hansı iş mərkəzlərindən, hansı sırayla keçmək lazımdır? Routing bu ardıcıllığı müəyyən edir.
+        Məsələn: Kəsim → Dərisi soymaq → Qablaşdırma → Dondurma. Bu dörd addım ayrı routing
+        sətirləridir.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      work_center: texniki direktor + baş mühəndis (avadanlıq gücü, sahə).
+      flock: ferma müdiri (hər yeni sürünün qeydiyyatı).
+      routing: baş texnoloq + istehsal müdiri (istehsal prosesinin addımları).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəllər</h2>
+
+    <!-- production.work_center -->
+    <div class="table-section">
+      <h3><span class="tbl-name">production.work_center</span><span class="tbl-desc"> — İş mərkəzləri</span></h3>
+      <div class="table-one-liner">
+        İstehsal resursları: kəsimxana, yem xətti, qablaşdırma stansiyası. Hər iş mərkəzi
+        bir obyektə (site) aiddir, gündəlik gücü var.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          İş mərkəzi istehsal planlamasının əsas elementidir. ERP "bu sifarişi nə vaxt edəcəyik?"
+          sualına cavab verərkən hər iş mərkəzinin <code>capacity_per_day</code> dəyərindən
+          istifadə edir. Məsələn, Kəsimxana A günlük 500 baş quş kəsim gücündədirsə, 1000 baş
+          sifariş üçün ən azı 2 gün planlaşdırılır.
+        </p>
+        <p>
+          <strong>PRODUCT sxemi ilə əlaqə:</strong> Bu cədvəl doldurulduqdan sonra geri dönüb
+          product.bom cədvəlindəki <code>work_center_code</code> sütunlarını doldurmaq olar.
+          BOM-da bu sütun ixtiyari idi, çünki PRODUCTION sxemi hələ hazır deyildi.
+        </p>
+        <p>
+          <strong>capacity_per_day:</strong> Gündəlik maksimum istehsal gücü. <code>uom</code>
+          sütunundakı vahidlə birlikdə oxunmalıdır. Məsələn: 500 baş/gün, ya da 10 ton/gün.
+          Bu dəyərləri baş mühəndislə razılaşdırın.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">work_center_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">İş mərkəzinin unikal kodu. production.routing cədvəli bu koda istinad edir. product.bom.work_center_code da bu kodu istifadə edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>WC-KESIM-DIG</strong><span class="val-hint">Tövsiyə: WC-FUNKSIYA-OBIEKT</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">work_center_name</span></td>
+            <td><span class="col-explain">İş mərkəzinin tam azərbaycanca adı. İstehsal əmrləri və planlaşdırma ekranlarında görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Digah Ferması Kəsimxanası</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu iş mərkəzi hansı fiziki obyektdədir? org.site cədvəlindən götürülür. Məcburidir — iş mərkəzi mütləq bir yerə aiddir.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">SITE-FERMA-DIG → org.site.site_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">capacity_per_day</span></td>
+            <td><span class="col-explain">Gündəlik maksimum istehsal gücü. İstehsal planlamasında məhdudiyyət kimi istifadə edilir. Baş mühəndislə razılaşdırın.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>500</strong><span class="val-hint">500 baş/gün; 10 ton/gün; 8 saatlıq iş vaxtı nəzərə alınaraq</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">uom</span></td>
+            <td><span class="col-explain">Gücün ölçü vahidi. capacity_per_day ilə birlikdə oxunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>bas</strong><span class="val-hint">bas (quş başı), kg, ton, saat</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Bu iş mərkəzi aktiv istifadədədir? Dayanmış avadanlığı deaktiv edin.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Kəsimxana</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">work_center_code</div><div class="sf-val">WC-KESIM-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">work_center_name</div><div class="sf-val">Digah Ferması Kəsimxanası</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">capacity_per_day</div><div class="sf-val">500</div></div>
+          <div class="sample-field"><div class="sf-key">uom</div><div class="sf-val">bas</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Yem fabriki xətti</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">work_center_code</div><div class="sf-val">WC-YEM-SIY-1</div></div>
+          <div class="sample-field"><div class="sf-key">work_center_name</div><div class="sf-val">Siyəzən Yem Fabriki Xətt-1</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FAB-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">capacity_per_day</div><div class="sf-val">20</div></div>
+          <div class="sample-field"><div class="sf-key">uom</div><div class="sf-val">ton</div></div>
+        </div>
+        <div class="sample-note">💡 Bu cədvəl doldurulduqdan sonra product.bom cədvəlindəki work_center_code sütununu da doldura bilərsiniz (bu cədvəl orada ixtiyari idi).</div>
+      </div>
+    </div>
+
+    <!-- production.flock -->
+    <div class="table-section">
+      <h3><span class="tbl-name">production.flock</span><span class="tbl-desc"> — Sürü (quşçuluq fermalar)</span></h3>
+      <div class="table-one-liner">
+        Fermalardakı hər quş sürüsünün qeydiyyatı: cins, yerləşdirmə tarixi, baş sayı,
+        vəziyyət. Quşçuluq uçotunun əsas cədvəlidir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Zarat Qrupunun quşçuluq əsaslı fəaliyyəti üçün bu cədvəl xüsusi əhəmiyyət
+          daşıyır. Hər yeni sürü (partiyanın yerləşdirilməsi) ayrı bir sətir kimi qeyd
+          olunur. Bu sayədə "hazırda fermalarda neçə baş quş var?", "hansı sürü neçə
+          günlük?", "neçəsinin kəsimə hazırlıq vaxtı gəlib?" kimi sualların cavabı
+          anlıq izlənilə bilər.
+        </p>
+        <p>
+          <strong>status sütunu:</strong> Sürünün həyat dövrü vəziyyəti.
+          <code>AKTIV</code> — sürü fermadadır, böyüyür;
+          <code>KESIMDE</code> — kəsim prosesinədir;
+          <code>TAMAMLANDI</code> — sürü tamamilə kəsildi, tarixe keçdi.
+          Bu statusların düzgün idarə edilməsi ferma doluluk hesabatlarının dəqiqliyini təmin edir.
+        </p>
+        <p>
+          <strong>initial_count:</strong> Fermaya yerləşdirmə günündəki baş sayı. Bu rəqəm dəyişmir —
+          tarixidir. Cari baş sayı isə istehsal əmrləri vasitəsilə (kəsim, ölüm yazılışları) izlənilir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">flock_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Sürünün unikal kodu. İstehsal əmrlərindəki partiya izlənilməsini bu kodla aparırsınız.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>FL-DIG-2026-001</strong><span class="val-hint">Tövsiyə: FL-OBIEKT-İL-SIRANO</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">flock_name</span></td>
+            <td><span class="col-explain">Sürünün azərbaycanca adı. Ferma jurnalında qeyd edilən ad ilə uyğun olsun.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Digah 2026 Yanvar Partiyası</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu sürü hansı fermadadır? org.site cədvəlindən götürülür. Yalnız FERMA tipli site-lar seçilməlidir.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">SITE-FERMA-DIG → org.site.site_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">breed</span></td>
+            <td><span class="col-explain">Quşun cinsi. İstehsal səmərəliliyinin analizi üçün istifadə olunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Ross 308</strong><span class="val-hint">Ross 308, Cobb 500, Hubbard Classic</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">placement_date</span></td>
+            <td><span class="col-explain">Sürünün fermaya yerləşdirildiyi tarix. Sürünün yaşını hesablamaq üçün vacibdir.</span></td>
+            <td>Tarix (YYYY-MM-DD)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2026-01-10</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">initial_count</span></td>
+            <td><span class="col-explain">Yerləşdirmə günündəki baş sayı. Tarixidir — dəyişmir. Cari sayı əməliyyat yazılışları ilə izlənilir.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>15000</strong><span class="val-hint">Yerləşdirmə gününkü baş sayı</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">status</span></td>
+            <td><span class="col-explain">Sürünün hazırkı vəziyyəti. Ferma doluluk hesabatları bu statusa əsaslanır.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AKTIV</strong><span class="val-hint">AKTIV, KESIMDE, TAMAMLANDI</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">notes</span></td>
+            <td><span class="col-explain">Sürü haqqında qeydlər. Xəstəlik, vaksinasiya, yem dəyişikliyi kimi xüsusi hadisələri qeyd etmək olar.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2026-01-15 vaksinasiya tamamlandı</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Aktiv sürü</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">flock_code</div><div class="sf-val">FL-DIG-2026-001</div></div>
+          <div class="sample-field"><div class="sf-key">flock_name</div><div class="sf-val">Digah Yanvar 2026</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">breed</div><div class="sf-val">Ross 308</div></div>
+          <div class="sample-field"><div class="sf-key">placement_date</div><div class="sf-val">2026-01-10</div></div>
+          <div class="sample-field"><div class="sf-key">initial_count</div><div class="sf-val">15000</div></div>
+          <div class="sample-field"><div class="sf-key">status</div><div class="sf-val">AKTIV</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Tamamlanmış sürü (tarix)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">flock_code</div><div class="sf-val">FL-DIG-2025-012</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">breed</div><div class="sf-val">Cobb 500</div></div>
+          <div class="sample-field"><div class="sf-key">placement_date</div><div class="sf-val">2025-10-05</div></div>
+          <div class="sample-field"><div class="sf-key">initial_count</div><div class="sf-val">12500</div></div>
+          <div class="sample-field"><div class="sf-key">status</div><div class="sf-val">TAMAMLANDI</div></div>
+        </div>
+        <div class="sample-note">💡 Hər yeni sürü yerləşdiriləndə bu cədvələ yeni sətir əlavə edilməlidir. Ferma müdiri bu cədvələ məsuldur.</div>
+      </div>
+    </div>
+
+    <!-- production.routing -->
+    <div class="table-section">
+      <h3><span class="tbl-name">production.routing</span><span class="tbl-desc"> — İstehsal marşrutu</span></h3>
+      <div class="table-one-liner">
+        Bir məhsulu istehsal etmək üçün hansı iş mərkəzlərindən, hansı sırayla keçilmədiliyinin
+        addım-addım təsviri. Hər sətir bir istehsal addımıdır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Routing istehsal prosesini addım-addım təsvir edir. Məsələn, toyuq ətinin marşrutu:
+          <br>1. Kəsim (WC-KESIM-DIG) — 0.5 dəq/baş
+          <br>2. Quş dərisi soymaq (WC-YOLMA-DIG) — 0.3 dəq/baş
+          <br>3. Qablaşdırma (WC-QABLAS-DIG) — 0.4 dəq/baş
+          <br>4. Dondurma (WC-SOYUDU-DIG) — 60 dəq/partiya
+          <br>Bu dörd addım ayrı-ayrı routing sətirləridir, eyni routing_code ilə.
+        </p>
+        <p>
+          <strong>item_code sütunu:</strong> Bu marşrut hansı məhsulun istehsalına aiddir?
+          product.item cədvəlindəki HAZIR_MEHSUL/YARIMFABRIKAT tipli bir mal seçilir.
+          PRODUCT sxemi (Dərs 4) doldurulmadan bu sütun doldurula bilməz.
+        </p>
+        <p>
+          <strong>std_time_min:</strong> Bu addım üçün standart vaxt (dəqiqə ilə). Müəssisə
+          planlamasında istifadə olunur: "Bu sifarişi nə vaxt tamamlarıq?" sualının dəqiq
+          cavabı bu rəqəmlərə əsaslanır.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">routing_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Marşrutun unikal kodu. Eyni marşrutun bütün addımları (step_no-ları) bu kodu bölüşür.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>RT-TOY-KESIM</strong><span class="val-hint">Tövsiyə: RT-MALKODU-PROSES</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">routing_name</span></td>
+            <td><span class="col-explain">Marşrutun azərbaycanca adı.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Toyuq kəsim və qablaşdırma marşrutu</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">item_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu marşrut hansı məhsulun istehsalına aiddir. product.item cədvəlindəki HAZIR_MEHSUL/YARIMFABRIKAT mallardan biri.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">MAL-TOY-BRO-001 → product.item.item_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">work_center_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu addım hansı iş mərkəzindədir? production.work_center cədvəlindən götürülür. Məcburi.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">WC-KESIM-DIG → production.work_center.work_center_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">step_no</span></td>
+            <td><span class="col-explain">Addımın ardıcıl nömrəsi. 1-dən başlayıb artırın. Eyni routing_code altında hər addımın unikal nömrəsi olmalıdır.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>10</strong><span class="val-hint">10, 20, 30 — aralarında boşluq buraxa bilərsiniz (gələcəkdə ara addım əlavə etmək üçün)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">operation</span></td>
+            <td><span class="col-explain">Bu addımda nə edilir? İstehsal əmrindəki addım açıqlamasında görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Diri quşun kəsilməsi</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">std_time_min</span></td>
+            <td><span class="col-explain">Bu addım üçün standart vaxt (dəqiqə ilə). İstehsal planlaması üçün istifadə olunur. Baş texnoloqla razılaşdırın.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>30</strong><span class="val-hint">Dəqiqə ilə: 0.5 (yarım dəqiqə), 60 (bir saat)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Bu marşrut aktiv istifadədədir?</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Toyuq kəsim marşrutu (3 addım)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">routing_code</div><div class="sf-val">RT-TOY-KESIM</div></div>
+          <div class="sample-field"><div class="sf-key">work_center_code</div><div class="sf-val">WC-KESIM-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">step_no</div><div class="sf-val">10</div></div>
+          <div class="sample-field"><div class="sf-key">operation</div><div class="sf-val">Kəsim</div></div>
+          <div class="sample-field"><div class="sf-key">std_time_min</div><div class="sf-val">30</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">routing_code</div><div class="sf-val">RT-TOY-KESIM</div></div>
+          <div class="sample-field"><div class="sf-key">work_center_code</div><div class="sf-val">WC-YOLMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">step_no</div><div class="sf-val">20</div></div>
+          <div class="sample-field"><div class="sf-key">operation</div><div class="sf-val">Yolma və təmizləmə</div></div>
+          <div class="sample-field"><div class="sf-key">std_time_min</div><div class="sf-val">20</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">routing_code</div><div class="sf-val">RT-TOY-KESIM</div></div>
+          <div class="sample-field"><div class="sf-key">work_center_code</div><div class="sf-val">WC-QABLAS-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">step_no</div><div class="sf-val">30</div></div>
+          <div class="sample-field"><div class="sf-key">operation</div><div class="sf-val">Qablaşdırma</div></div>
+          <div class="sample-field"><div class="sf-key">std_time_min</div><div class="sf-val">15</div></div>
+        </div>
+        <div class="sample-note">💡 Bir routing_code altında bir neçə sətir yazılır — hər sətir step_no ilə sıralanan bir istehsal addımıdır.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Ardıcıllıq tələbi:</strong>
+        <ul>
+          <li>work_center_code mütləq bu dərsdə (production.work_center) artıq yazılmış olmalıdır</li>
+          <li>item_code mütləq PRODUCT sxemindəki (Dərs 4) product.item-dən mövcud bir koddur</li>
+          <li>Routing sətirləri arasında step_no-lar unikal olmalıdır (eyni routing_code altında)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Cədvəllər arası əlaqə xəritəsi (PRODUCTION daxilində)</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">ORG.site</span>
+        <span class="fo-arrow">+</span>
+        <span class="fo-step">PRODUCT.item</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">1. work_center</span>
+        <span class="fo-arrow">&amp;</span>
+        <span class="fo-step">1. flock</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. routing</span>
+      </div>
+      <div class="fill-order-note">work_center və flock paralel doldurula bilər. Routing isə work_center mövcud olduqdan sonra yazılır.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">production.work_center.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">İş mərkəzi mütləq bir fiziki obyektə aiddir. ORG sxemi əvvəl doldurulmalıdır.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">production.flock.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">Sürü mütləq bir fermaya aiddir. Yalnız FERMA tipli site-lar seçilməlidir.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">production.routing.work_center_code</span> → <span class="rel-code">production.work_center.work_center_code</span>
+          <div class="rel-explain">Routing addımı mütləq bir iş mərkəzinə aiddir. work_center əvvəl yazılmalıdır.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">production.routing.item_code</span> → <span class="rel-code">product.item.item_code</span>
+          <div class="rel-explain">Marşrut hansı məhsulun istehsalına aid olduğunu göstərir. PRODUCT sxemi əvvəl doldurulmalıdır.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>PRODUCTION-dan nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">ORG</span></td>
+          <td>org.site.site_code → work_center, flock</td>
+          <td>İş mərkəzləri və sürülər ORG-dan fiziki yerini alır. ORG mütləq əvvəl doldurulmalıdır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">PRODUCT</span></td>
+          <td>product.item.item_code → routing<br>production.work_center.work_center_code → product.bom</td>
+          <td>Routing PRODUCT-a bağlıdır. Eyni zamanda, bu sxem doldurulduqdan sonra product.bom.work_center_code-lar da doldurula bilər.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li><strong>ORG sxemi</strong> (Dərs 1) tamamlanıb — org.site cədvəlindəki fermalar və fabrik obyektləri mövcuddur
+        <span class="check-note">work_center.site_code və flock.site_code ORG-dan gəlir.</span>
+      </li>
+      <li><strong>PRODUCT sxemi</strong> (Dərs 4) tamamlanıb — product.item cədvəlindəki hazır məhsul kodları mövcuddur
+        <span class="check-note">routing.item_code PRODUCT-dan gəlir.</span>
+      </li>
+      <li>Hər iş mərkəzinin <code>capacity_per_day</code> dəyəri baş mühəndislə razılaşdırılıb
+        <span class="check-note">Bu dəyər istehsal planlamasının əsasıdır — yanlış rəqəm yanlış planlaşdırmaya aparır.</span>
+      </li>
+      <li>Bütün aktiv sürülərin (<code>status = AKTIV</code>) <code>initial_count</code> sütunu doldurulub
+        <span class="check-note">Ferma doluluk hesabatları bu dəyərə əsaslanır.</span>
+      </li>
+      <li>Routing sətirləri doğru <code>step_no</code> sırasıyla yazılıb (10, 20, 30 …)
+        <span class="check-note">step_no istehsal ardıcıllığını müəyyən edir — yanlış sıra səhv istehsal planlamasına səbəb olur.</span>
+      </li>
+      <li>PRODUCTION sxemi tamamlandıqdan sonra <strong>product.bom</strong> cədvəlinə qayıdıb <code>work_center_code</code> sütunları doldurulub
+        <span class="check-note">Bu sütun BOM-da ixtiyari idi — indi doldurulması tövsiyə olunur.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_5_inventory.html">‹ Dərs 5 — INVENTORY</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; PRODUCTION Sxemi (Dərs 6/11)</div>
+  <div><a class="next-link" href="ders_7_logistics.html">Dərs 7 → LOGISTICS ›</a></div>
+</div>
+
+</body>
+</html>

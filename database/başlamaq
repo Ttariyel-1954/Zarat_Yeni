@@ -1,0 +1,1 @@
+/opt/homebrew/opt/postgresql@18/bin/psql -U royatalibova -p 5432 -d zarat_erp_2

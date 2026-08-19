@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zarat_baza-B — 40 Yoxlama Sorğusu</title>
+<style>
+  :root{
+    --bg:#0f1420;--bg-elev:#151b2b;--bg-elev-2:#1b2338;--line:#262f47;
+    --text:#e6e8ee;--text-dim:#9aa4bf;--accent:#e8a33d;--accent-2:#4fd1c5;
+    --accent-red:#ef6461;--code-bg:#0a0e18;--radius:10px;
+    --mono:'JetBrains Mono','Fira Code',ui-monospace,Menlo,Consolas,monospace;
+    --sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.65;font-size:16px;}
+  a{color:var(--accent-2);}
+  .shell{display:grid;grid-template-columns:300px 1fr;min-height:100vh;}
+  @media (max-width:920px){.shell{grid-template-columns:1fr;}.sidebar{position:relative;height:auto;}}
+  .sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg-elev);border-right:1px solid var(--line);padding:28px 20px 60px;}
+  .sidebar .brand{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);margin-bottom:4px;}
+  .sidebar h1{font-size:19px;margin:0 0 6px;font-family:var(--mono);color:var(--text);}
+  .sidebar .sub{color:var(--text-dim);font-size:13px;margin-bottom:26px;}
+  .toc{list-style:none;margin:0;padding:0;}
+  .toc li{margin-bottom:2px;}
+  .toc a{display:flex;gap:10px;text-decoration:none;color:var(--text-dim);font-size:13px;padding:6px 10px;border-radius:8px;transition:.15s;}
+  .toc a:hover,.toc a.active{background:var(--bg-elev-2);color:var(--text);}
+  .toc .n{font-family:var(--mono);color:var(--accent-2);min-width:26px;}
+  main{padding:50px 56px 120px;max-width:1000px;}
+  @media (max-width:620px){main{padding:30px 18px 100px;}}
+  .hero{border:1px solid var(--line);background:linear-gradient(160deg,var(--bg-elev) 0%,var(--bg) 70%);border-radius:var(--radius);padding:36px;margin-bottom:50px;}
+  .hero .eyebrow{font-family:var(--mono);color:var(--accent-2);font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+  .hero h1{font-size:30px;margin:0 0 14px;line-height:1.25;}
+  .hero p{color:var(--text-dim);font-size:15.5px;max-width:700px;}
+  section{margin-bottom:50px;scroll-margin-top:20px;}
+  section h2{font-family:var(--mono);font-size:20px;display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:20px;}
+  section h2 .num{color:var(--accent-2);}
+  p{color:var(--text);}
+  .lead{color:var(--text-dim);}
+  .q-card{border:1px solid var(--line);border-radius:var(--radius);margin:16px 0;overflow:hidden;}
+  .q-head{background:var(--bg-elev-2);padding:9px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);}
+  .q-num{font-family:var(--mono);color:var(--accent-2);font-size:12.5px;font-weight:600;}
+  .copy-btn{background:transparent;border:1px solid var(--line);color:var(--text-dim);font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:6px;cursor:pointer;}
+  .copy-btn:hover{background:var(--accent-2);color:#0f1420;border-color:var(--accent-2);}
+  pre{margin:0;background:var(--code-bg);padding:15px 18px;overflow-x:auto;font-family:var(--mono);font-size:12.4px;line-height:1.55;}
+  .tok-c{color:#6a7385;}.tok-k{color:#e8a33d;}.tok-s{color:#8fd18f;}.tok-f{color:#4fd1c5;}.tok-p{color:#c792ea;}
+  .q-explain{padding:12px 18px;background:var(--bg-elev);font-size:13.8px;color:var(--text-dim);border-top:1px dashed var(--line);}
+  .q-explain b{color:var(--accent-2);}
+  .inline{background:var(--bg-elev-2);border:1px solid var(--line);padding:1px 7px;border-radius:5px;font-family:var(--mono);font-size:.9em;color:var(--accent-2);}
+  .callout{border-left:3px solid var(--accent-2);background:var(--bg-elev);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0;font-size:14px;color:var(--text-dim);}
+  .callout strong{color:var(--text);}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding-top:24px;color:var(--text-dim);font-size:13px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="sidebar">
+    <div class="brand">Zarat ERP · FAZA-1 / database</div>
+    <h1>Zarat_baza-B</h1>
+    <div class="sub">zarat_erp_2 bazasının 13 sxeması üzrə 40 yoxlama sorğusu — nə göstərir, nə aşkar edir.</div>
+    <ul class="toc" id="toc">
+      <li><a href="#s0"><span class="n">00</span> Bu dərs nə üçündür</a></li>
+      <li><a href="#sA"><span class="n">A</span> Struktur sağlamlığı (1–4)</a></li>
+      <li><a href="#sB"><span class="n">B</span> ASSET (5–7)</a></li>
+      <li><a href="#sC"><span class="n">C</span> FINANCE (8–10)</a></li>
+      <li><a href="#sD"><span class="n">D</span> HR (11–13)</a></li>
+      <li><a href="#sE"><span class="n">E</span> INVENTORY (14–16)</a></li>
+      <li><a href="#sF"><span class="n">F</span> LOGISTICS (17–18)</a></li>
+      <li><a href="#sG"><span class="n">G</span> ORG (19–21)</a></li>
+      <li><a href="#sH"><span class="n">H</span> PARTNER (22–24)</a></li>
+      <li><a href="#sI"><span class="n">I</span> PRODUCTION (25–27)</a></li>
+      <li><a href="#sJ"><span class="n">J</span> PURCHASE (28–30)</a></li>
+      <li><a href="#sK"><span class="n">K</span> QUALITY (31–33)</a></li>
+      <li><a href="#sL"><span class="n">L</span> SALES (34–35)</a></li>
+      <li><a href="#sM"><span class="n">M</span> SYSTEM (36–38)</a></li>
+      <li><a href="#sN"><span class="n">N</span> TRADE (39–40)</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <div class="eyebrow">Zarat ERP · Dərs B / 2</div>
+      <h1>40 sorğu ilə zarat_erp_2-nin tam sağlamlıq yoxlaması</h1>
+      <p>Bu dərs, <strong>Zarat_baza-A</strong>-da qurulan struktur üzərində, bazanın strukturunun, məlumatın bütövlüyünün və biznes göstəricilərinin bir-bir yoxlanmasına həsr olunub. Hər sorğunun altında <strong>nə göstərdiyi və nəyi aşkar etdiyi</strong> aydın izah olunur.</p>
+    </div>
+
+    <section id="s0">
+      <h2><span class="num">00</span> Bu dərs nə üçündür</h2>
+      <p class="lead">40 sorğu 3 məqsədə xidmət edir:</p>
+      <ol style="color:var(--text-dim);">
+        <li><strong>Struktur yoxlaması</strong> (1–4) — sxema/cədvəl/trigger/view-ların hamısının yerində olduğunu təsdiqləyir.</li>
+        <li><strong>Data bütövlüyü yoxlaması</strong> (məs. #10, #21, #24, #29) — "yetim" qeydlər, məntiqi ziddiyyətlər, əskik əlaqələr axtarır.</li>
+        <li><strong>Biznes sağlamlıq göstəriciləri</strong> (məs. #6, #12, #25, #34) — real əməliyyat risklərini (gecikmə, büdcə pozuntusu, kritik stok) ortaya çıxarır.</li>
+      </ol>
+      <div class="callout">
+        <strong>Necə istifadə edin:</strong> Bazanı bərpa etdikdən sonra, yaxud hər hansı böyük data yükləməsindən sonra, bu 40 sorğunu ardıcıl işlədin. Boş nəticə (0 sətir) çoxu halda YAXŞI işarədir, amma bəziləri (məs. anbar dəyəri) məzmunlu nəticə gözləyir — hər sorğunun izahını oxuyun.
+      </div>
+    </section>
+
+    <section id="sA">
+      <h2><span class="num">A</span> Struktur sağlamlığı</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#1 — Bütün sxemaların siyahısı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> schema_name <span class="tok-k">FROM</span> information_schema.schemata
+<span class="tok-k">WHERE</span> schema_name <span class="tok-k">NOT IN</span> (<span class="tok-s">'pg_catalog','information_schema','public'</span>)
+<span class="tok-k">ORDER BY</span> 1;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Bazada mövcud olan bütün biznes sxemalarını. <b>Aşkar edir:</b> Əgər nəticə 13-dən az sxema göstərirsə, struktur bərpası natamamdır.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#2 — Sxema üzrə cədvəl sayı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> table_schema, <span class="tok-k">COUNT</span>(*) <span class="tok-k">AS</span> table_count
+<span class="tok-k">FROM</span> information_schema.tables
+<span class="tok-k">WHERE</span> table_type = <span class="tok-s">'BASE TABLE'</span>
+  <span class="tok-k">AND</span> table_schema <span class="tok-k">NOT IN</span> (<span class="tok-s">'pg_catalog','information_schema'</span>)
+<span class="tok-k">GROUP BY</span> table_schema <span class="tok-k">ORDER BY</span> 1;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Hər sxemada neçə cədvəl olduğunu. <b>Aşkar edir:</b> Zarat_baza-A-dakı gözlənilən saylarla (asset=7, finance=3, hr=4, inventory=4, logistics=2, org=6, partner=9, production=3, purchase=4, quality=4, sales=2, system=10, trade=2) müqayisə edin — fərq varsa, hansısa cədvəl yaradılmayıb.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#3 — Trigger-lərin siyahısı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> event_object_schema, event_object_table, trigger_name
+<span class="tok-k">FROM</span> information_schema.triggers
+<span class="tok-k">ORDER BY</span> 1, 2;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> <span class="inline">updated_at</span> avtomatik yenilənməsi üçün bağlanmış bütün trigger-ləri. <b>Aşkar edir:</b> Zarat_baza-A Bölmə 16-dakı <span class="inline">DO $$</span> bloku düzgün işləyibsə, bu, <span class="inline">updated_at</span> sütunu olan HƏR cədvəl üçün bir sətir göstərməlidir.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#4 — View-ların siyahısı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> table_schema, table_name
+<span class="tok-k">FROM</span> information_schema.views
+<span class="tok-k">WHERE</span> table_schema <span class="tok-k">NOT IN</span> (<span class="tok-s">'pg_catalog','information_schema'</span>)
+<span class="tok-k">ORDER BY</span> 1, 2;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Yaradılmış bütün hesabat view-larını. <b>Aşkar edir:</b> Zarat_baza-A Bölmə 17-dəki 8 view-un (v_department_headcount, v_monthly_pl, v_stock_valuation, v_low_stock, v_all_shipments, v_upcoming_maintenance, v_expiring_certificates, v_supplier_performance) hamısının mövcud olduğunu.</div>
+      </div>
+    </section>
+
+    <section id="sB">
+      <h2><span class="num">B</span> ASSET</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#5 — Ümumi əsas vəsait dəyəri</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> <span class="tok-k">COUNT</span>(*) <span class="tok-k">AS</span> active_assets, <span class="tok-k">SUM</span>(current_value) <span class="tok-k">AS</span> total_value
+<span class="tok-k">FROM</span> asset.asset <span class="tok-k">WHERE</span> is_active;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Şirkətin aktiv əsas vəsaitlərinin sayı və ümumi cari dəyəri. <b>Aşkar edir:</b> Balans hesabatı ilə tutuşdurmaq üçün əsas rəqəm — kəskin fərq uçot xətasına işarə edə bilər.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#6 — Baxım qrafiki olmayan aktiv avadanlıqlar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> a.asset_name, a.location
+<span class="tok-k">FROM</span> asset.asset a
+<span class="tok-k">LEFT JOIN</span> asset.maintenance_schedule ms <span class="tok-k">ON</span> ms.asset_id = a.id
+<span class="tok-k">WHERE</span> a.is_active <span class="tok-k">AND</span> ms.id <span class="tok-k">IS NULL</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Aktiv olan, amma HEÇ bir baxım qrafikinə bağlanmamış avadanlıqları. <b>Aşkar edir:</b> Nəzarətsiz qalıb qəfil sıradan çıxma riski daşıyan avadanlıqlar — bu siyahı boş olmalıdır.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#7 — Yaxın 30 gündə baxım tələb edən avadanlıqlar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> asset.v_upcoming_maintenance <span class="tok-k">WHERE</span> days_left <= 30;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Bölmə 17.6-dakı view-un real işləyib-işləmədiyini. <b>Aşkar edir:</b> Təcili planlaşdırılmalı baxımları — sıfır sətir çıxsa, ya heç bir baxım yaxınlaşmır, ya da <span class="inline">maintenance_schedule</span> boşdur.</div>
+      </div>
+    </section>
+
+    <section id="sC">
+      <h2><span class="num">C</span> FINANCE</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#8 — Debit/Kredit balansı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> <span class="tok-k">SUM</span>(debit) <span class="tok-k">AS</span> total_debit, <span class="tok-k">SUM</span>(credit) <span class="tok-k">AS</span> total_credit,
+       <span class="tok-k">SUM</span>(debit) - <span class="tok-k">SUM</span>(credit) <span class="tok-k">AS</span> fərq
+<span class="tok-k">FROM</span> finance.general_ledger;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Bütün mühasibat yazılışlarının ümumi debit və kredit cəmini. <b>Aşkar edir:</b> Əsl "ikili yazılış" mühasibatlığında bu iki rəqəm HƏMİŞƏ bərabər olmalıdır — fərq 0-dan fərqlidirsə, xəta var.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#9 — Aylıq gəlir/xərc trendi</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> finance.v_monthly_pl <span class="tok-k">ORDER BY</span> month <span class="tok-k">DESC LIMIT</span> 12;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Son 12 ayın gəlir/xərc xülasəsini. <b>Aşkar edir:</b> Trend istiqamətini — sıfır sətir çıxsa, <span class="inline">general_ledger</span>-də hələ data yoxdur.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#10 — "Yetim" mühasibat yazılışları</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> gl.id, gl.description
+<span class="tok-k">FROM</span> finance.general_ledger gl
+<span class="tok-k">LEFT JOIN</span> finance.chart_of_accounts coa <span class="tok-k">ON</span> gl.account_id = coa.id
+<span class="tok-k">WHERE</span> coa.id <span class="tok-k">IS NULL</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Mövcud olmayan bir hesaba istinad edən yazılışları. <b>Aşkar edir:</b> Data bütövlüyü xətası — boş nəticə gözlənilir.</div>
+      </div>
+    </section>
+
+    <section id="sD">
+      <h2><span class="num">D</span> HR</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#11 — Departament üzrə işçi/maaş xülasəsi</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> hr.v_department_headcount <span class="tok-k">ORDER BY</span> employee_count <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Hər departamentin işçi sayı, orta maaş, aylıq ümumi xərci. <b>Aşkar edir:</b> Kadr strukturunun balansını — qeyri-adi böyük/kiçik departamentlər diqqət tələb edir.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#12 — Rəhbərsiz departamentlər</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> dept_name <span class="tok-k">FROM</span> hr.departments
+<span class="tok-k">WHERE</span> dept_head_id <span class="tok-k">IS NULL AND</span> is_active;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Aktiv departamentlərdən rəhbəri təyin edilməmiş olanları. <b>Aşkar edir:</b> İdarəetmə boşluğu riski.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#13 — Aktiv, amma işdən çıxma tarixi olan işçilər</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> full_name, termination_date <span class="tok-k">FROM</span> hr.employees
+<span class="tok-k">WHERE</span> is_active <span class="tok-k">AND</span> termination_date <span class="tok-k">IS NOT NULL</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> "Aktiv" işarələnmiş, amma işdən çıxma tarixi olan sətirləri. <b>Aşkar edir:</b> Data daxiletmə xətası — boş nəticə gözlənilir.</div>
+      </div>
+    </section>
+
+    <section id="sE">
+      <h2><span class="num">E</span> INVENTORY</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#14 — Kateqoriya üzrə anbar dəyəri</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> inventory.v_stock_valuation <span class="tok-k">ORDER BY</span> total_value <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Hansı kateqoriyanın anbarda ən çox dəyər saxladığını. <b>Aşkar edir:</b> Kapital bağlanmasının harada cəmləşdiyini.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#15 — Kritik səviyyədən aşağı məhsullar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> inventory.v_low_stock;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Ehtiyat həddindən aşağı düşmüş məhsulları. <b>Aşkar edir:</b> Təcili sifariş verilməli məhsulları — sıfır sətir ideal vəziyyətdir.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#16 — "Ölü stok" (90 gündür hərəkətsiz)</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> product_id, quantity_on_hand, received_date
+<span class="tok-k">FROM</span> inventory.inventory
+<span class="tok-k">WHERE</span> received_date < <span class="tok-k">CURRENT_DATE</span> - <span class="tok-k">INTERVAL</span> <span class="tok-s">'90 days'</span>
+  <span class="tok-k">AND</span> quantity_on_hand > 0
+<span class="tok-k">ORDER BY</span> received_date;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> 90 gündən artıq anbarda qalan, hələ istifadə/satılmamış məhsulları. <b>Aşkar edir:</b> Bağlanmış kapital və potensial israf riski.</div>
+      </div>
+    </section>
+
+    <section id="sF">
+      <h2><span class="num">F</span> LOGISTICS</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#17 — Status üzrə göndəriş sayı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> status, <span class="tok-k">COUNT</span>(*) <span class="tok-k">FROM</span> logistics.shipment
+<span class="tok-k">GROUP BY</span> status <span class="tok-k">ORDER BY</span> 2 <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Hazırkı əməliyyat yükünün status üzrə bölgüsünü. <b>Aşkar edir:</b> Əgər "gecikib" statusu çox böyükdürsə, logistika proseslərində sistemli problem var.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#18 — Vaxtında çatdırılma faizi</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> <span class="tok-k">ROUND</span>(100.0 * <span class="tok-k">SUM</span>(<span class="tok-k">CASE WHEN</span> actual_delivery_date <= planned_delivery_date <span class="tok-k">THEN</span> 1 <span class="tok-k">ELSE</span> 0 <span class="tok-k">END</span>)
+             / <span class="tok-k">NULLIF</span>(<span class="tok-k">COUNT</span>(*),0), 1) <span class="tok-k">AS</span> on_time_pct
+<span class="tok-k">FROM</span> logistics.shipment <span class="tok-k">WHERE</span> actual_delivery_date <span class="tok-k">IS NOT NULL</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Tamamlanmış göndərişlərin neçə faizinin planlaşdırılan tarixdə çatdığını. <b>Aşkar edir:</b> Əsas logistika KPI-ı — sənaye standartı adətən 90%+ hesab olunur.</div>
+      </div>
+    </section>
+
+    <section id="sG">
+      <h2><span class="num">G</span> ORG</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#19 — Filial üzrə işçi sayı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> b.branch_name, <span class="tok-k">COUNT</span>(e.id) <span class="tok-k">AS</span> emp_count
+<span class="tok-k">FROM</span> org.employees e
+<span class="tok-k">JOIN</span> org.branches b <span class="tok-k">ON</span> e.branch_id = b.id
+<span class="tok-k">WHERE</span> e.is_active
+<span class="tok-k">GROUP BY</span> b.branch_name <span class="tok-k">ORDER BY</span> emp_count <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Filial üzrə kadr bölgüsünü. <b>Aşkar edir:</b> Filiallar arasında balansı — gözlənilməz bölgü təşkilati problemi göstərə bilər.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#20 — Maaş diapazonundan kənar ödəniş</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> e.full_name, e.salary, p.salary_min, p.salary_max
+<span class="tok-k">FROM</span> org.employees e
+<span class="tok-k">JOIN</span> org.positions p <span class="tok-k">ON</span> e.position_id = p.id
+<span class="tok-k">WHERE</span> e.is_active <span class="tok-k">AND</span> (e.salary < p.salary_min <span class="tok-k">OR</span> e.salary > p.salary_max);</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Öz vəzifəsinin təsdiqlənmiş maaş diapazonundan kənar ödəniş alan işçiləri. <b>Aşkar edir:</b> Əmək haqqı siyasəti pozuntusu.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#21 — İşçi öz-özünün rəhbəridirmi?</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> id, full_name <span class="tok-k">FROM</span> org.employees <span class="tok-k">WHERE</span> id = manager_id;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> <span class="inline">manager_id</span> sahəsi öz ID-sinə bərabər olan sətirləri. <b>Aşkar edir:</b> Data daxiletmə xətası — boş nəticə gözlənilir.</div>
+      </div>
+    </section>
+
+    <section id="sH">
+      <h2><span class="num">H</span> PARTNER</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#22 — Növ üzrə tərəfdaş sayı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> pt.type_name, <span class="tok-k">COUNT</span>(*)
+<span class="tok-k">FROM</span> partner.partner p
+<span class="tok-k">JOIN</span> partner.partner_type pt <span class="tok-k">ON</span> p.type_id = pt.id
+<span class="tok-k">GROUP BY</span> pt.type_name <span class="tok-k">ORDER BY</span> 2 <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Müştəri/təchizatçı/distribütor bölgüsünü. <b>Aşkar edir:</b> İş modelinin tərəfdaş strukturunu — çox konsentrasiya olunmuş növ risk ola bilər.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#23 — Yaxın 30 gündə bitən müqavilələr</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> contract_name, end_date <span class="tok-k">FROM</span> partner.contract
+<span class="tok-k">WHERE</span> status = <span class="tok-s">'active'</span> <span class="tok-k">AND</span> end_date <= <span class="tok-k">CURRENT_DATE</span> + <span class="tok-k">INTERVAL</span> <span class="tok-s">'30 days'</span>
+<span class="tok-k">ORDER BY</span> end_date;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Təcili yenilənməli/nəzərdən keçirilməli müqavilələri. <b>Aşkar edir:</b> Biznes davamlılığı riski.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#24 — Bank hesabı olmayan aktiv tərəfdaşlar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> p.partner_name
+<span class="tok-k">FROM</span> partner.partner p
+<span class="tok-k">LEFT JOIN</span> partner.bank_account ba <span class="tok-k">ON</span> ba.partner_id = p.id
+<span class="tok-k">WHERE</span> p.is_active <span class="tok-k">AND</span> ba.id <span class="tok-k">IS NULL</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Ödəniş üçün bank rekvizitləri qeyd olunmamış aktiv tərəfdaşları. <b>Aşkar edir:</b> Ödəniş prosesində gecikmə yaradacaq boşluq.</div>
+      </div>
+    </section>
+
+    <section id="sI">
+      <h2><span class="num">I</span> PRODUCTION</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#25 — Son 30 gün rədd faizi</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> <span class="tok-k">ROUND</span>(100.0 * <span class="tok-k">SUM</span>(rejected_quantity) / <span class="tok-k">NULLIF</span>(<span class="tok-k">SUM</span>(actual_quantity),0), 2) <span class="tok-k">AS</span> reject_pct
+<span class="tok-k">FROM</span> production.batches
+<span class="tok-k">WHERE</span> batch_date >= <span class="tok-k">CURRENT_DATE</span> - <span class="tok-k">INTERVAL</span> <span class="tok-s">'30 days'</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Son ayın istehsal keyfiyyət göstəricisini. <b>Aşkar edir:</b> Trend əvvəlki aylarla müqayisə edilməlidir.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#26 — Reseptsiz məhsullar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT DISTINCT</span> p.product_name
+<span class="tok-k">FROM</span> inventory.products p
+<span class="tok-k">LEFT JOIN</span> production.recipes r <span class="tok-k">ON</span> r.product_id = p.id
+<span class="tok-k">WHERE</span> r.id <span class="tok-k">IS NULL AND</span> p.is_active;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> İstehsal olunan, amma tərkib reseptinə malik olmayan məhsulları. <b>Aşkar edir:</b> İstehsal planlaşdırmasının mümkün olmadığı boşluqları.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#27 — Planlaşdırılan vs faktiki istehsal fərqi</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> order_number, planned_quantity, produced_quantity,
+       (planned_quantity - produced_quantity) <span class="tok-k">AS</span> gap
+<span class="tok-k">FROM</span> production.production_orders
+<span class="tok-k">WHERE</span> status = <span class="tok-s">'completed'</span>
+<span class="tok-k">ORDER BY</span> gap <span class="tok-k">DESC LIMIT</span> 10;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Tamamlanmış sifarişlərdə plan-fakt fərqi ən böyük olan 10-u. <b>Aşkar edir:</b> İstehsal planlaşdırmasının etibarlılığını.</div>
+      </div>
+    </section>
+
+    <section id="sJ">
+      <h2><span class="num">J</span> PURCHASE</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#28 — Təchizatçı performansı</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> purchase.v_supplier_performance <span class="tok-k">ORDER BY</span> total_purchased <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Hər təchizatçının ümumi alış həcmi, reytinqi, sifariş icra faizi. <b>Aşkar edir:</b> Ən çox asılı olduğumuz təchizatçıları və zəif icra göstərən tərəfdaşları.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#29 — Gecikmiş satınalma sifarişləri</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> po_number, delivery_date, status
+<span class="tok-k">FROM</span> purchase.orders
+<span class="tok-k">WHERE</span> status <span class="tok-k">NOT IN</span> (<span class="tok-s">'completed','cancelled'</span>) <span class="tok-k">AND</span> delivery_date < <span class="tok-k">CURRENT_DATE</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Çatdırılma tarixi keçmiş, hələ tamamlanmamış sifarişləri. <b>Aşkar edir:</b> Təchizat zəncirində gecikmə riskini.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#30 — Reytinqi olmayan aktiv təchizatçılar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> company_name <span class="tok-k">FROM</span> purchase.suppliers
+<span class="tok-k">WHERE</span> is_active <span class="tok-k">AND</span> rating <span class="tok-k">IS NULL</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Heç vaxt qiymətləndirilməmiş, amma aktiv istifadə olunan təchizatçıları. <b>Aşkar edir:</b> Qiymətləndirmə prosesindəki boşluqları.</div>
+      </div>
+    </section>
+
+    <section id="sK">
+      <h2><span class="num">K</span> QUALITY</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#31 — Yaxın 60 gündə bitən sertifikatlar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> quality.v_expiring_certificates <span class="tok-k">WHERE</span> days_left <= 60;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> HACCP, Halal, ISO kimi sertifikatların vaxtı yaxınlaşanlarını. <b>Aşkar edir:</b> İxrac fəaliyyətinə birbaşa təsir edə biləcək təcili yeniləmə ehtiyacını.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#32 — Son 90 gün ümumi rədd faizi</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> <span class="tok-k">ROUND</span>(100.0 * <span class="tok-k">SUM</span>(rejected_qty) / <span class="tok-k">NULLIF</span>(<span class="tok-k">SUM</span>(accepted_qty + rejected_qty),0), 2) <span class="tok-k">AS</span> reject_pct
+<span class="tok-k">FROM</span> quality.quality_inspection
+<span class="tok-k">WHERE</span> inspection_date >= <span class="tok-k">CURRENT_DATE</span> - <span class="tok-k">INTERVAL</span> <span class="tok-s">'90 days'</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Son rüblük keyfiyyət nəzarəti göstəricisini. <b>Aşkar edir:</b> Ümumi keyfiyyət trendini — sənaye standartları ilə (adətən &lt;5%) müqayisə edin.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#33 — Nəzarət planı olmayan məhsullar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT DISTINCT</span> p.product_name
+<span class="tok-k">FROM</span> inventory.products p
+<span class="tok-k">LEFT JOIN</span> quality.quality_control_plan qcp <span class="tok-k">ON</span> qcp.product_id = p.id
+<span class="tok-k">WHERE</span> qcp.id <span class="tok-k">IS NULL AND</span> p.is_active;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Heç bir keyfiyyət nəzarət planına bağlı olmayan aktiv məhsulları. <b>Aşkar edir:</b> Keyfiyyət nəzarəti boşluğu.</div>
+      </div>
+    </section>
+
+    <section id="sL">
+      <h2><span class="num">L</span> SALES</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#34 — Vaxtı keçmiş fakturalar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> invoice_number, (total_amount - paid_amount) <span class="tok-k">AS</span> balance,
+       (<span class="tok-k">CURRENT_DATE</span> - due_date) <span class="tok-k">AS</span> days_late
+<span class="tok-k">FROM</span> sales.invoices
+<span class="tok-k">WHERE</span> status <> <span class="tok-s">'paid'</span> <span class="tok-k">AND</span> due_date < <span class="tok-k">CURRENT_DATE</span>
+<span class="tok-k">ORDER BY</span> days_late <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Ödəniş müddəti keçmiş bütün fakturaları, gecikmə gününə görə sıralı. <b>Aşkar edir:</b> Kassa axını riskini.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#35 — Kredit limitini keçən müştərilər</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> c.company_name, c.credit_limit,
+       <span class="tok-k">SUM</span>(i.total_amount - i.paid_amount) <span class="tok-k">AS</span> outstanding
+<span class="tok-k">FROM</span> sales.customers c
+<span class="tok-k">JOIN</span> sales.invoices i <span class="tok-k">ON</span> i.customer_id = c.id
+<span class="tok-k">WHERE</span> i.status <> <span class="tok-s">'paid'</span>
+<span class="tok-k">GROUP BY</span> c.company_name, c.credit_limit
+<span class="tok-k">HAVING</span> <span class="tok-k">SUM</span>(i.total_amount - i.paid_amount) > c.credit_limit;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Açıq borcu təsdiqlənmiş kredit limitindən çox olan müştəriləri. <b>Aşkar edir:</b> Kredit riski idarəetməsində pozuntu.</div>
+      </div>
+    </section>
+
+    <section id="sM">
+      <h2><span class="num">M</span> SYSTEM</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#36 — Kilidlənmiş / riskli hesablar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> username, failed_attempts, is_locked
+<span class="tok-k">FROM</span> system.user
+<span class="tok-k">WHERE</span> is_locked <span class="tok-k">OR</span> failed_attempts >= 3;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Kilidlənmiş və ya çoxlu uğursuz giriş cəhdi olan hesabları. <b>Aşkar edir:</b> Mümkün təhlükəsizlik hücumu və ya istifadəçi problemini.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#37 — Həll olunmamış kritik xətalar</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> error_code, error_message, created_at
+<span class="tok-k">FROM</span> system.error_log
+<span class="tok-k">WHERE NOT</span> resolved <span class="tok-k">AND</span> severity = <span class="tok-s">'critical'</span>
+<span class="tok-k">ORDER BY</span> created_at <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Sistemdə həll edilməmiş, ən yüksək təhlükə səviyyəli xətaları. <b>Aşkar edir:</b> Təcili texniki müdaxilə tələb edən halları — bu siyahı sıfır olmalıdır.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#38 — Son ehtiyat nüsxə statusu</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> * <span class="tok-k">FROM</span> system.backup_log <span class="tok-k">ORDER BY</span> start_time <span class="tok-k">DESC LIMIT</span> 1;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Son backup əməliyyatının nə vaxt, necə olduğunu. <b>Aşkar edir:</b> Məlumat itkisi riskini — son backup 7 gündən köhnədirsə, dərhal yeni bir <span class="inline">pg_dump</span> alın.</div>
+      </div>
+    </section>
+
+    <section id="sN">
+      <h2><span class="num">N</span> TRADE</h2>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#39 — Ölkə üzrə ümumi ticarət dəyəri</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> country, <span class="tok-k">SUM</span>(total_amount) <span class="tok-k">AS</span> total
+<span class="tok-k">FROM</span> trade.v_all_shipments
+<span class="tok-k">GROUP BY</span> country <span class="tok-k">ORDER BY</span> total <span class="tok-k">DESC</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> İdxal-ixrac fəaliyyətinin ölkə üzrə ümumi dəyər bölgüsünü. <b>Aşkar edir:</b> Coğrafi diversifikasiya səviyyəsini.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-head"><span class="q-num">#40 — Gecikmiş ixrac sifarişləri</span><button class="copy-btn">Kopyala</button></div>
+        <pre><code><span class="tok-k">SELECT</span> export_number, customer_country, expected_delivery
+<span class="tok-k">FROM</span> trade.export_order
+<span class="tok-k">WHERE</span> actual_delivery <span class="tok-k">IS NULL</span>
+  <span class="tok-k">AND</span> expected_delivery < <span class="tok-k">CURRENT_DATE</span>
+  <span class="tok-k">AND</span> status <> <span class="tok-s">'cancelled'</span>;</code></pre>
+        <div class="q-explain"><b>Göstərir:</b> Gözlənilən çatdırılma tarixi keçmiş, hələ tamamlanmamış ixrac sifarişlərini. <b>Aşkar edir:</b> Müştəri münasibətlərinə birbaşa təsir edə biləcək gecikmələri.</div>
+      </div>
+    </section>
+
+    <footer>Zarat ERP · FAZA-1/database · Zarat_baza-B · Əvvəlki: Zarat_baza-A</footer>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pre = btn.closest('.q-card').querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Kopyalandı ✓';
+        setTimeout(() => btn.textContent = original, 1500);
+      });
+    });
+  });
+  const sections = document.querySelectorAll('section');
+  const links = document.querySelectorAll('.toc a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

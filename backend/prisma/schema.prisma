@@ -1,0 +1,1225 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_ERP_URL")
+  schemas  = ["asset", "finance", "hr", "inventory", "logistics", "org", "partner", "production", "purchase", "quality", "sales", "system", "trade"]
+}
+
+model asset {
+  id                      Int       @id @default(autoincrement())
+  asset_code              String?   @db.VarChar
+  asset_name              String?   @db.VarChar
+  asset_description       String?
+  category_id             Int?
+  serial_number           String?   @db.VarChar
+  barcode                 String?   @db.VarChar
+  manufacturer            String?   @db.VarChar
+  model                   String?   @db.VarChar
+  manufacturer_year       Int?
+  purchase_date           DateTime? @db.Date
+  purchase_price          Decimal?  @db.Decimal
+  current_value           Decimal?  @db.Decimal
+  depreciation_method     String?   @db.VarChar
+  location                String?   @db.VarChar
+  status                  String?   @db.VarChar
+  assigned_to             Int?
+  department_id           Int?
+  branch_id               Int?
+  warranty_expiry_date    DateTime? @db.Date
+  insurance_policy_number String?   @db.VarChar
+  insurance_expiry_date   DateTime? @db.Date
+  notes                   String?
+  is_active               Boolean?
+  created_at              DateTime? @db.Timestamp(6)
+  updated_at              DateTime? @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model asset_category {
+  id                   Int       @id @default(autoincrement())
+  category_code        String?   @db.VarChar
+  category_name        String?   @db.VarChar
+  category_description String?
+  parent_category_id   Int?
+  depreciation_rate    Decimal?  @db.Decimal
+  useful_life_years    Int?
+  is_active            Boolean?
+  created_at           DateTime? @db.Timestamp(6)
+  updated_at           DateTime? @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model maintenance_history {
+  id               Int       @id @default(autoincrement())
+  task_id          Int?
+  asset_id         Int?
+  maintenance_date DateTime? @db.Date
+  maintenance_type String?   @db.VarChar
+  description      String?
+  technician       String?   @db.VarChar
+  downtime_hours   Decimal?  @db.Decimal
+  cost             Decimal?  @db.Decimal
+  status           String?   @db.VarChar
+  resolution       String?
+  part_replaced    String?
+  notes            String?
+  created_at       DateTime? @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model maintenance_schedule {
+  id                    Int       @id @default(autoincrement())
+  schedule_code         String?   @db.VarChar
+  asset_id              Int?
+  maintenance_type      String?   @db.VarChar
+  frequency_days        Int?
+  next_maintenance_date DateTime? @db.Date
+  estimated_cost        Decimal?  @db.Decimal
+  priority              String?   @db.VarChar
+  is_recurring          Boolean?
+  assigned_team         String?   @db.VarChar
+  notes                 String?
+  is_active             Boolean?
+  created_at            DateTime? @db.Timestamp(6)
+  updated_at            DateTime? @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model maintenance_task {
+  id                Int       @id @default(autoincrement())
+  task_number       String?   @db.VarChar
+  asset_id          Int?
+  schedule_id       Int?
+  task_title        String?   @db.VarChar
+  task_description  String?
+  task_type         String?   @db.VarChar
+  priority          String?   @db.VarChar
+  status            String?   @db.VarChar
+  reported_by       Int?
+  assigned_to       Int?
+  approved_by       Int?
+  start_date        DateTime? @db.Date
+  end_date          DateTime? @db.Date
+  actual_start_date DateTime? @db.Date
+  actual_end_date   DateTime? @db.Date
+  estimated_hours   Decimal?  @db.Decimal
+  actual_hours      Decimal?  @db.Decimal
+  estimated_cost    Decimal?  @db.Decimal
+  actual_cost       Decimal?  @db.Decimal
+  notes             String?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model spare_part {
+  id                       Int       @id @default(autoincrement())
+  part_code                String?   @db.VarChar
+  part_name                String?   @db.VarChar
+  part_description         String?
+  category_id              Int?
+  manufacturer             String?   @db.VarChar
+  model                    String?   @db.VarChar
+  manufacturer_part_number String?   @db.VarChar
+  supplier_id              Int?
+  unit                     String?   @db.VarChar
+  min_stock_qty            Decimal?  @db.Decimal
+  max_stock_qty            Decimal?  @db.Decimal
+  current_stock_qty        Decimal?  @db.Decimal
+  reorder_point            Decimal?  @db.Decimal
+  unit_cost                Decimal?  @db.Decimal
+  last_purchase_price      Decimal?  @db.Decimal
+  location                 String?   @db.VarChar
+  shelf_location           String?   @db.VarChar
+  is_active                Boolean?
+  created_at               DateTime? @db.Timestamp(6)
+  updated_at               DateTime? @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model spare_part_usage {
+  id            Int       @id @default(autoincrement())
+  part_id       Int?
+  task_id       Int?
+  asset_id      Int?
+  usage_date    DateTime? @db.Date
+  quantity_used Decimal?  @db.Decimal
+  unit          String?   @db.VarChar
+  unit_price    Decimal?  @db.Decimal
+  total_cost    Decimal?  @db.Decimal
+  reason        String?   @db.VarChar
+  used_by       Int?
+  notes         String?
+  created_at    DateTime? @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model budgets {
+  id             Int       @id @default(autoincrement())
+  budget_code    String?   @db.VarChar
+  budget_name    String?   @db.VarChar
+  budget_type    String?   @db.VarChar
+  account_id     Int?
+  department_id  Int?
+  fiscal_year    Int?
+  period         Int?
+  planned_amount Decimal?  @db.Decimal
+  actual_amount  Decimal?  @db.Decimal
+  status         String?   @db.VarChar
+  created_by     Int?
+  approved_by    Int?
+  approval_date  DateTime? @db.Date
+  notes          String?
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+
+  @@schema("finance")
+}
+
+model chart_of_accounts {
+  id                Int       @id @default(autoincrement())
+  account_code      String?   @db.VarChar
+  account_name      String?   @db.VarChar
+  account_type      String?   @db.VarChar
+  parent_account_id Int?
+  normal_balance    String?   @db.VarChar
+  account_level     Int?
+  is_active         Boolean?
+  description       String?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+
+  @@schema("finance")
+}
+
+model general_ledger {
+  id                  Int       @id @default(autoincrement())
+  transaction_date    DateTime? @db.Date
+  account_id          Int?
+  debit               Decimal?  @db.Decimal
+  credit              Decimal?  @db.Decimal
+  description         String?
+  reference_number    String?   @db.VarChar
+  source_type         String?   @db.VarChar
+  source_id           Int?
+  source_table        String?   @db.VarChar
+  posted_by           Int?
+  approved_by         Int?
+  is_reconciled       Boolean?
+  reconciliation_date DateTime? @db.Date
+  notes               String?
+  created_at          DateTime? @db.Timestamp(6)
+
+  @@schema("finance")
+}
+
+model attendance {
+  id              Int       @id @default(autoincrement())
+  employee_id     Int?
+  attendance_date DateTime? @db.Date
+  check_in        DateTime? @db.Time(6)
+  check_out       DateTime? @db.Time(6)
+  work_hours      Decimal?  @db.Decimal
+  overtime_hours  Decimal?  @db.Decimal
+  status          String?   @db.VarChar
+  notes           String?
+  created_at      DateTime? @db.Timestamp(6)
+
+  @@schema("hr")
+}
+
+model hr_departments {
+  id           Int       @id @default(autoincrement())
+  dept_code    String?   @db.VarChar
+  dept_name    String?   @db.VarChar
+  dept_head_id Int?
+  location     String?   @db.VarChar
+  budget       Decimal?  @db.Decimal
+  is_active    Boolean?
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+
+  @@map("departments")
+  @@schema("hr")
+}
+
+model hr_employees {
+  id               Int       @id @default(autoincrement())
+  employee_code    String?   @db.VarChar
+  full_name        String?   @db.VarChar
+  position         String?   @db.VarChar
+  department_id    Int?
+  manager_id       Int?
+  hire_date        DateTime? @db.Date
+  termination_date DateTime? @db.Date
+  monthly_salary   Decimal?  @db.Decimal
+  email            String?   @db.VarChar
+  phone            String?   @db.VarChar
+  birth_date       DateTime? @db.Date
+  is_active        Boolean?
+  created_at       DateTime? @db.Timestamp(6)
+  updated_at       DateTime? @db.Timestamp(6)
+
+  @@map("employees")
+  @@schema("hr")
+}
+
+model leave_requests {
+  id           Int       @id @default(autoincrement())
+  employee_id  Int?
+  leave_type   String?   @db.VarChar
+  start_date   DateTime? @db.Date
+  end_date     DateTime? @db.Date
+  total_days   Int?
+  status       String?   @db.VarChar
+  approved_by  Int?
+  request_date DateTime? @db.Date
+  notes        String?
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+
+  @@schema("hr")
+}
+
+model categories {
+  id                   Int       @id @default(autoincrement())
+  category_code        String?   @db.VarChar
+  category_name        String?   @db.VarChar
+  category_description String?
+  parent_category_id   Int?
+  is_active            Boolean?
+  created_at           DateTime? @db.Timestamp(6)
+  updated_at           DateTime? @db.Timestamp(6)
+
+  @@schema("inventory")
+}
+
+model inventory {
+  id                 Int       @id @default(autoincrement())
+  product_id         Int?
+  warehouse_id       Int?
+  shelf_location     String?   @db.VarChar
+  batch_number       String?   @db.VarChar
+  serial_number      String?   @db.VarChar
+  quantity_on_hand   Decimal?  @db.Decimal
+  reserved_quantity  Decimal?  @db.Decimal
+  damaged_quantity   Decimal?  @db.Decimal
+  last_cost_price    Decimal?  @db.Decimal
+  last_selling_price Decimal?  @db.Decimal
+  expiration_date    DateTime? @db.Date
+  received_date      DateTime? @db.Date
+  last_count_date    DateTime? @db.Date
+  last_updated       DateTime? @db.Timestamp(6)
+
+  @@schema("inventory")
+}
+
+model products {
+  id                   Int       @id @default(autoincrement())
+  product_code         String?   @db.VarChar
+  product_name         String?   @db.VarChar
+  description          String?
+  product_type         String?   @db.VarChar
+  category_id          Int?
+  unit_id              Int?
+  weight_kg            Decimal?  @db.Decimal
+  length_cm            Decimal?  @db.Decimal
+  width_cm             Decimal?  @db.Decimal
+  height_cm            Decimal?  @db.Decimal
+  standard_cost        Decimal?  @db.Decimal
+  selling_price_local  Decimal?  @db.Decimal
+  selling_price_export Decimal?  @db.Decimal
+  min_stock_qty        Decimal?  @db.Decimal
+  max_stock_qty        Decimal?  @db.Decimal
+  reorder_point        Decimal?  @db.Decimal
+  lead_time_days       Int?
+  is_active            Boolean?
+  created_at           DateTime? @db.Timestamp(6)
+  updated_at           DateTime? @db.Timestamp(6)
+
+  @@schema("inventory")
+}
+
+model warehouses {
+  id              Int       @id @default(autoincrement())
+  warehouse_code  String?   @db.VarChar
+  warehouse_name  String?   @db.VarChar
+  warehouse_type  String?   @db.VarChar
+  location        String?   @db.VarChar
+  manager_id      Int?
+  capacity_m2     Decimal?  @db.Decimal
+  capacity_volume Decimal?  @db.Decimal
+  temperature_min Decimal?  @db.Decimal
+  temperature_max Decimal?  @db.Decimal
+  is_active       Boolean?
+  created_at      DateTime? @db.Timestamp(6)
+  updated_at      DateTime? @db.Timestamp(6)
+
+  @@schema("inventory")
+}
+
+model delivery_tracking {
+  id                   Int       @id @default(autoincrement())
+  shipment_id          Int?
+  tracking_number      String?   @db.VarChar
+  tracking_date        DateTime? @db.Timestamp(6)
+  tracking_status      String?   @db.VarChar
+  location             String?   @db.VarChar
+  latitude             Decimal?  @db.Decimal
+  longitude            Decimal?  @db.Decimal
+  location_description String?
+  event_description    String?
+  actual_time          DateTime? @db.Timestamp(6)
+  driver_notes         String?
+  created_by           Int?
+  created_at           DateTime? @db.Timestamp(6)
+
+  @@schema("logistics")
+}
+
+model shipment {
+  id                    Int       @id @default(autoincrement())
+  shipment_number       String?   @db.VarChar
+  shipment_type         String?   @db.VarChar
+  order_id              Int?
+  order_type            String?   @db.VarChar
+  customer_id           Int?
+  supplier_id           Int?
+  vehicle_id            Int?
+  driver_id             Int?
+  route_id              Int?
+  shipment_date         DateTime? @db.Date
+  planned_delivery_date DateTime? @db.Date
+  actual_delivery_date  DateTime? @db.Date
+  pickup_address        String?
+  delivery_address      String?
+  total_weight_kg       Decimal?  @db.Decimal
+  total_volume_m3       Decimal?  @db.Decimal
+  total_items           Int?
+  status                String?   @db.VarChar
+  priority              String?   @db.VarChar
+  handling_instructions String?
+  notes                 String?
+  is_active             Boolean?
+  created_at            DateTime? @db.Timestamp(6)
+  updated_at            DateTime? @db.Timestamp(6)
+
+  @@schema("logistics")
+}
+
+model branches {
+  id          Int       @id @default(autoincrement())
+  branch_code String?   @db.VarChar
+  branch_name String?   @db.VarChar
+  company_id  Int?
+  branch_type String?   @db.VarChar
+  country     String?   @db.VarChar
+  city        String?   @db.VarChar
+  address     String?
+  phone       String?   @db.VarChar
+  email       String?   @db.VarChar
+  manager_id  Int?
+  is_active   Boolean?
+  created_at  DateTime? @db.Timestamp(6)
+  updated_at  DateTime? @db.Timestamp(6)
+
+  @@schema("org")
+}
+
+model companies {
+  id                  Int       @id @default(autoincrement())
+  company_code        String?   @db.VarChar
+  company_name        String?   @db.VarChar
+  legal_name          String?   @db.VarChar
+  tax_id              String?   @db.VarChar
+  registration_number String?   @db.VarChar
+  country             String?   @db.VarChar
+  city                String?   @db.VarChar
+  address             String?
+  phone               String?   @db.VarChar
+  email               String?   @db.VarChar
+  website             String?   @db.VarChar
+  industry            String?   @db.VarChar
+  founded_date        DateTime? @db.Date
+  is_active           Boolean?
+  created_at          DateTime? @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+
+  @@schema("org")
+}
+
+model org_departments {
+  id             Int       @id @default(autoincrement())
+  dept_code      String?   @db.VarChar
+  dept_name      String?   @db.VarChar
+  dept_type      String?   @db.VarChar
+  parent_dept_id Int?
+  branch_id      Int?
+  manager_id     Int?
+  budget         Decimal?  @db.Decimal
+  is_active      Boolean?
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+
+  @@map("departments")
+  @@schema("org")
+}
+
+model org_employees {
+  id               Int       @id @default(autoincrement())
+  employee_code    String?   @db.VarChar
+  first_name       String?   @db.VarChar
+  last_name        String?   @db.VarChar
+  middle_name      String?   @db.VarChar
+  full_name        String?   @db.VarChar
+  position_id      Int?
+  department_id    Int?
+  branch_id        Int?
+  manager_id       Int?
+  company_id       Int?
+  email            String?   @db.VarChar
+  phone            String?   @db.VarChar
+  personal_email   String?   @db.VarChar
+  birth_date       DateTime? @db.Date
+  hire_date        DateTime? @db.Date
+  termination_date DateTime? @db.Date
+  employment_type  String?   @db.VarChar
+  salary           Decimal?  @db.Decimal
+  is_active        Boolean?
+  created_at       DateTime? @db.Timestamp(6)
+  updated_at       DateTime? @db.Timestamp(6)
+
+  @@map("employees")
+  @@schema("org")
+}
+
+model org_structure {
+  id            Int       @id @default(autoincrement())
+  org_code      String?   @db.VarChar
+  org_name      String?   @db.VarChar
+  org_type      String?   @db.VarChar
+  parent_id     Int?
+  level         Int?
+  company_id    Int?
+  branch_id     Int?
+  department_id Int?
+  manager_id    Int?
+  is_active     Boolean?
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+
+  @@schema("org")
+}
+
+model positions {
+  id              Int       @id @default(autoincrement())
+  position_code   String?   @db.VarChar
+  position_name   String?   @db.VarChar
+  position_level  String?   @db.VarChar
+  job_description String?
+  department_id   Int?
+  salary_min      Decimal?  @db.Decimal
+  salary_max      Decimal?  @db.Decimal
+  is_active       Boolean?
+  created_at      DateTime? @db.Timestamp(6)
+  updated_at      DateTime? @db.Timestamp(6)
+
+  @@schema("org")
+}
+
+model address {
+  id            Int       @id @default(autoincrement())
+  partner_id    Int?
+  address_type  String?   @db.VarChar
+  address_line1 String?
+  address_line2 String?
+  country       String?   @db.VarChar
+  city          String?   @db.VarChar
+  state         String?   @db.VarChar
+  postal_code   String?   @db.VarChar
+  latitude      Decimal?  @db.Decimal
+  longitude     Decimal?  @db.Decimal
+  is_primary    Boolean?
+  is_active     Boolean?
+  notes         String?
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model bank_account {
+  id                  Int       @id @default(autoincrement())
+  partner_id          Int?
+  account_number      String?   @db.VarChar
+  iban                String?   @db.VarChar
+  swift_bic           String?   @db.VarChar
+  bank_name           String?   @db.VarChar
+  bank_address        String?
+  account_holder_name String?   @db.VarChar
+  account_type        String?   @db.VarChar
+  currency            String?   @db.VarChar
+  is_default          Boolean?
+  is_active           Boolean?
+  notes               String?
+  created_at          DateTime? @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model contact_person {
+  id                 Int       @id @default(autoincrement())
+  partner_id         Int?
+  full_name          String?   @db.VarChar
+  position           String?   @db.VarChar
+  department         String?   @db.VarChar
+  email              String?   @db.VarChar
+  phone              String?   @db.VarChar
+  mobile             String?   @db.VarChar
+  whatsapp           String?   @db.VarChar
+  telegram           String?   @db.VarChar
+  linkedin           String?   @db.VarChar
+  is_primary         Boolean?
+  is_decision_maker  Boolean?
+  can_approve_orders Boolean?
+  notes              String?
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model contract {
+  id                 Int       @id @default(autoincrement())
+  contract_number    String?   @db.VarChar
+  partner_id         Int?
+  contract_name      String?   @db.VarChar
+  contract_type      String?   @db.VarChar
+  start_date         DateTime? @db.Date
+  end_date           DateTime? @db.Date
+  renewal_date       DateTime? @db.Date
+  total_value        Decimal?  @db.Decimal
+  currency           String?   @db.VarChar
+  payment_terms      String?   @db.VarChar
+  delivery_terms     String?   @db.VarChar
+  incoterms          String?   @db.VarChar
+  status             String?   @db.VarChar
+  signed_by_partner  Int?
+  signed_by_company  Int?
+  signed_date        DateTime? @db.Date
+  document_url       String?
+  special_conditions String?
+  notes              String?
+  is_active          Boolean?
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner {
+  id                       Int       @id @default(autoincrement())
+  partner_code             String?   @db.VarChar
+  partner_name             String?   @db.VarChar
+  legal_name               String?   @db.VarChar
+  trade_name               String?   @db.VarChar
+  type_id                  Int?
+  category_id              Int?
+  tax_id                   String?   @db.VarChar
+  registration_number      String?   @db.VarChar
+  registration_date        DateTime? @db.Date
+  country                  String?   @db.VarChar
+  city                     String?   @db.VarChar
+  address                  String?
+  postal_code              String?   @db.VarChar
+  phone                    String?   @db.VarChar
+  email                    String?   @db.VarChar
+  website                  String?   @db.VarChar
+  industry                 String?   @db.VarChar
+  employee_count           Int?
+  annual_revenue           Decimal?  @db.Decimal
+  currency                 String?   @db.VarChar
+  payment_terms            String?   @db.VarChar
+  credit_limit             Decimal?  @db.Decimal
+  status                   String?   @db.VarChar
+  customer_segment         String?   @db.VarChar
+  sales_rep_id             Int?
+  account_manager_id       Int?
+  preferred_contact_method String?   @db.VarChar
+  notes                    String?
+  is_active                Boolean?
+  created_at               DateTime? @db.Timestamp(6)
+  updated_at               DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_activity_log {
+  id                      Int       @id @default(autoincrement())
+  partner_id              Int?
+  activity_type           String?   @db.VarChar
+  activity_date           DateTime? @db.Timestamp(6)
+  subject                 String?   @db.VarChar
+  description             String?
+  performed_by            Int?
+  duration_minutes        Int?
+  outcome                 String?   @db.VarChar
+  next_action_date        DateTime? @db.Date
+  next_action_description String?
+  attached_documents      String[]
+  notes                   String?
+  created_at              DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_category {
+  id                   Int       @id @default(autoincrement())
+  category_code        String?   @db.VarChar
+  category_name        String?   @db.VarChar
+  category_description String?
+  parent_category_id   Int?
+  priority_level       Int?
+  is_active            Boolean?
+  created_at           DateTime? @db.Timestamp(6)
+  updated_at           DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_rating {
+  id             Int       @id @default(autoincrement())
+  partner_id     Int?
+  rating_date    DateTime? @db.Date
+  overall_rating Decimal?  @db.Decimal
+  criteria       Json?
+  reviewer_id    Int?
+  reviewer_notes String?
+  status         String?   @db.VarChar
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_type {
+  id               Int       @id @default(autoincrement())
+  type_code        String?   @db.VarChar
+  type_name        String?   @db.VarChar
+  type_description String?
+  category         String?   @db.VarChar
+  is_active        Boolean?
+  created_at       DateTime? @db.Timestamp(6)
+  updated_at       DateTime? @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model batches {
+  id                  Int       @id @default(autoincrement())
+  batch_number        String?   @db.VarChar
+  production_order_id Int?
+  batch_date          DateTime? @db.Date
+  planned_quantity    Decimal?  @db.Decimal
+  actual_quantity     Decimal?  @db.Decimal
+  rejected_quantity   Decimal?  @db.Decimal
+  supervisor_id       Int?
+  status              String?   @db.VarChar
+  notes               String?
+  created_at          DateTime? @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+
+  @@schema("production")
+}
+
+model production_orders {
+  id                Int       @id @default(autoincrement())
+  order_number      String?   @db.VarChar
+  product_id        Int?
+  recipe_id         Int?
+  planned_quantity  Decimal?  @db.Decimal
+  produced_quantity Decimal?  @db.Decimal
+  rejected_quantity Decimal?  @db.Decimal
+  start_date        DateTime? @db.Date
+  end_date          DateTime? @db.Date
+  status            String?   @db.VarChar
+  priority          Int?
+  created_by        Int?
+  approved_by       Int?
+  sales_order_id    Int?
+  notes             String?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+
+  @@schema("production")
+}
+
+model recipes {
+  id                       Int       @id @default(autoincrement())
+  product_id               Int?
+  component_id             Int?
+  quantity_per_unit        Decimal?  @db.Decimal
+  waste_percent            Decimal?  @db.Decimal
+  scrap_percent            Decimal?  @db.Decimal
+  is_critical              Boolean?
+  alternative_component_id Int?
+  valid_from               DateTime? @db.Date
+  valid_to                 DateTime? @db.Date
+  created_at               DateTime? @db.Timestamp(6)
+  updated_at               DateTime? @db.Timestamp(6)
+
+  @@schema("production")
+}
+
+model order_lines {
+  id               Int       @id @default(autoincrement())
+  po_id            Int?
+  line_number      Int?
+  product_id       Int?
+  product_name     String?   @db.VarChar
+  product_code     String?   @db.VarChar
+  ordered_qty      Decimal?  @db.Decimal
+  received_qty     Decimal?  @db.Decimal
+  unit_price       Decimal?  @db.Decimal
+  discount_percent Decimal?  @db.Decimal
+  line_total       Decimal?  @db.Decimal
+  notes            String?
+  created_at       DateTime? @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model orders {
+  id               Int       @id @default(autoincrement())
+  po_number        String?   @db.VarChar
+  supplier_id      Int?
+  order_date       DateTime? @db.Date
+  delivery_date    DateTime? @db.Date
+  total_amount     Decimal?  @db.Decimal
+  currency         String?   @db.VarChar
+  status           String?   @db.VarChar
+  created_by       Int?
+  approved_by      Int?
+  shipping_address String?
+  notes            String?
+  created_at       DateTime? @db.Timestamp(6)
+  updated_at       DateTime? @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model supplier_contacts {
+  id          Int       @id @default(autoincrement())
+  supplier_id Int?
+  full_name   String?   @db.VarChar
+  position    String?   @db.VarChar
+  email       String?   @db.VarChar
+  phone       String?   @db.VarChar
+  mobile      String?   @db.VarChar
+  is_primary  Boolean?
+  notes       String?
+  created_at  DateTime? @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model suppliers {
+  id            Int       @id @default(autoincrement())
+  supplier_code String?   @db.VarChar
+  company_name  String?   @db.VarChar
+  tax_id        String?   @db.VarChar
+  country       String?   @db.VarChar
+  city          String?   @db.VarChar
+  address       String?
+  postal_code   String?   @db.VarChar
+  website       String?   @db.VarChar
+  payment_terms String?   @db.VarChar
+  currency      String?   @db.VarChar
+  rating        Int?
+  is_active     Boolean?
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model quality_audit {
+  id                 Int       @id @default(autoincrement())
+  audit_number       String?   @db.VarChar
+  audit_name         String?   @db.VarChar
+  audit_type         String?   @db.VarChar
+  audit_scope        String?
+  standard_id        Int?
+  audit_lead         Int?
+  audit_team         String[]
+  audit_date         DateTime? @db.Date
+  start_date         DateTime? @db.Date
+  end_date           DateTime? @db.Date
+  location           String?   @db.VarChar
+  findings           String?
+  non_conformances   String?
+  observations       String?
+  overall_rating     Decimal?  @db.Decimal
+  status             String?   @db.VarChar
+  report_url         String?
+  corrective_actions String?
+  follow_up_date     DateTime? @db.Date
+  notes              String?
+  is_active          Boolean?
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model quality_certificate {
+  id                 Int       @id @default(autoincrement())
+  certificate_number String?   @db.VarChar
+  certificate_name   String?   @db.VarChar
+  standard_id        Int?
+  product_id         Int?
+  batch_number       String?   @db.VarChar
+  issue_date         DateTime? @db.Date
+  expiry_date        DateTime? @db.Date
+  issued_by          String?   @db.VarChar
+  issued_to          String?   @db.VarChar
+  certificate_type   String?   @db.VarChar
+  status             String?   @db.VarChar
+  document_url       String?
+  notes              String?
+  is_active          Boolean?
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model quality_control_plan {
+  id                        Int       @id @default(autoincrement())
+  plan_code                 String?   @db.VarChar
+  plan_name                 String?   @db.VarChar
+  plan_description          String?
+  product_id                Int?
+  product_category_id       Int?
+  plan_type                 String?   @db.VarChar
+  frequency                 String?   @db.VarChar
+  sample_size               Int?
+  acceptance_criteria       String?
+  rejection_criteria        String?
+  responsible_department_id Int?
+  approved_by               Int?
+  approval_date             DateTime? @db.Date
+  notes                     String?
+  is_active                 Boolean?
+  created_at                DateTime? @db.Timestamp(6)
+  updated_at                DateTime? @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model quality_inspection {
+  id                Int       @id @default(autoincrement())
+  inspection_number String?   @db.VarChar
+  control_plan_id   Int?
+  inspection_type   String?   @db.VarChar
+  product_id        Int?
+  batch_number      String?   @db.VarChar
+  order_id          Int?
+  order_type        String?   @db.VarChar
+  inspection_date   DateTime? @db.Date
+  inspector_id      Int?
+  sample_size       Int?
+  accepted_qty      Decimal?  @db.Decimal
+  rejected_qty      Decimal?  @db.Decimal
+  status            String?   @db.VarChar
+  overall_result    String?   @db.VarChar
+  report_url        String?
+  notes             String?
+  created_at        DateTime? @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model customers {
+  id               Int       @id @default(autoincrement())
+  customer_code    String?   @db.VarChar
+  company_name     String?   @db.VarChar
+  tax_id           String?   @db.VarChar
+  country          String?   @db.VarChar
+  city             String?   @db.VarChar
+  address          String?
+  postal_code      String?   @db.VarChar
+  website          String?   @db.VarChar
+  industry         String?   @db.VarChar
+  payment_terms    String?   @db.VarChar
+  credit_limit     Decimal?  @db.Decimal
+  currency         String?   @db.VarChar
+  customer_segment String?   @db.VarChar
+  sales_rep_id     Int?
+  is_active        Boolean?
+  created_at       DateTime? @db.Timestamp(6)
+  updated_at       DateTime? @db.Timestamp(6)
+
+  @@schema("sales")
+}
+
+model invoices {
+  id             Int       @id @default(autoincrement())
+  invoice_number String?   @db.VarChar
+  order_id       Int?
+  customer_id    Int?
+  invoice_date   DateTime? @db.Date
+  due_date       DateTime? @db.Date
+  total_amount   Decimal?  @db.Decimal
+  paid_amount    Decimal?  @db.Decimal
+  currency       String?   @db.VarChar
+  status         String?   @db.VarChar
+  notes          String?
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+
+  @@schema("sales")
+}
+
+model audit_log {
+  id              Int       @id @default(autoincrement())
+  user_id         Int?
+  username        String?   @db.VarChar
+  action          String?   @db.VarChar
+  resource        String?   @db.VarChar
+  resource_id     String?   @db.VarChar
+  module          String?   @db.VarChar
+  ip_address      String?   @db.VarChar
+  user_agent      String?
+  old_values      Json?
+  new_values      Json?
+  additional_info Json?
+  status          String?   @db.VarChar
+  created_at      DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model backup_log {
+  id                Int       @id @default(autoincrement())
+  backup_id         String?   @db.VarChar
+  backup_type       String?   @db.VarChar
+  backup_method     String?   @db.VarChar
+  backup_location   String?
+  backup_size_bytes BigInt?
+  duration_seconds  Int?
+  status            String?   @db.VarChar
+  started_by        Int?
+  completed_by      Int?
+  start_time        DateTime? @db.Timestamp(6)
+  end_time          DateTime? @db.Timestamp(6)
+  error_message     String?
+  notes             String?
+  created_at        DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model error_log {
+  id              Int       @id @default(autoincrement())
+  error_code      String?   @db.VarChar
+  error_type      String?   @db.VarChar
+  severity        String?   @db.VarChar
+  module          String?   @db.VarChar
+  method          String?   @db.VarChar
+  url             String?   @db.VarChar
+  ip_address      String?   @db.VarChar
+  user_id         Int?
+  username        String?   @db.VarChar
+  error_message   String?
+  stack_trace     String?
+  request_data    Json?
+  response_data   Json?
+  resolved        Boolean?
+  resolved_at     DateTime? @db.Timestamp(6)
+  resolved_by     Int?
+  resolution_note String?
+  created_at      DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model login_history {
+  id             Int       @id @default(autoincrement())
+  user_id        Int?
+  username       String?   @db.VarChar
+  login_time     DateTime? @db.Timestamp(6)
+  logout_time    DateTime? @db.Timestamp(6)
+  ip_address     String?   @db.VarChar
+  user_agent     String?
+  login_method   String?   @db.VarChar
+  session_id     String?   @db.VarChar
+  is_successful  Boolean?
+  failure_reason String?
+  created_at     DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model notification {
+  id                Int       @id @default(autoincrement())
+  user_id           Int?
+  notification_type String?   @db.VarChar
+  title             String?   @db.VarChar
+  message           String?
+  link              String?   @db.VarChar
+  priority          String?   @db.VarChar
+  is_read           Boolean?
+  read_at           DateTime? @db.Timestamp(6)
+  is_dismissed      Boolean?
+  dismissed_at      DateTime? @db.Timestamp(6)
+  created_by        Int?
+  expires_at        DateTime? @db.Timestamp(6)
+  created_at        DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model permission {
+  id                     Int       @id @default(autoincrement())
+  permission_code        String?   @db.VarChar
+  permission_name        String?   @db.VarChar
+  permission_description String?
+  resource               String?   @db.VarChar
+  action                 String?   @db.VarChar
+  module                 String?   @db.VarChar
+  is_active              Boolean?
+  created_at             DateTime? @db.Timestamp(6)
+  updated_at             DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model role_permission {
+  id            Int       @id @default(autoincrement())
+  role_id       Int?
+  permission_id Int?
+  is_granted    Boolean?
+  created_at    DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model system_config {
+  id           Int       @id @default(autoincrement())
+  config_key   String?   @db.VarChar
+  config_value String?
+  config_type  String?   @db.VarChar
+  config_group String?   @db.VarChar
+  is_encrypted Boolean?
+  description  String?
+  created_by   Int?
+  updated_by   Int?
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model user {
+  id                   Int       @id @default(autoincrement())
+  username             String?   @db.VarChar
+  password_hash        String?   @db.VarChar
+  email                String?   @db.VarChar
+  full_name            String?   @db.VarChar
+  employee_id          Int?
+  role_id              Int?
+  language             String?   @db.VarChar
+  timezone             String?   @db.VarChar
+  last_login           DateTime? @db.Timestamp(6)
+  last_ip              String?   @db.VarChar
+  failed_attempts      Int?
+  is_locked            Boolean?
+  lock_reason          String?
+  is_active            Boolean?
+  must_change_password Boolean?
+  last_password_change DateTime? @db.Date
+  created_at           DateTime? @db.Timestamp(6)
+  updated_at           DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model user_role {
+  id               Int       @id @default(autoincrement())
+  role_code        String?   @db.VarChar
+  role_name        String?   @db.VarChar
+  role_description String?
+  role_level       Int?
+  is_active        Boolean?
+  created_at       DateTime? @db.Timestamp(6)
+  updated_at       DateTime? @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model export_order {
+  id                      Int       @id @default(autoincrement())
+  export_number           String?   @db.VarChar
+  contract_id             Int?
+  customer_id             Int?
+  customer_name           String?   @db.VarChar
+  customer_country        String?   @db.VarChar
+  order_date              DateTime? @db.Date
+  expected_delivery       DateTime? @db.Date
+  actual_delivery         DateTime? @db.Date
+  total_amount            Decimal?  @db.Decimal
+  currency                String?   @db.VarChar
+  status                  String?   @db.VarChar
+  shipping_method         String?   @db.VarChar
+  port_of_loading         String?   @db.VarChar
+  port_of_discharge       String?   @db.VarChar
+  incoterms               String?   @db.VarChar
+  responsible_employee_id Int?
+  approved_by             Int?
+  notes                   String?
+  is_active               Boolean?
+  created_at              DateTime? @db.Timestamp(6)
+  updated_at              DateTime? @db.Timestamp(6)
+
+  @@schema("trade")
+}
+
+model import_order {
+  id                      Int       @id @default(autoincrement())
+  import_number           String?   @db.VarChar
+  contract_id             Int?
+  supplier_id             Int?
+  supplier_name           String?   @db.VarChar
+  supplier_country        String?   @db.VarChar
+  order_date              DateTime? @db.Date
+  expected_delivery       DateTime? @db.Date
+  actual_delivery         DateTime? @db.Date
+  total_amount            Decimal?  @db.Decimal
+  currency                String?   @db.VarChar
+  status                  String?   @db.VarChar
+  shipping_method         String?   @db.VarChar
+  port_of_loading         String?   @db.VarChar
+  port_of_discharge       String?   @db.VarChar
+  incoterms               String?   @db.VarChar
+  responsible_employee_id Int?
+  approved_by             Int?
+  notes                   String?
+  is_active               Boolean?
+  created_at              DateTime? @db.Timestamp(6)
+  updated_at              DateTime? @db.Timestamp(6)
+
+  @@schema("trade")
+}

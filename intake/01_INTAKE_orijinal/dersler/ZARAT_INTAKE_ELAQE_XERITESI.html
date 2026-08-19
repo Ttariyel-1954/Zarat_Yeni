@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zarat ERP — 01_INTAKE Əlaqə Xəritəsi</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#0d3321 100%); color:#fff; padding:52px 40px 42px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.4em; font-weight:700; margin-bottom:12px; }
+  .hero .subtitle { font-size:1.06em; opacity:0.9; max-width:780px; line-height:1.78; }
+  .hero .stats { display:flex; gap:30px; margin-top:28px; flex-wrap:wrap; }
+  .stat { background:rgba(255,255,255,0.12); border-radius:8px; padding:14px 22px; text-align:center; }
+  .stat .sv { font-size:2em; font-weight:700; }
+  .stat .sl { font-size:12px; opacity:0.75; margin-top:3px; }
+  .container { max-width:1050px; margin:0 auto; padding:0 28px 80px; }
+  .section { margin-top:52px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:24px; }
+  /* Loading order chain */
+  .load-chain { display:flex; flex-wrap:wrap; align-items:center; gap:0; margin-top:14px; }
+  .lc-step { background:var(--primary); color:#fff; border-radius:8px; padding:10px 18px; text-align:center; min-width:90px; }
+  .lc-step .lc-num { font-size:11px; opacity:0.7; margin-bottom:3px; }
+  .lc-step .lc-name { font-weight:700; font-family:monospace; font-size:14px; }
+  .lc-step .lc-count { font-size:11px; opacity:0.75; margin-top:3px; }
+  .lc-arrow { color:var(--primary); font-size:22px; font-weight:700; padding:0 6px; }
+  /* Schema cards */
+  .schema-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap:22px; margin-top:10px; }
+  .schema-card { border:2px solid var(--border); border-radius:10px; overflow:hidden; }
+  .sc-header { background:var(--primary); color:#fff; padding:12px 18px; display:flex; justify-content:space-between; align-items:center; }
+  .sc-header .sc-name { font-family:monospace; font-size:1.1em; font-weight:700; }
+  .sc-header .sc-num { background:rgba(255,255,255,0.2); border-radius:12px; padding:2px 9px; font-size:12px; }
+  .sc-body { padding:14px 18px; background:#fafffe; }
+  .sc-body .sc-tables { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .sc-tbl { background:#e8f5e9; border:1px solid #a5d6a7; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; color:#1a5c3a; }
+  .sc-deps { font-size:13px; color:#444; line-height:1.6; }
+  .sc-deps .dep-line { display:flex; align-items:flex-start; gap:8px; margin-bottom:5px; }
+  .dep-arrow { color:var(--accent); font-weight:700; flex-shrink:0; }
+  .dep-txt { font-family:monospace; font-size:12px; color:#333; }
+  .dep-note { font-size:11px; color:#888; display:block; margin-top:1px; font-style:italic; }
+  .badge-req { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:1px 6px; border-radius:3px; }
+  .badge-opt { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:1px 6px; border-radius:3px; }
+  /* Full FK table */
+  .fk-table { width:100%; border-collapse:collapse; margin-top:12px; }
+  .fk-table th { background:#ecf0f1; color:#555; padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .fk-table td { padding:10px 13px; border-bottom:1px solid #eee; font-size:13px; vertical-align:top; line-height:1.5; }
+  .fk-table tr:last-child td { border-bottom:none; }
+  .fk-table tr:hover td { background:#fafafa; }
+  .fk-from { font-family:monospace; font-weight:700; color:#c0392b; font-size:12.5px; }
+  .fk-to { font-family:monospace; font-weight:700; color:#1a5c3a; font-size:12.5px; }
+  .fk-why { font-size:12px; color:#666; }
+  /* Recommended fill order table */
+  .fill-table { width:100%; border-collapse:collapse; margin-top:12px; }
+  .fill-table th { background:#1a5c3a; color:#fff; padding:11px 15px; text-align:left; font-size:13px; }
+  .fill-table td { padding:11px 15px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.6; }
+  .fill-table tr:last-child td { border-bottom:none; }
+  .fill-table tr:nth-child(even) td { background:#f9fffe; }
+  .step-num { display:inline-block; background:var(--primary); color:#fff; border-radius:50%; width:26px; height:26px; text-align:center; line-height:26px; font-weight:700; font-size:13px; margin-right:6px; flex-shrink:0; }
+  .schema-name-chip { font-family:monospace; font-weight:700; background:#e8f5e9; color:#1a5c3a; padding:3px 10px; border-radius:4px; }
+  /* Lesson links */
+  .lesson-links { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; margin-top:14px; }
+  .lesson-link-card { border:1px solid #a5d6a7; border-radius:8px; padding:14px 18px; background:#f0fff4; display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; transition:background .2s; }
+  .lesson-link-card:hover { background:#e0f7e9; border-color:#27ae60; }
+  .ll-num { background:var(--primary); color:#fff; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0; }
+  .ll-text .ll-schema { font-family:monospace; font-weight:700; color:#1a5c3a; font-size:14px; }
+  .ll-text .ll-tables { font-size:12px; color:#555; margin-top:2px; }
+  /* Warn and info */
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:14px 18px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box ul { padding-left:20px; margin-top:8px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:5px; padding:14px 18px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .security-box { background:#fce4ec; border-left:5px solid #c62828; border-radius:5px; padding:14px 18px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .security-box ul { padding-left:20px; margin-top:8px; }
+  .security-box ul li { margin-bottom:5px; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .prev-link { background:rgba(255,255,255,0.12); border-radius:6px; padding:8px 18px; }
+  .footer .start-link { background:rgba(255,255,255,0.12); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+  @media(max-width:680px) {
+    .hero { padding:32px 20px 28px; }
+    .hero h1 { font-size:1.7em; }
+    .hero .stats { gap:14px; }
+    .container { padding:0 14px 60px; }
+    .load-chain { gap:2px; }
+    .lc-arrow { font-size:16px; padding:0 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Ümumi Əlaqə Xəritəsi · 01_INTAKE Sxemləri</div>
+  <h1>Zarat ERP — Əlaqə Xəritəsi</h1>
+  <p class="subtitle">
+    01_INTAKE mərhələsinin bütün 11 sxemi, 37 cədvəli və onların arasındakı bütün xarici açar (FK)
+    əlaqələri. Bu sənəd rəhbərlik, ERP mütəxəssisləri və verilənlər bazası administratorları üçün
+    ümumi görünüşü bir yerdə təqdim edir.
+  </p>
+  <div class="stats">
+    <div class="stat"><div class="sv">11</div><div class="sl">Sxem</div></div>
+    <div class="stat"><div class="sv">37</div><div class="sl">Cədvəl</div></div>
+    <div class="stat"><div class="sv">200+</div><div class="sl">Sütun</div></div>
+    <div class="stat"><div class="sv">30+</div><div class="sl">FK Əlaqəsi</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. LOADING ORDER -->
+  <div class="section">
+    <h2>1. Tövsiyə olunan yükləmə ardıcıllığı</h2>
+    <div class="load-chain">
+      <div class="lc-step"><div class="lc-num">1</div><div class="lc-name">ORG</div><div class="lc-count">5 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">2</div><div class="lc-name">FINANCE</div><div class="lc-count">4 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">3</div><div class="lc-name">PARTNER</div><div class="lc-count">5 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">4</div><div class="lc-name">PRODUCT</div><div class="lc-count">6 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">5</div><div class="lc-name">INVENTORY</div><div class="lc-count">2 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">6</div><div class="lc-name">PRODUCTION</div><div class="lc-count">3 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">7</div><div class="lc-name">LOGISTICS</div><div class="lc-count">1 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">8</div><div class="lc-name">HR</div><div class="lc-count">5 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">9</div><div class="lc-name">ASSET</div><div class="lc-count">3 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">10</div><div class="lc-name">QUALITY</div><div class="lc-count">2 cədvəl</div></div>
+      <span class="lc-arrow">→</span>
+      <div class="lc-step"><div class="lc-num">11</div><div class="lc-name">SALES</div><div class="lc-count">1 cədvəl</div></div>
+    </div>
+    <div class="info-box" style="margin-top:18px;">
+      <strong>Bu ardıcıllıq niyə vacibdir?</strong><br>
+      PostgreSQL xarici açar (FK) məhdudiyyətlərini yoxlayır. A cədvəli B cədvəlinə istinad edirsə,
+      B mütləq əvvəl dolu olmalıdır. Əks halda sistem "istinad edilən qeyd tapılmadı" xətası verir
+      və yükləmə uğursuz olur. Yuxarıdakı ardıcıllıq bütün məcburi FK asılılıqlarını nəzərə alaraq
+      hesablanmışdır.
+    </div>
+    <div class="warn-box">
+      <strong>⚠ Geri dönmə halları (Back-fill):</strong>
+      <ul>
+        <li><strong>product.bom.work_center_code:</strong> PRODUCT doldurulduqda work_center_code ixtiyari olduğu üçün boş buraxın. PRODUCTION (Dərs 6) tamamlandıqdan sonra bu sütunu doldurun.</li>
+        <li><strong>partner.customer.price_list_code:</strong> PARTNER doldurulduqda ixtiyari buraxın. PRODUCT (Dərs 4) tamamlandıqdan sonra doldurun.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. SCHEMA CARDS -->
+  <div class="section">
+    <h2>2. Sxem kartları — Asılılıq xülasəsi</h2>
+    <div class="schema-grid">
+
+      <!-- ORG -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">ORG</span><span class="sc-num">Dərs 1 · 5 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">company</span>
+            <span class="sc-tbl">site</span>
+            <span class="sc-tbl">department</span>
+            <span class="sc-tbl">position</span>
+            <span class="sc-tbl">cost_center</span>
+          </div>
+          <div class="sc-deps">
+            <div style="color:#2e7d32; font-size:13px; font-style:italic;">
+              ✅ Xarici asılılıq yoxdur — ilk yüklənən sxem.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FINANCE -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">FINANCE</span><span class="sc-num">Dərs 2 · 4 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">account</span>
+            <span class="sc-tbl">vat_code</span>
+            <span class="sc-tbl">budget</span>
+            <span class="sc-tbl">budget_line</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">budget_line.cc_code → org.cost_center <span class="badge-req">MƏCBURİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARTNER -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">PARTNER</span><span class="sc-num">Dərs 3 · 5 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">payment_term</span>
+            <span class="sc-tbl">partner</span>
+            <span class="sc-tbl">supplier</span>
+            <span class="sc-tbl">customer</span>
+            <span class="sc-tbl">bank_account</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">customer.price_list_code → product.price_list <span class="badge-opt">İXTİYARİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">PRODUCT</span><span class="sc-num">Dərs 4 · 6 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">item_category</span>
+            <span class="sc-tbl">item</span>
+            <span class="sc-tbl">bom</span>
+            <span class="sc-tbl">bom_line</span>
+            <span class="sc-tbl">price_list</span>
+            <span class="sc-tbl">price_list_line</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">bom.work_center_code → production.work_center <span class="badge-opt">İXTİYARİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVENTORY -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">INVENTORY</span><span class="sc-num">Dərs 5 · 2 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">warehouse</span>
+            <span class="sc-tbl">location</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">warehouse.site_code → org.site <span class="badge-req">MƏCBURİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTION -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">PRODUCTION</span><span class="sc-num">Dərs 6 · 3 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">work_center</span>
+            <span class="sc-tbl">flock</span>
+            <span class="sc-tbl">routing</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">work_center.site_code → org.site <span class="badge-req">MƏCBURİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">flock.site_code → org.site <span class="badge-req">MƏCBURİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">routing.item_code → product.item <span class="badge-req">MƏCBURİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">routing.work_center_code → work_center <span class="badge-req">MƏCBURİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGISTICS -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">LOGISTICS</span><span class="sc-num">Dərs 7 · 1 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">vehicle</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">vehicle.site_code → org.site <span class="badge-opt">İXTİYARİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HR -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">HR</span><span class="sc-num">Dərs 8 · 5 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">work_schedule</span>
+            <span class="sc-tbl">salary_component</span>
+            <span class="sc-tbl">employee</span>
+            <span class="sc-tbl">employment_contract</span>
+            <span class="sc-tbl">employee_salary</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">employee.company_code → org.company <span class="badge-req">MƏCBURİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">employee.site_code → org.site <span class="badge-req">MƏCBURİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">employee.dept_code → org.department <span class="badge-req">MƏCBURİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">employee.position_code → org.position <span class="badge-req">MƏCBURİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ASSET -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">ASSET</span><span class="sc-num">Dərs 9 · 3 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">asset_category</span>
+            <span class="sc-tbl">asset</span>
+            <span class="sc-tbl">equipment</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">asset.site_code → org.site <span class="badge-req">MƏCBURİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">asset.cc_code → org.cost_center <span class="badge-opt">İXTİYARİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">asset.account_code → finance.account <span class="badge-opt">İXTİYARİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">equipment.site_code → org.site <span class="badge-req">MƏCBURİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUALITY -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">QUALITY</span><span class="sc-num">Dərs 10 · 2 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">test_plan</span>
+            <span class="sc-tbl">certificate</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">test_plan.item_code → product.item <span class="badge-opt">İXTİYARİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">test_plan.site_code → org.site <span class="badge-opt">İXTİYARİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">certificate.item_code → product.item <span class="badge-opt">İXTİYARİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SALES -->
+      <div class="schema-card">
+        <div class="sc-header"><span class="sc-name">SALES</span><span class="sc-num">Dərs 11 · 1 cədvəl</span></div>
+        <div class="sc-body">
+          <div class="sc-tables">
+            <span class="sc-tbl">sales_target</span>
+          </div>
+          <div class="sc-deps">
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">sales_target.site_code → org.site <span class="badge-opt">İXTİYARİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">sales_target.item_code → product.item <span class="badge-opt">İXTİYARİ</span></span></div>
+            <div class="dep-line"><span class="dep-arrow">→</span><span class="dep-txt">sales_target.customer_code → partner.partner <span class="badge-opt">İXTİYARİ</span></span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. FULL FK TABLE -->
+  <div class="section">
+    <h2>3. Bütün xarici açar (FK) əlaqələrinin tam siyahısı</h2>
+    <table class="fk-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Mənbə (From)</th>
+          <th>Hədəf (To)</th>
+          <th>Status</th>
+          <th>Açıqlama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><span class="fk-from">finance.budget_line.cc_code</span></td>
+          <td><span class="fk-to">org.cost_center.cc_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">Büdcə sətri hansı xərclər mərkəzinə aiddir</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><span class="fk-from">partner.customer.price_list_code</span></td>
+          <td><span class="fk-to">product.price_list.pricelist_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Müştəriyə aid qiymət siyahısı (PRODUCT-dan sonra doldurun)</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><span class="fk-from">product.bom.work_center_code</span></td>
+          <td><span class="fk-to">production.work_center.wc_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Reseptin hazırlandığı iş stansiyası (PRODUCTION-dan sonra doldurun)</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><span class="fk-from">inventory.warehouse.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">Anbar hansı obyektdə yerləşir</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><span class="fk-from">production.work_center.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">İş stansiyası hansı obyektdədir</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><span class="fk-from">production.flock.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">Sürü hansı fermada saxlanılır</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><span class="fk-from">production.routing.item_code</span></td>
+          <td><span class="fk-to">product.item.item_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">Məhsulun istehsal marşrutu</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><span class="fk-from">production.routing.work_center_code</span></td>
+          <td><span class="fk-to">production.work_center.wc_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">Marşrut hansı iş stansiyasında</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><span class="fk-from">logistics.vehicle.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Nəqliyyat vasitəsi qeydiyyatlı obyekt</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><span class="fk-from">hr.employee.company_code</span></td>
+          <td><span class="fk-to">org.company.company_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">İşçi hansı hüquqi şəxsin əməkdaşıdır</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><span class="fk-from">hr.employee.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">İşçi hansı obyektdə çalışır</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><span class="fk-from">hr.employee.dept_code</span></td>
+          <td><span class="fk-to">org.department.dept_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">İşçinin şöbəsi</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td><span class="fk-from">hr.employee.position_code</span></td>
+          <td><span class="fk-to">org.position.position_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">İşçinin vəzifəsi</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td><span class="fk-from">asset.asset.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">Aktivin yerləşdiyi obyekt</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td><span class="fk-from">asset.asset.cc_code</span></td>
+          <td><span class="fk-to">org.cost_center.cc_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Aktivin aid olduğu xərclər mərkəzi</td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td><span class="fk-from">asset.asset.account_code</span></td>
+          <td><span class="fk-to">finance.account.account_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Aktivin amortizasiya uçot hesabı</td>
+        </tr>
+        <tr>
+          <td>17</td>
+          <td><span class="fk-from">asset.equipment.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-req">MƏCBURİ</span></td>
+          <td class="fk-why">Avadanlığın yerləşdiyi obyekt</td>
+        </tr>
+        <tr>
+          <td>18</td>
+          <td><span class="fk-from">quality.test_plan.item_code</span></td>
+          <td><span class="fk-to">product.item.item_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Test planı hansı məhsul üçündür</td>
+        </tr>
+        <tr>
+          <td>19</td>
+          <td><span class="fk-from">quality.test_plan.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Test planı hansı obyekt üçündür</td>
+        </tr>
+        <tr>
+          <td>20</td>
+          <td><span class="fk-from">quality.certificate.item_code</span></td>
+          <td><span class="fk-to">product.item.item_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Sertifikat hansı məhsul üçündür</td>
+        </tr>
+        <tr>
+          <td>21</td>
+          <td><span class="fk-from">sales.sales_target.site_code</span></td>
+          <td><span class="fk-to">org.site.site_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Satış hədəfi hansı bölgə üçündür</td>
+        </tr>
+        <tr>
+          <td>22</td>
+          <td><span class="fk-from">sales.sales_target.item_code</span></td>
+          <td><span class="fk-to">product.item.item_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Satış hədəfi hansı məhsul üçündür</td>
+        </tr>
+        <tr>
+          <td>23</td>
+          <td><span class="fk-from">sales.sales_target.customer_code</span></td>
+          <td><span class="fk-to">partner.partner.partner_code</span></td>
+          <td><span class="badge-opt">İXTİYARİ</span></td>
+          <td class="fk-why">Satış hədəfi hansı müştəri üçündür</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. FILL ORDER TABLE -->
+  <div class="section">
+    <h2>4. Ardıcıl doldurma cədvəli — İcra üçün yol xəritəsi</h2>
+    <table class="fill-table">
+      <thead>
+        <tr>
+          <th>Addım</th>
+          <th>Sxem</th>
+          <th>Cədvəllər (ardıcıllıqla)</th>
+          <th>Xüsusi qeydlər</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="step-num">1</span></td>
+          <td><span class="schema-name-chip">ORG</span></td>
+          <td>company → site → department → position → cost_center</td>
+          <td>Bütün digər sxemlərin əsasıdır. Heç bir xarici asılılıq yoxdur.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">2</span></td>
+          <td><span class="schema-name-chip">FINANCE</span></td>
+          <td>account → vat_code → budget → budget_line</td>
+          <td>budget_line üçün cost_center_code (ORG) lazımdır. account_code ASSET-də istifadə olunacaq.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">3</span></td>
+          <td><span class="schema-name-chip">PARTNER</span></td>
+          <td>payment_term → partner → supplier → customer → bank_account</td>
+          <td>customer.price_list_code ixtiyaridir — PRODUCT-dan sonra doldurun.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">4</span></td>
+          <td><span class="schema-name-chip">PRODUCT</span></td>
+          <td>item_category → item → price_list → price_list_line → bom → bom_line</td>
+          <td>bom.work_center_code ixtiyaridir — PRODUCTION-dan sonra doldurun. Buradan sonra customer.price_list_code-u doldurun.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">5</span></td>
+          <td><span class="schema-name-chip">INVENTORY</span></td>
+          <td>warehouse → location</td>
+          <td>warehouse.site_code məcburidir (ORG). Anbar tipləri: XAMMAL | HAZIR | SOYUDUCU.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">6</span></td>
+          <td><span class="schema-name-chip">PRODUCTION</span></td>
+          <td>work_center → flock → routing</td>
+          <td>routing ORG + PRODUCT tələb edir. Bu addım tamamlandıqdan sonra bom.work_center_code-u doldurun.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">7</span></td>
+          <td><span class="schema-name-chip">LOGISTICS</span></td>
+          <td>vehicle</td>
+          <td>has_cold_chain (BELI/XEYR) ərzaq təhlükəsizliyi üçün kritikdir. site_code ixtiyaridir.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">8</span></td>
+          <td><span class="schema-name-chip">HR</span></td>
+          <td>work_schedule → salary_component → employee → employment_contract → employee_salary</td>
+          <td>employee 4 məcburi FK (ORG). Məxfi məlumatlar — yalnız səlahiyyətli şəxslərə göndərin.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">9</span></td>
+          <td><span class="schema-name-chip">ASSET</span></td>
+          <td>asset_category → asset → equipment</td>
+          <td>ORG + FINANCE (account_code) lazımdır. Amortizasiya metodu: XETTI | AZALAN.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">10</span></td>
+          <td><span class="schema-name-chip">QUALITY</span></td>
+          <td>test_plan → certificate</td>
+          <td>Bütün FK-lar ixtiyaridir. certificate.expiry_date — vaxtı keçib-keçmədiyini yoxlayın.</td>
+        </tr>
+        <tr>
+          <td><span class="step-num">11</span></td>
+          <td><span class="schema-name-chip">SALES</span></td>
+          <td>sales_target</td>
+          <td>Bütün xarici FK-lar ixtiyaridir. Ən azı period_year + period_month + target_amount doldurun.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. ORG AS HUB -->
+  <div class="section">
+    <h2>5. ORG sxeminin mərkəzi rolu</h2>
+    <div class="info-box">
+      <strong>ORG bütün sxemlərin "atasıdır".</strong><br><br>
+      org.site (obyekt) sütununa 7 fərqli sxemdən istinad edilir:
+      <strong>INVENTORY, PRODUCTION (2 cədvəl), LOGISTICS, HR, ASSET (2 cədvəl), QUALITY, SALES</strong>.
+      org.cost_center-ə isə <strong>FINANCE</strong> və <strong>ASSET</strong> istinad edir.
+      Bu səbəbdən ORG sxemi ən əvvəl doldurulmalı və ORG-dakı site_code / dept_code / position_code /
+      cc_code dəyərləri bütün digər Excel fayllarında eyniliklə istifadə edilməlidir.
+      Bir hərfin belə fərqi FK xətasına səbəb olar.
+    </div>
+    <div class="warn-box" style="margin-top:12px;">
+      <strong>⚠ Ən çox edilən xəta: ORG kodlarının uyğunsuzluğu</strong><br>
+      ORG faylında <code>SITE-BAKI-01</code> yazmışsınız, amma HR faylında işçinin
+      <code>site_code</code> sütununa <code>Bakı ofisi</code> yazılıbsa — sistem FK xətası
+      verir. Həmişə <strong>kod</strong> dəyərlərini kopyalayın, ad/qısa ad yazmayın.
+    </div>
+  </div>
+
+  <!-- 6. SECURITY NOTE -->
+  <div class="section">
+    <h2>6. Məxfilik və məlumat təhlükəsizliyi</h2>
+    <div class="security-box">
+      <strong>🔒 Aşağıdakı məlumatlar yüksək məxfilik tələb edir:</strong>
+      <ul>
+        <li><strong>HR sxemi:</strong> FIN nömrəsi, doğum tarixi, maaş, müqavilə şərtləri — yalnız HR menecer, baş mühasib, səlahiyyətli rəhbərliyə göndərilsin. Ümumi email və ya paylaşıq şəbəkə qovluqlarından istifadə OLUNMAZ.</li>
+        <li><strong>FINANCE sxemi:</strong> Büdcə rəqəmləri — yalnız maliyyə direktoru, baş mühasib, CEO-ya açıq olsun.</li>
+        <li><strong>PARTNER sxemi:</strong> IBAN / SWIFT / bank hesab məlumatları — rəsmi bank sənədlərindən köçürülsün, şifahi məlumatla deyil.</li>
+        <li><strong>HR Excel faylları:</strong> Göndərməzdən əvvəl şifrə ilə qoruyun. Şifrəni ayrı kanaldan (telefon, şifrəli mesaj) bildirin.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. LESSON LINKS -->
+  <div class="section">
+    <h2>7. Dərs bağlantıları</h2>
+    <div class="lesson-links">
+      <a class="lesson-link-card" href="ders_1_org.html">
+        <div class="ll-num">1</div>
+        <div class="ll-text">
+          <div class="ll-schema">ORG</div>
+          <div class="ll-tables">company · site · department · position · cost_center</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_2_finance.html">
+        <div class="ll-num">2</div>
+        <div class="ll-text">
+          <div class="ll-schema">FINANCE</div>
+          <div class="ll-tables">account · vat_code · budget · budget_line</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_3_partner.html">
+        <div class="ll-num">3</div>
+        <div class="ll-text">
+          <div class="ll-schema">PARTNER</div>
+          <div class="ll-tables">payment_term · partner · supplier · customer · bank_account</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_4_product.html">
+        <div class="ll-num">4</div>
+        <div class="ll-text">
+          <div class="ll-schema">PRODUCT</div>
+          <div class="ll-tables">item_category · item · bom · bom_line · price_list · price_list_line</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_5_inventory.html">
+        <div class="ll-num">5</div>
+        <div class="ll-text">
+          <div class="ll-schema">INVENTORY</div>
+          <div class="ll-tables">warehouse · location</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_6_production.html">
+        <div class="ll-num">6</div>
+        <div class="ll-text">
+          <div class="ll-schema">PRODUCTION</div>
+          <div class="ll-tables">work_center · flock · routing</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_7_logistics.html">
+        <div class="ll-num">7</div>
+        <div class="ll-text">
+          <div class="ll-schema">LOGISTICS</div>
+          <div class="ll-tables">vehicle</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_8_hr.html">
+        <div class="ll-num">8</div>
+        <div class="ll-text">
+          <div class="ll-schema">HR</div>
+          <div class="ll-tables">work_schedule · salary_component · employee · contract · salary</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_9_asset.html">
+        <div class="ll-num">9</div>
+        <div class="ll-text">
+          <div class="ll-schema">ASSET</div>
+          <div class="ll-tables">asset_category · asset · equipment</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_10_quality.html">
+        <div class="ll-num">10</div>
+        <div class="ll-text">
+          <div class="ll-schema">QUALITY</div>
+          <div class="ll-tables">test_plan · certificate</div>
+        </div>
+      </a>
+      <a class="lesson-link-card" href="ders_11_sales.html">
+        <div class="ll-num">11</div>
+        <div class="ll-text">
+          <div class="ll-schema">SALES</div>
+          <div class="ll-tables">sales_target</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_11_sales.html">‹ Dərs 11 — SALES</a></div>
+  <div>Zarat ERP — 01_INTAKE Əlaqə Xəritəsi &nbsp;|&nbsp; 11 sxem · 37 cədvəl · 23 FK</div>
+  <div><a class="start-link" href="ders_1_org.html">Dərs 1-dən başlayın ›</a></div>
+</div>
+
+</body>
+</html>

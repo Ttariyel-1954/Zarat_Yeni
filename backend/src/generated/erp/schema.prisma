@@ -1,0 +1,1243 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../../src/generated/erp"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_ERP_URL")
+  schemas  = ["asset", "finance", "hr", "inventory", "logistics", "org", "partner", "production", "purchase", "quality", "sales", "system", "trade"]
+}
+
+model asset {
+  id                    Int       @id @default(autoincrement())
+  assetCode             String?   @map("asset_code") @db.VarChar
+  assetName             String?   @map("asset_name") @db.VarChar
+  assetDescription      String?   @map("asset_description")
+  categoryId            Int?      @map("category_id")
+  serialNumber          String?   @map("serial_number") @db.VarChar
+  barcode               String?   @db.VarChar
+  manufacturer          String?   @db.VarChar
+  model                 String?   @db.VarChar
+  manufacturerYear      Int?      @map("manufacturer_year")
+  purchaseDate          DateTime? @map("purchase_date") @db.Date
+  purchasePrice         Decimal?  @map("purchase_price") @db.Decimal
+  currentValue          Decimal?  @map("current_value") @db.Decimal
+  depreciationMethod    String?   @map("depreciation_method") @db.VarChar
+  location              String?   @db.VarChar
+  status                String?   @db.VarChar
+  assignedTo            Int?      @map("assigned_to")
+  departmentId          Int?      @map("department_id")
+  branchId              Int?      @map("branch_id")
+  warrantyExpiryDate    DateTime? @map("warranty_expiry_date") @db.Date
+  insurancePolicyNumber String?   @map("insurance_policy_number") @db.VarChar
+  insuranceExpiryDate   DateTime? @map("insurance_expiry_date") @db.Date
+  notes                 String?
+  isActive              Boolean?  @map("is_active")
+  createdAt             DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt             DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model asset_category {
+  id                  Int       @id @default(autoincrement())
+  categoryCode        String?   @map("category_code") @db.VarChar
+  categoryName        String?   @map("category_name") @db.VarChar
+  categoryDescription String?   @map("category_description")
+  parentCategoryId    Int?      @map("parent_category_id")
+  depreciationRate    Decimal?  @map("depreciation_rate") @db.Decimal
+  usefulLifeYears     Int?      @map("useful_life_years")
+  isActive            Boolean?  @map("is_active")
+  createdAt           DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model maintenance_history {
+  id              Int       @id @default(autoincrement())
+  taskId          Int?      @map("task_id")
+  assetId         Int?      @map("asset_id")
+  maintenanceDate DateTime? @map("maintenance_date") @db.Date
+  maintenanceType String?   @map("maintenance_type") @db.VarChar
+  description     String?
+  technician      String?   @db.VarChar
+  downtimeHours   Decimal?  @map("downtime_hours") @db.Decimal
+  cost            Decimal?  @db.Decimal
+  status          String?   @db.VarChar
+  resolution      String?
+  partReplaced    String?   @map("part_replaced")
+  notes           String?
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model maintenance_schedule {
+  id                  Int       @id @default(autoincrement())
+  scheduleCode        String?   @map("schedule_code") @db.VarChar
+  assetId             Int?      @map("asset_id")
+  maintenanceType     String?   @map("maintenance_type") @db.VarChar
+  frequencyDays       Int?      @map("frequency_days")
+  nextMaintenanceDate DateTime? @map("next_maintenance_date") @db.Date
+  estimatedCost       Decimal?  @map("estimated_cost") @db.Decimal
+  priority            String?   @db.VarChar
+  isRecurring         Boolean?  @map("is_recurring")
+  assignedTeam        String?   @map("assigned_team") @db.VarChar
+  notes               String?
+  isActive            Boolean?  @map("is_active")
+  createdAt           DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model maintenance_task {
+  id              Int       @id @default(autoincrement())
+  taskNumber      String?   @map("task_number") @db.VarChar
+  assetId         Int?      @map("asset_id")
+  scheduleId      Int?      @map("schedule_id")
+  taskTitle       String?   @map("task_title") @db.VarChar
+  taskDescription String?   @map("task_description")
+  taskType        String?   @map("task_type") @db.VarChar
+  priority        String?   @db.VarChar
+  status          String?   @db.VarChar
+  reportedBy      Int?      @map("reported_by")
+  assignedTo      Int?      @map("assigned_to")
+  approvedBy      Int?      @map("approved_by")
+  startDate       DateTime? @map("start_date") @db.Date
+  endDate         DateTime? @map("end_date") @db.Date
+  actualStartDate DateTime? @map("actual_start_date") @db.Date
+  actualEndDate   DateTime? @map("actual_end_date") @db.Date
+  estimatedHours  Decimal?  @map("estimated_hours") @db.Decimal
+  actualHours     Decimal?  @map("actual_hours") @db.Decimal
+  estimatedCost   Decimal?  @map("estimated_cost") @db.Decimal
+  actualCost      Decimal?  @map("actual_cost") @db.Decimal
+  notes           String?
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model spare_part {
+  id                     Int       @id @default(autoincrement())
+  partCode               String?   @map("part_code") @db.VarChar
+  partName               String?   @map("part_name") @db.VarChar
+  partDescription        String?   @map("part_description")
+  categoryId             Int?      @map("category_id")
+  manufacturer           String?   @db.VarChar
+  model                  String?   @db.VarChar
+  manufacturerPartNumber String?   @map("manufacturer_part_number") @db.VarChar
+  supplierId             Int?      @map("supplier_id")
+  unit                   String?   @db.VarChar
+  minStockQty            Decimal?  @map("min_stock_qty") @db.Decimal
+  maxStockQty            Decimal?  @map("max_stock_qty") @db.Decimal
+  currentStockQty        Decimal?  @map("current_stock_qty") @db.Decimal
+  reorderPoint           Decimal?  @map("reorder_point") @db.Decimal
+  unitCost               Decimal?  @map("unit_cost") @db.Decimal
+  lastPurchasePrice      Decimal?  @map("last_purchase_price") @db.Decimal
+  location               String?   @db.VarChar
+  shelfLocation          String?   @map("shelf_location") @db.VarChar
+  isActive               Boolean?  @map("is_active")
+  createdAt              DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt              DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model spare_part_usage {
+  id           Int       @id @default(autoincrement())
+  partId       Int?      @map("part_id")
+  taskId       Int?      @map("task_id")
+  assetId      Int?      @map("asset_id")
+  usageDate    DateTime? @map("usage_date") @db.Date
+  quantityUsed Decimal?  @map("quantity_used") @db.Decimal
+  unit         String?   @db.VarChar
+  unitPrice    Decimal?  @map("unit_price") @db.Decimal
+  totalCost    Decimal?  @map("total_cost") @db.Decimal
+  reason       String?   @db.VarChar
+  usedBy       Int?      @map("used_by")
+  notes        String?
+  createdAt    DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("asset")
+}
+
+model budgets {
+  id            Int       @id @default(autoincrement())
+  budgetCode    String?   @map("budget_code") @db.VarChar
+  budgetName    String?   @map("budget_name") @db.VarChar
+  budgetType    String?   @map("budget_type") @db.VarChar
+  accountId     Int?      @map("account_id")
+  departmentId  Int?      @map("department_id")
+  fiscalYear    Int?      @map("fiscal_year")
+  period        Int?
+  plannedAmount Decimal?  @map("planned_amount") @db.Decimal
+  actualAmount  Decimal?  @map("actual_amount") @db.Decimal
+  status        String?   @db.VarChar
+  createdBy     Int?      @map("created_by")
+  approvedBy    Int?      @map("approved_by")
+  approvalDate  DateTime? @map("approval_date") @db.Date
+  notes         String?
+  createdAt     DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("finance")
+}
+
+model chart_of_accounts {
+  id              Int       @id @default(autoincrement())
+  accountCode     String?   @map("account_code") @db.VarChar
+  accountName     String?   @map("account_name") @db.VarChar
+  accountType     String?   @map("account_type") @db.VarChar
+  parentAccountId Int?      @map("parent_account_id")
+  normalBalance   String?   @map("normal_balance") @db.VarChar
+  accountLevel    Int?      @map("account_level")
+  isActive        Boolean?  @map("is_active")
+  description     String?
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("finance")
+}
+
+model general_ledger {
+  id                 Int       @id @default(autoincrement())
+  transactionDate    DateTime? @map("transaction_date") @db.Date
+  accountId          Int?      @map("account_id")
+  debit              Decimal?  @db.Decimal
+  credit             Decimal?  @db.Decimal
+  description        String?
+  referenceNumber    String?   @map("reference_number") @db.VarChar
+  sourceType         String?   @map("source_type") @db.VarChar
+  sourceId           Int?      @map("source_id")
+  sourceTable        String?   @map("source_table") @db.VarChar
+  postedBy           Int?      @map("posted_by")
+  approvedBy         Int?      @map("approved_by")
+  isReconciled       Boolean?  @map("is_reconciled")
+  reconciliationDate DateTime? @map("reconciliation_date") @db.Date
+  notes              String?
+  createdAt          DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("finance")
+}
+
+model attendance {
+  id             Int       @id @default(autoincrement())
+  employeeId     Int?      @map("employee_id")
+  attendanceDate DateTime? @map("attendance_date") @db.Date
+  checkIn        DateTime? @map("check_in") @db.Time(6)
+  checkOut       DateTime? @map("check_out") @db.Time(6)
+  workHours      Decimal?  @map("work_hours") @db.Decimal
+  overtimeHours  Decimal?  @map("overtime_hours") @db.Decimal
+  status         String?   @db.VarChar
+  notes          String?
+  createdAt      DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("hr")
+}
+
+model hr_departments {
+  id         Int       @id @default(autoincrement())
+  deptCode   String?   @map("dept_code") @db.VarChar
+  deptName   String?   @map("dept_name") @db.VarChar
+  deptHeadId Int?      @map("dept_head_id")
+  location   String?   @db.VarChar
+  budget     Decimal?  @db.Decimal
+  isActive   Boolean?  @map("is_active")
+  createdAt  DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt  DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("departments")
+  @@schema("hr")
+}
+
+model hr_employees {
+  id              Int       @id @default(autoincrement())
+  employeeCode    String?   @map("employee_code") @db.VarChar
+  fullName        String?   @map("full_name") @db.VarChar
+  position        String?   @db.VarChar
+  departmentId    Int?      @map("department_id")
+  managerId       Int?      @map("manager_id")
+  hireDate        DateTime? @map("hire_date") @db.Date
+  terminationDate DateTime? @map("termination_date") @db.Date
+  monthlySalary   Decimal?  @map("monthly_salary") @db.Decimal
+  email           String?   @db.VarChar
+  phone           String?   @db.VarChar
+  birthDate       DateTime? @map("birth_date") @db.Date
+  isActive        Boolean?  @map("is_active")
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("employees")
+  @@schema("hr")
+}
+
+model leave_requests {
+  id          Int       @id @default(autoincrement())
+  employeeId  Int?      @map("employee_id")
+  leaveType   String?   @map("leave_type") @db.VarChar
+  startDate   DateTime? @map("start_date") @db.Date
+  endDate     DateTime? @map("end_date") @db.Date
+  totalDays   Int?      @map("total_days")
+  status      String?   @db.VarChar
+  approvedBy  Int?      @map("approved_by")
+  requestDate DateTime? @map("request_date") @db.Date
+  notes       String?
+  createdAt   DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("hr")
+}
+
+model categories {
+  id                  Int       @id @default(autoincrement())
+  categoryCode        String?   @map("category_code") @db.VarChar
+  categoryName        String?   @map("category_name") @db.VarChar
+  categoryDescription String?   @map("category_description")
+  parentCategoryId    Int?      @map("parent_category_id")
+  isActive            Boolean?  @map("is_active")
+  createdAt           DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("inventory")
+}
+
+model inventory {
+  id               Int       @id @default(autoincrement())
+  productId        Int?      @map("product_id")
+  warehouseId      Int?      @map("warehouse_id")
+  shelfLocation    String?   @map("shelf_location") @db.VarChar
+  batchNumber      String?   @map("batch_number") @db.VarChar
+  serialNumber     String?   @map("serial_number") @db.VarChar
+  quantityOnHand   Decimal?  @map("quantity_on_hand") @db.Decimal
+  reservedQuantity Decimal?  @map("reserved_quantity") @db.Decimal
+  damagedQuantity  Decimal?  @map("damaged_quantity") @db.Decimal
+  lastCostPrice    Decimal?  @map("last_cost_price") @db.Decimal
+  lastSellingPrice Decimal?  @map("last_selling_price") @db.Decimal
+  expirationDate   DateTime? @map("expiration_date") @db.Date
+  receivedDate     DateTime? @map("received_date") @db.Date
+  lastCountDate    DateTime? @map("last_count_date") @db.Date
+  lastUpdated      DateTime? @map("last_updated") @db.Timestamp(6)
+
+  @@schema("inventory")
+}
+
+model inventoryProduct {
+  id                 Int       @id @default(autoincrement())
+  productCode        String?   @map("product_code") @db.VarChar
+  productName        String?   @map("product_name") @db.VarChar
+  description        String?
+  productType        String?   @map("product_type") @db.VarChar
+  categoryId         Int?      @map("category_id")
+  unitId             Int?      @map("unit_id")
+  weightKg           Decimal?  @map("weight_kg") @db.Decimal
+  lengthCm           Decimal?  @map("length_cm") @db.Decimal
+  widthCm            Decimal?  @map("width_cm") @db.Decimal
+  heightCm           Decimal?  @map("height_cm") @db.Decimal
+  standardCost       Decimal?  @map("standard_cost") @db.Decimal
+  sellingPriceLocal  Decimal?  @map("selling_price_local") @db.Decimal
+  sellingPriceExport Decimal?  @map("selling_price_export") @db.Decimal
+  minStockQty        Decimal?  @map("min_stock_qty") @db.Decimal
+  maxStockQty        Decimal?  @map("max_stock_qty") @db.Decimal
+  reorderPoint       Decimal?  @map("reorder_point") @db.Decimal
+  leadTimeDays       Int?      @map("lead_time_days")
+  isActive           Boolean?  @map("is_active")
+  createdAt          DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt          DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("products")
+  @@schema("inventory")
+}
+
+model inventoryWarehouse {
+  id             Int       @id @default(autoincrement())
+  warehouseCode  String?   @map("warehouse_code") @db.VarChar
+  warehouseName  String?   @map("warehouse_name") @db.VarChar
+  warehouseType  String?   @map("warehouse_type") @db.VarChar
+  location       String?   @db.VarChar
+  managerId      Int?      @map("manager_id")
+  capacityM2     Decimal?  @map("capacity_m2") @db.Decimal
+  capacityVolume Decimal?  @map("capacity_volume") @db.Decimal
+  temperatureMin Decimal?  @map("temperature_min") @db.Decimal
+  temperatureMax Decimal?  @map("temperature_max") @db.Decimal
+  isActive       Boolean?  @map("is_active")
+  createdAt      DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt      DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("warehouses")
+  @@schema("inventory")
+}
+
+model delivery_tracking {
+  id                  Int       @id @default(autoincrement())
+  shipmentId          Int?      @map("shipment_id")
+  trackingNumber      String?   @map("tracking_number") @db.VarChar
+  trackingDate        DateTime? @map("tracking_date") @db.Timestamp(6)
+  trackingStatus      String?   @map("tracking_status") @db.VarChar
+  location            String?   @db.VarChar
+  latitude            Decimal?  @db.Decimal
+  longitude           Decimal?  @db.Decimal
+  locationDescription String?   @map("location_description")
+  eventDescription    String?   @map("event_description")
+  actualTime          DateTime? @map("actual_time") @db.Timestamp(6)
+  driverNotes         String?   @map("driver_notes")
+  createdBy           Int?      @map("created_by")
+  createdAt           DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("logistics")
+}
+
+model shipment {
+  id                   Int       @id @default(autoincrement())
+  shipmentNumber       String?   @map("shipment_number") @db.VarChar
+  shipmentType         String?   @map("shipment_type") @db.VarChar
+  orderId              Int?      @map("order_id")
+  orderType            String?   @map("order_type") @db.VarChar
+  customerId           Int?      @map("customer_id")
+  supplierId           Int?      @map("supplier_id")
+  vehicleId            Int?      @map("vehicle_id")
+  driverId             Int?      @map("driver_id")
+  routeId              Int?      @map("route_id")
+  shipmentDate         DateTime? @map("shipment_date") @db.Date
+  plannedDeliveryDate  DateTime? @map("planned_delivery_date") @db.Date
+  actualDeliveryDate   DateTime? @map("actual_delivery_date") @db.Date
+  pickupAddress        String?   @map("pickup_address")
+  deliveryAddress      String?   @map("delivery_address")
+  totalWeightKg        Decimal?  @map("total_weight_kg") @db.Decimal
+  totalVolumeM3        Decimal?  @map("total_volume_m3") @db.Decimal
+  totalItems           Int?      @map("total_items")
+  status               String?   @db.VarChar
+  priority             String?   @db.VarChar
+  handlingInstructions String?   @map("handling_instructions")
+  notes                String?
+  isActive             Boolean?  @map("is_active")
+  createdAt            DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt            DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("logistics")
+}
+
+model orgBranch {
+  id         Int       @id @default(autoincrement())
+  branchCode String?   @map("branch_code") @db.VarChar
+  branchName String?   @map("branch_name") @db.VarChar
+  companyId  Int?      @map("company_id")
+  branchType String?   @map("branch_type") @db.VarChar
+  country    String?   @db.VarChar
+  city       String?   @db.VarChar
+  address    String?
+  phone      String?   @db.VarChar
+  email      String?   @db.VarChar
+  managerId  Int?      @map("manager_id")
+  isActive   Boolean?  @map("is_active")
+  createdAt  DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt  DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("branches")
+  @@schema("org")
+}
+
+model orgCompany {
+  id                 Int       @id @default(autoincrement())
+  companyCode        String?   @map("company_code") @db.VarChar
+  companyName        String?   @map("company_name") @db.VarChar
+  legalName          String?   @map("legal_name") @db.VarChar
+  taxId              String?   @map("tax_id") @db.VarChar
+  registrationNumber String?   @map("registration_number") @db.VarChar
+  country            String?   @db.VarChar
+  city               String?   @db.VarChar
+  address            String?
+  phone              String?   @db.VarChar
+  email              String?   @db.VarChar
+  website            String?   @db.VarChar
+  industry           String?   @db.VarChar
+  foundedDate        DateTime? @map("founded_date") @db.Date
+  isActive           Boolean?  @map("is_active")
+  createdAt          DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt          DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("companies")
+  @@schema("org")
+}
+
+model orgDepartment {
+  id           Int       @id @default(autoincrement())
+  deptCode     String?   @map("dept_code") @db.VarChar
+  deptName     String?   @map("dept_name") @db.VarChar
+  deptType     String?   @map("dept_type") @db.VarChar
+  parentDeptId Int?      @map("parent_dept_id")
+  branchId     Int?      @map("branch_id")
+  managerId    Int?      @map("manager_id")
+  budget       Decimal?  @db.Decimal
+  isActive     Boolean?  @map("is_active")
+  createdAt    DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("departments")
+  @@schema("org")
+}
+
+model org_employees {
+  id              Int       @id @default(autoincrement())
+  employeeCode    String?   @map("employee_code") @db.VarChar
+  firstName       String?   @map("first_name") @db.VarChar
+  lastName        String?   @map("last_name") @db.VarChar
+  middleName      String?   @map("middle_name") @db.VarChar
+  fullName        String?   @map("full_name") @db.VarChar
+  positionId      Int?      @map("position_id")
+  departmentId    Int?      @map("department_id")
+  branchId        Int?      @map("branch_id")
+  managerId       Int?      @map("manager_id")
+  companyId       Int?      @map("company_id")
+  email           String?   @db.VarChar
+  phone           String?   @db.VarChar
+  personalEmail   String?   @map("personal_email") @db.VarChar
+  birthDate       DateTime? @map("birth_date") @db.Date
+  hireDate        DateTime? @map("hire_date") @db.Date
+  terminationDate DateTime? @map("termination_date") @db.Date
+  employmentType  String?   @map("employment_type") @db.VarChar
+  salary          Decimal?  @db.Decimal
+  isActive        Boolean?  @map("is_active")
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("employees")
+  @@schema("org")
+}
+
+model org_structure {
+  id           Int       @id @default(autoincrement())
+  orgCode      String?   @map("org_code") @db.VarChar
+  orgName      String?   @map("org_name") @db.VarChar
+  orgType      String?   @map("org_type") @db.VarChar
+  parentId     Int?      @map("parent_id")
+  level        Int?
+  companyId    Int?      @map("company_id")
+  branchId     Int?      @map("branch_id")
+  departmentId Int?      @map("department_id")
+  managerId    Int?      @map("manager_id")
+  isActive     Boolean?  @map("is_active")
+  createdAt    DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("org")
+}
+
+model positions {
+  id             Int       @id @default(autoincrement())
+  positionCode   String?   @map("position_code") @db.VarChar
+  positionName   String?   @map("position_name") @db.VarChar
+  positionLevel  String?   @map("position_level") @db.VarChar
+  jobDescription String?   @map("job_description")
+  departmentId   Int?      @map("department_id")
+  salaryMin      Decimal?  @map("salary_min") @db.Decimal
+  salaryMax      Decimal?  @map("salary_max") @db.Decimal
+  isActive       Boolean?  @map("is_active")
+  createdAt      DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt      DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("org")
+}
+
+model address {
+  id           Int       @id @default(autoincrement())
+  partnerId    Int?      @map("partner_id")
+  addressType  String?   @map("address_type") @db.VarChar
+  addressLine1 String?   @map("address_line1")
+  addressLine2 String?   @map("address_line2")
+  country      String?   @db.VarChar
+  city         String?   @db.VarChar
+  state        String?   @db.VarChar
+  postalCode   String?   @map("postal_code") @db.VarChar
+  latitude     Decimal?  @db.Decimal
+  longitude    Decimal?  @db.Decimal
+  isPrimary    Boolean?  @map("is_primary")
+  isActive     Boolean?  @map("is_active")
+  notes        String?
+  createdAt    DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model bank_account {
+  id                Int       @id @default(autoincrement())
+  partnerId         Int?      @map("partner_id")
+  accountNumber     String?   @map("account_number") @db.VarChar
+  iban              String?   @db.VarChar
+  swiftBic          String?   @map("swift_bic") @db.VarChar
+  bankName          String?   @map("bank_name") @db.VarChar
+  bankAddress       String?   @map("bank_address")
+  accountHolderName String?   @map("account_holder_name") @db.VarChar
+  accountType       String?   @map("account_type") @db.VarChar
+  currency          String?   @db.VarChar
+  isDefault         Boolean?  @map("is_default")
+  isActive          Boolean?  @map("is_active")
+  notes             String?
+  createdAt         DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt         DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model contact_person {
+  id               Int       @id @default(autoincrement())
+  partnerId        Int?      @map("partner_id")
+  fullName         String?   @map("full_name") @db.VarChar
+  position         String?   @db.VarChar
+  department       String?   @db.VarChar
+  email            String?   @db.VarChar
+  phone            String?   @db.VarChar
+  mobile           String?   @db.VarChar
+  whatsapp         String?   @db.VarChar
+  telegram         String?   @db.VarChar
+  linkedin         String?   @db.VarChar
+  isPrimary        Boolean?  @map("is_primary")
+  isDecisionMaker  Boolean?  @map("is_decision_maker")
+  canApproveOrders Boolean?  @map("can_approve_orders")
+  notes            String?
+  createdAt        DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model contract {
+  id                Int       @id @default(autoincrement())
+  contractNumber    String?   @map("contract_number") @db.VarChar
+  partnerId         Int?      @map("partner_id")
+  contractName      String?   @map("contract_name") @db.VarChar
+  contractType      String?   @map("contract_type") @db.VarChar
+  startDate         DateTime? @map("start_date") @db.Date
+  endDate           DateTime? @map("end_date") @db.Date
+  renewalDate       DateTime? @map("renewal_date") @db.Date
+  totalValue        Decimal?  @map("total_value") @db.Decimal
+  currency          String?   @db.VarChar
+  paymentTerms      String?   @map("payment_terms") @db.VarChar
+  deliveryTerms     String?   @map("delivery_terms") @db.VarChar
+  incoterms         String?   @db.VarChar
+  status            String?   @db.VarChar
+  signedByPartner   Int?      @map("signed_by_partner")
+  signedByCompany   Int?      @map("signed_by_company")
+  signedDate        DateTime? @map("signed_date") @db.Date
+  documentUrl       String?   @map("document_url")
+  specialConditions String?   @map("special_conditions")
+  notes             String?
+  isActive          Boolean?  @map("is_active")
+  createdAt         DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt         DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner {
+  id                     Int       @id @default(autoincrement())
+  partnerCode            String?   @map("partner_code") @db.VarChar
+  partnerName            String?   @map("partner_name") @db.VarChar
+  legalName              String?   @map("legal_name") @db.VarChar
+  tradeName              String?   @map("trade_name") @db.VarChar
+  typeId                 Int?      @map("type_id")
+  categoryId             Int?      @map("category_id")
+  taxId                  String?   @map("tax_id") @db.VarChar
+  registrationNumber     String?   @map("registration_number") @db.VarChar
+  registrationDate       DateTime? @map("registration_date") @db.Date
+  country                String?   @db.VarChar
+  city                   String?   @db.VarChar
+  address                String?
+  postalCode             String?   @map("postal_code") @db.VarChar
+  phone                  String?   @db.VarChar
+  email                  String?   @db.VarChar
+  website                String?   @db.VarChar
+  industry               String?   @db.VarChar
+  employeeCount          Int?      @map("employee_count")
+  annualRevenue          Decimal?  @map("annual_revenue") @db.Decimal
+  currency               String?   @db.VarChar
+  paymentTerms           String?   @map("payment_terms") @db.VarChar
+  creditLimit            Decimal?  @map("credit_limit") @db.Decimal
+  status                 String?   @db.VarChar
+  customerSegment        String?   @map("customer_segment") @db.VarChar
+  salesRepId             Int?      @map("sales_rep_id")
+  accountManagerId       Int?      @map("account_manager_id")
+  preferredContactMethod String?   @map("preferred_contact_method") @db.VarChar
+  notes                  String?
+  isActive               Boolean?  @map("is_active")
+  createdAt              DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt              DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_activity_log {
+  id                    Int       @id @default(autoincrement())
+  partnerId             Int?      @map("partner_id")
+  activityType          String?   @map("activity_type") @db.VarChar
+  activityDate          DateTime? @map("activity_date") @db.Timestamp(6)
+  subject               String?   @db.VarChar
+  description           String?
+  performedBy           Int?      @map("performed_by")
+  durationMinutes       Int?      @map("duration_minutes")
+  outcome               String?   @db.VarChar
+  nextActionDate        DateTime? @map("next_action_date") @db.Date
+  nextActionDescription String?   @map("next_action_description")
+  attachedDocuments     String[]  @map("attached_documents")
+  notes                 String?
+  createdAt             DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_category {
+  id                  Int       @id @default(autoincrement())
+  categoryCode        String?   @map("category_code") @db.VarChar
+  categoryName        String?   @map("category_name") @db.VarChar
+  categoryDescription String?   @map("category_description")
+  parentCategoryId    Int?      @map("parent_category_id")
+  priorityLevel       Int?      @map("priority_level")
+  isActive            Boolean?  @map("is_active")
+  createdAt           DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_rating {
+  id            Int       @id @default(autoincrement())
+  partnerId     Int?      @map("partner_id")
+  ratingDate    DateTime? @map("rating_date") @db.Date
+  overallRating Decimal?  @map("overall_rating") @db.Decimal
+  criteria      Json?
+  reviewerId    Int?      @map("reviewer_id")
+  reviewerNotes String?   @map("reviewer_notes")
+  status        String?   @db.VarChar
+  createdAt     DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model partner_type {
+  id              Int       @id @default(autoincrement())
+  typeCode        String?   @map("type_code") @db.VarChar
+  typeName        String?   @map("type_name") @db.VarChar
+  typeDescription String?   @map("type_description")
+  category        String?   @db.VarChar
+  isActive        Boolean?  @map("is_active")
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("partner")
+}
+
+model batches {
+  id                Int       @id @default(autoincrement())
+  batchNumber       String?   @map("batch_number") @db.VarChar
+  productionOrderId Int?      @map("production_order_id")
+  batchDate         DateTime? @map("batch_date") @db.Date
+  plannedQuantity   Decimal?  @map("planned_quantity") @db.Decimal
+  actualQuantity    Decimal?  @map("actual_quantity") @db.Decimal
+  rejectedQuantity  Decimal?  @map("rejected_quantity") @db.Decimal
+  supervisorId      Int?      @map("supervisor_id")
+  status            String?   @db.VarChar
+  notes             String?
+  createdAt         DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt         DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("production")
+}
+
+model production_orders {
+  id               Int       @id @default(autoincrement())
+  orderNumber      String?   @map("order_number") @db.VarChar
+  productId        Int?      @map("product_id")
+  recipeId         Int?      @map("recipe_id")
+  plannedQuantity  Decimal?  @map("planned_quantity") @db.Decimal
+  producedQuantity Decimal?  @map("produced_quantity") @db.Decimal
+  rejectedQuantity Decimal?  @map("rejected_quantity") @db.Decimal
+  startDate        DateTime? @map("start_date") @db.Date
+  endDate          DateTime? @map("end_date") @db.Date
+  status           String?   @db.VarChar
+  priority         Int?
+  createdBy        Int?      @map("created_by")
+  approvedBy       Int?      @map("approved_by")
+  salesOrderId     Int?      @map("sales_order_id")
+  notes            String?
+  createdAt        DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("production")
+}
+
+model recipes {
+  id                     Int       @id @default(autoincrement())
+  productId              Int?      @map("product_id")
+  componentId            Int?      @map("component_id")
+  quantityPerUnit        Decimal?  @map("quantity_per_unit") @db.Decimal
+  wastePercent           Decimal?  @map("waste_percent") @db.Decimal
+  scrapPercent           Decimal?  @map("scrap_percent") @db.Decimal
+  isCritical             Boolean?  @map("is_critical")
+  alternativeComponentId Int?      @map("alternative_component_id")
+  validFrom              DateTime? @map("valid_from") @db.Date
+  validTo                DateTime? @map("valid_to") @db.Date
+  createdAt              DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt              DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("production")
+}
+
+model order_lines {
+  id              Int       @id @default(autoincrement())
+  poId            Int?      @map("po_id")
+  lineNumber      Int?      @map("line_number")
+  productId       Int?      @map("product_id")
+  productName     String?   @map("product_name") @db.VarChar
+  productCode     String?   @map("product_code") @db.VarChar
+  orderedQty      Decimal?  @map("ordered_qty") @db.Decimal
+  receivedQty     Decimal?  @map("received_qty") @db.Decimal
+  unitPrice       Decimal?  @map("unit_price") @db.Decimal
+  discountPercent Decimal?  @map("discount_percent") @db.Decimal
+  lineTotal       Decimal?  @map("line_total") @db.Decimal
+  notes           String?
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model orders {
+  id              Int       @id @default(autoincrement())
+  poNumber        String?   @map("po_number") @db.VarChar
+  supplierId      Int?      @map("supplier_id")
+  orderDate       DateTime? @map("order_date") @db.Date
+  deliveryDate    DateTime? @map("delivery_date") @db.Date
+  totalAmount     Decimal?  @map("total_amount") @db.Decimal
+  currency        String?   @db.VarChar
+  status          String?   @db.VarChar
+  createdBy       Int?      @map("created_by")
+  approvedBy      Int?      @map("approved_by")
+  shippingAddress String?   @map("shipping_address")
+  notes           String?
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model supplier_contacts {
+  id         Int       @id @default(autoincrement())
+  supplierId Int?      @map("supplier_id")
+  fullName   String?   @map("full_name") @db.VarChar
+  position   String?   @db.VarChar
+  email      String?   @db.VarChar
+  phone      String?   @db.VarChar
+  mobile     String?   @db.VarChar
+  isPrimary  Boolean?  @map("is_primary")
+  notes      String?
+  createdAt  DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model suppliers {
+  id           Int       @id @default(autoincrement())
+  supplierCode String?   @map("supplier_code") @db.VarChar
+  companyName  String?   @map("company_name") @db.VarChar
+  taxId        String?   @map("tax_id") @db.VarChar
+  country      String?   @db.VarChar
+  city         String?   @db.VarChar
+  address      String?
+  postalCode   String?   @map("postal_code") @db.VarChar
+  website      String?   @db.VarChar
+  paymentTerms String?   @map("payment_terms") @db.VarChar
+  currency     String?   @db.VarChar
+  rating       Int?
+  isActive     Boolean?  @map("is_active")
+  createdAt    DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("purchase")
+}
+
+model quality_audit {
+  id                Int       @id @default(autoincrement())
+  auditNumber       String?   @map("audit_number") @db.VarChar
+  auditName         String?   @map("audit_name") @db.VarChar
+  auditType         String?   @map("audit_type") @db.VarChar
+  auditScope        String?   @map("audit_scope")
+  standardId        Int?      @map("standard_id")
+  auditLead         Int?      @map("audit_lead")
+  auditTeam         String[]  @map("audit_team")
+  auditDate         DateTime? @map("audit_date") @db.Date
+  startDate         DateTime? @map("start_date") @db.Date
+  endDate           DateTime? @map("end_date") @db.Date
+  location          String?   @db.VarChar
+  findings          String?
+  nonConformances   String?   @map("non_conformances")
+  observations      String?
+  overallRating     Decimal?  @map("overall_rating") @db.Decimal
+  status            String?   @db.VarChar
+  reportUrl         String?   @map("report_url")
+  correctiveActions String?   @map("corrective_actions")
+  followUpDate      DateTime? @map("follow_up_date") @db.Date
+  notes             String?
+  isActive          Boolean?  @map("is_active")
+  createdAt         DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt         DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model quality_certificate {
+  id                Int       @id @default(autoincrement())
+  certificateNumber String?   @map("certificate_number") @db.VarChar
+  certificateName   String?   @map("certificate_name") @db.VarChar
+  standardId        Int?      @map("standard_id")
+  productId         Int?      @map("product_id")
+  batchNumber       String?   @map("batch_number") @db.VarChar
+  issueDate         DateTime? @map("issue_date") @db.Date
+  expiryDate        DateTime? @map("expiry_date") @db.Date
+  issuedBy          String?   @map("issued_by") @db.VarChar
+  issuedTo          String?   @map("issued_to") @db.VarChar
+  certificateType   String?   @map("certificate_type") @db.VarChar
+  status            String?   @db.VarChar
+  documentUrl       String?   @map("document_url")
+  notes             String?
+  isActive          Boolean?  @map("is_active")
+  createdAt         DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt         DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model quality_control_plan {
+  id                      Int       @id @default(autoincrement())
+  planCode                String?   @map("plan_code") @db.VarChar
+  planName                String?   @map("plan_name") @db.VarChar
+  planDescription         String?   @map("plan_description")
+  productId               Int?      @map("product_id")
+  productCategoryId       Int?      @map("product_category_id")
+  planType                String?   @map("plan_type") @db.VarChar
+  frequency               String?   @db.VarChar
+  sampleSize              Int?      @map("sample_size")
+  acceptanceCriteria      String?   @map("acceptance_criteria")
+  rejectionCriteria       String?   @map("rejection_criteria")
+  responsibleDepartmentId Int?      @map("responsible_department_id")
+  approvedBy              Int?      @map("approved_by")
+  approvalDate            DateTime? @map("approval_date") @db.Date
+  notes                   String?
+  isActive                Boolean?  @map("is_active")
+  createdAt               DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt               DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model quality_inspection {
+  id               Int       @id @default(autoincrement())
+  inspectionNumber String?   @map("inspection_number") @db.VarChar
+  controlPlanId    Int?      @map("control_plan_id")
+  inspectionType   String?   @map("inspection_type") @db.VarChar
+  productId        Int?      @map("product_id")
+  batchNumber      String?   @map("batch_number") @db.VarChar
+  orderId          Int?      @map("order_id")
+  orderType        String?   @map("order_type") @db.VarChar
+  inspectionDate   DateTime? @map("inspection_date") @db.Date
+  inspectorId      Int?      @map("inspector_id")
+  sampleSize       Int?      @map("sample_size")
+  acceptedQty      Decimal?  @map("accepted_qty") @db.Decimal
+  rejectedQty      Decimal?  @map("rejected_qty") @db.Decimal
+  status           String?   @db.VarChar
+  overallResult    String?   @map("overall_result") @db.VarChar
+  reportUrl        String?   @map("report_url")
+  notes            String?
+  createdAt        DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("quality")
+}
+
+model customers {
+  id              Int       @id @default(autoincrement())
+  customerCode    String?   @map("customer_code") @db.VarChar
+  companyName     String?   @map("company_name") @db.VarChar
+  taxId           String?   @map("tax_id") @db.VarChar
+  country         String?   @db.VarChar
+  city            String?   @db.VarChar
+  address         String?
+  postalCode      String?   @map("postal_code") @db.VarChar
+  website         String?   @db.VarChar
+  industry        String?   @db.VarChar
+  paymentTerms    String?   @map("payment_terms") @db.VarChar
+  creditLimit     Decimal?  @map("credit_limit") @db.Decimal
+  currency        String?   @db.VarChar
+  customerSegment String?   @map("customer_segment") @db.VarChar
+  salesRepId      Int?      @map("sales_rep_id")
+  isActive        Boolean?  @map("is_active")
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("sales")
+}
+
+model invoices {
+  id            Int       @id @default(autoincrement())
+  invoiceNumber String?   @map("invoice_number") @db.VarChar
+  orderId       Int?      @map("order_id")
+  customerId    Int?      @map("customer_id")
+  invoiceDate   DateTime? @map("invoice_date") @db.Date
+  dueDate       DateTime? @map("due_date") @db.Date
+  totalAmount   Decimal?  @map("total_amount") @db.Decimal
+  paidAmount    Decimal?  @map("paid_amount") @db.Decimal
+  currency      String?   @db.VarChar
+  status        String?   @db.VarChar
+  notes         String?
+  createdAt     DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("sales")
+}
+
+model audit_log {
+  id             Int       @id @default(autoincrement())
+  userId         Int?      @map("user_id")
+  username       String?   @db.VarChar
+  action         String?   @db.VarChar
+  resource       String?   @db.VarChar
+  resourceId     String?   @map("resource_id") @db.VarChar
+  module         String?   @db.VarChar
+  ipAddress      String?   @map("ip_address") @db.VarChar
+  userAgent      String?   @map("user_agent")
+  oldValues      Json?     @map("old_values")
+  newValues      Json?     @map("new_values")
+  additionalInfo Json?     @map("additional_info")
+  status         String?   @db.VarChar
+  createdAt      DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model backup_log {
+  id              Int       @id @default(autoincrement())
+  backupId        String?   @map("backup_id") @db.VarChar
+  backupType      String?   @map("backup_type") @db.VarChar
+  backupMethod    String?   @map("backup_method") @db.VarChar
+  backupLocation  String?   @map("backup_location")
+  backupSizeBytes BigInt?   @map("backup_size_bytes")
+  durationSeconds Int?      @map("duration_seconds")
+  status          String?   @db.VarChar
+  startedBy       Int?      @map("started_by")
+  completedBy     Int?      @map("completed_by")
+  startTime       DateTime? @map("start_time") @db.Timestamp(6)
+  endTime         DateTime? @map("end_time") @db.Timestamp(6)
+  errorMessage    String?   @map("error_message")
+  notes           String?
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model error_log {
+  id             Int       @id @default(autoincrement())
+  errorCode      String?   @map("error_code") @db.VarChar
+  errorType      String?   @map("error_type") @db.VarChar
+  severity       String?   @db.VarChar
+  module         String?   @db.VarChar
+  method         String?   @db.VarChar
+  url            String?   @db.VarChar
+  ipAddress      String?   @map("ip_address") @db.VarChar
+  userId         Int?      @map("user_id")
+  username       String?   @db.VarChar
+  errorMessage   String?   @map("error_message")
+  stackTrace     String?   @map("stack_trace")
+  requestData    Json?     @map("request_data")
+  responseData   Json?     @map("response_data")
+  resolved       Boolean?
+  resolvedAt     DateTime? @map("resolved_at") @db.Timestamp(6)
+  resolvedBy     Int?      @map("resolved_by")
+  resolutionNote String?   @map("resolution_note")
+  createdAt      DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model login_history {
+  id            Int       @id @default(autoincrement())
+  userId        Int?      @map("user_id")
+  username      String?   @db.VarChar
+  loginTime     DateTime? @map("login_time") @db.Timestamp(6)
+  logoutTime    DateTime? @map("logout_time") @db.Timestamp(6)
+  ipAddress     String?   @map("ip_address") @db.VarChar
+  userAgent     String?   @map("user_agent")
+  loginMethod   String?   @map("login_method") @db.VarChar
+  sessionId     String?   @map("session_id") @db.VarChar
+  isSuccessful  Boolean?  @map("is_successful")
+  failureReason String?   @map("failure_reason")
+  createdAt     DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model notification {
+  id               Int       @id @default(autoincrement())
+  userId           Int?      @map("user_id")
+  notificationType String?   @map("notification_type") @db.VarChar
+  title            String?   @db.VarChar
+  message          String?
+  link             String?   @db.VarChar
+  priority         String?   @db.VarChar
+  isRead           Boolean?  @map("is_read")
+  readAt           DateTime? @map("read_at") @db.Timestamp(6)
+  isDismissed      Boolean?  @map("is_dismissed")
+  dismissedAt      DateTime? @map("dismissed_at") @db.Timestamp(6)
+  createdBy        Int?      @map("created_by")
+  expiresAt        DateTime? @map("expires_at") @db.Timestamp(6)
+  createdAt        DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model permission {
+  id                    Int       @id @default(autoincrement())
+  permissionCode        String?   @map("permission_code") @db.VarChar
+  permissionName        String?   @map("permission_name") @db.VarChar
+  permissionDescription String?   @map("permission_description")
+  resource              String?   @db.VarChar
+  action                String?   @db.VarChar
+  module                String?   @db.VarChar
+  isActive              Boolean?  @map("is_active")
+  createdAt             DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt             DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model role_permission {
+  id           Int       @id @default(autoincrement())
+  roleId       Int?      @map("role_id")
+  permissionId Int?      @map("permission_id")
+  isGranted    Boolean?  @map("is_granted")
+  createdAt    DateTime? @map("created_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model system_config {
+  id          Int       @id @default(autoincrement())
+  configKey   String?   @map("config_key") @db.VarChar
+  configValue String?   @map("config_value")
+  configType  String?   @map("config_type") @db.VarChar
+  configGroup String?   @map("config_group") @db.VarChar
+  isEncrypted Boolean?  @map("is_encrypted")
+  description String?
+  createdBy   Int?      @map("created_by")
+  updatedBy   Int?      @map("updated_by")
+  createdAt   DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model systemUser {
+  id                 Int       @id @default(autoincrement())
+  username           String?   @db.VarChar
+  passwordHash       String?   @map("password_hash") @db.VarChar
+  email              String?   @db.VarChar
+  fullName           String?   @map("full_name") @db.VarChar
+  employeeId         Int?      @map("employee_id")
+  roleId             Int?      @map("role_id")
+  language           String?   @db.VarChar
+  timezone           String?   @db.VarChar
+  lastLogin          DateTime? @map("last_login") @db.Timestamp(6)
+  lastIp             String?   @map("last_ip") @db.VarChar
+  failedAttempts     Int?      @map("failed_attempts")
+  isLocked           Boolean?  @map("is_locked")
+  lockReason         String?   @map("lock_reason")
+  isActive           Boolean?  @map("is_active")
+  mustChangePassword Boolean?  @map("must_change_password")
+  lastPasswordChange DateTime? @map("last_password_change") @db.Date
+  createdAt          DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt          DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@map("user")
+  @@schema("system")
+}
+
+model user_role {
+  id              Int       @id @default(autoincrement())
+  roleCode        String?   @map("role_code") @db.VarChar
+  roleName        String?   @map("role_name") @db.VarChar
+  roleDescription String?   @map("role_description")
+  roleLevel       Int?      @map("role_level")
+  isActive        Boolean?  @map("is_active")
+  createdAt       DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("system")
+}
+
+model export_order {
+  id                    Int       @id @default(autoincrement())
+  exportNumber          String?   @map("export_number") @db.VarChar
+  contractId            Int?      @map("contract_id")
+  customerId            Int?      @map("customer_id")
+  customerName          String?   @map("customer_name") @db.VarChar
+  customerCountry       String?   @map("customer_country") @db.VarChar
+  orderDate             DateTime? @map("order_date") @db.Date
+  expectedDelivery      DateTime? @map("expected_delivery") @db.Date
+  actualDelivery        DateTime? @map("actual_delivery") @db.Date
+  totalAmount           Decimal?  @map("total_amount") @db.Decimal
+  currency              String?   @db.VarChar
+  status                String?   @db.VarChar
+  shippingMethod        String?   @map("shipping_method") @db.VarChar
+  portOfLoading         String?   @map("port_of_loading") @db.VarChar
+  portOfDischarge       String?   @map("port_of_discharge") @db.VarChar
+  incoterms             String?   @db.VarChar
+  responsibleEmployeeId Int?      @map("responsible_employee_id")
+  approvedBy            Int?      @map("approved_by")
+  notes                 String?
+  isActive              Boolean?  @map("is_active")
+  createdAt             DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt             DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("trade")
+}
+
+model import_order {
+  id                    Int       @id @default(autoincrement())
+  importNumber          String?   @map("import_number") @db.VarChar
+  contractId            Int?      @map("contract_id")
+  supplierId            Int?      @map("supplier_id")
+  supplierName          String?   @map("supplier_name") @db.VarChar
+  supplierCountry       String?   @map("supplier_country") @db.VarChar
+  orderDate             DateTime? @map("order_date") @db.Date
+  expectedDelivery      DateTime? @map("expected_delivery") @db.Date
+  actualDelivery        DateTime? @map("actual_delivery") @db.Date
+  totalAmount           Decimal?  @map("total_amount") @db.Decimal
+  currency              String?   @db.VarChar
+  status                String?   @db.VarChar
+  shippingMethod        String?   @map("shipping_method") @db.VarChar
+  portOfLoading         String?   @map("port_of_loading") @db.VarChar
+  portOfDischarge       String?   @map("port_of_discharge") @db.VarChar
+  incoterms             String?   @db.VarChar
+  responsibleEmployeeId Int?      @map("responsible_employee_id")
+  approvedBy            Int?      @map("approved_by")
+  notes                 String?
+  isActive              Boolean?  @map("is_active")
+  createdAt             DateTime? @map("created_at") @db.Timestamp(6)
+  updatedAt             DateTime? @map("updated_at") @db.Timestamp(6)
+
+  @@schema("trade")
+}
+
+model zavodAiJurnal {
+  id        Int       @id @default(autoincrement())
+  sorgu     String?
+  cavab     String?
+  model     String?   @db.VarChar
+  tokenSayi Int?      @map("token_sayi")
+  yaradilma DateTime? @default(now()) @db.Timestamp(6)
+
+  @@map("ai_jurnal")
+  @@schema("system")
+}

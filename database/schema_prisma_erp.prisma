@@ -1,0 +1,255 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+  output   = "../../src/generated/erp"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_ERP_URL")
+  schemas  = ["system", "org", "partner", "inventory", "hr", "finance", "asset", "production", "purchase", "quality", "sales", "trade", "logistics", "zavod", "zavod_ai", "zavod_anbar", "zavod_istehsal", "zavod_maliyye", "zavod_media", "zavod_sened", "zavod_telemetriya"]
+}
+
+// ─── system ───────────────────────────────────────────────────────────────────
+model SystemUser {
+  id                 Int       @id @default(autoincrement())
+  username           String?
+  passwordHash       String?   @map("password_hash")
+  email              String?
+  fullName           String?   @map("full_name")
+  employeeId         Int?      @map("employee_id")
+  roleId             Int?      @map("role_id")
+  language           String?
+  timezone           String?
+  lastLogin          DateTime? @map("last_login")
+  lastIp             String?   @map("last_ip")
+  failedAttempts     Int?      @map("failed_attempts")
+  isLocked           Boolean?  @map("is_locked")
+  lockReason         String?   @map("lock_reason")
+  isActive           Boolean?  @map("is_active")
+  mustChangePassword Boolean?  @map("must_change_password")
+  lastPasswordChange DateTime? @map("last_password_change")
+  createdAt          DateTime? @map("created_at")
+  updatedAt          DateTime? @map("updated_at")
+
+  @@map("user")
+  @@schema("system")
+}
+
+model SystemPermission {
+  id          Int     @id @default(autoincrement())
+  code        String?
+  name        String?
+  description String?
+  module      String?
+
+  @@map("permission")
+  @@schema("system")
+}
+
+model SystemRolePermission {
+  id           Int       @id @default(autoincrement()) @map("id")
+  roleId       Int?      @map("role_id")
+  permissionId Int?      @map("permission_id")
+  isGranted    Boolean?  @map("is_granted")
+  createdAt    DateTime? @map("created_at")
+
+  @@map("role_permission")
+  @@schema("system")
+}
+
+model SystemAuditLog {
+  id        Int       @id @default(autoincrement())
+  userId    Int?      @map("user_id")
+  action    String?
+  tableName String?   @map("table_name")
+  recordId  Int?      @map("record_id")
+  ipAddress String?   @map("ip_address")
+  createdAt DateTime? @map("created_at")
+
+  @@map("audit_log")
+  @@schema("system")
+}
+
+// ─── org ──────────────────────────────────────────────────────────────────────
+model OrgCompany {
+  id                 Int       @id @default(autoincrement())
+  companyCode        String?   @map("company_code")
+  companyName        String?   @map("company_name")
+  legalName          String?   @map("legal_name")
+  taxId              String?   @map("tax_id")
+  registrationNumber String?   @map("registration_number")
+  country            String?
+  city               String?
+  address            String?
+  phone              String?
+  email              String?
+  website            String?
+  industry           String?
+  foundedDate        DateTime? @map("founded_date")
+  isActive           Boolean?  @map("is_active")
+  createdAt          DateTime? @map("created_at")
+  updatedAt          DateTime? @map("updated_at")
+
+  @@map("companies")
+  @@schema("org")
+}
+
+model OrgBranch {
+  id         Int       @id @default(autoincrement())
+  companyId  Int?      @map("company_id")
+  branchCode String?   @map("branch_code")
+  branchName String?   @map("branch_name")
+  city       String?
+  address    String?
+  isActive   Boolean?  @map("is_active")
+  createdAt  DateTime? @map("created_at")
+
+  @@map("branches")
+  @@schema("org")
+}
+
+model OrgDepartment {
+  id             Int      @id @default(autoincrement())
+  companyId      Int?     @map("company_id")
+  parentId       Int?     @map("parent_id")
+  departmentCode String?  @map("department_code")
+  departmentName String?  @map("department_name")
+  isActive       Boolean? @map("is_active")
+
+  @@map("departments")
+  @@schema("org")
+}
+
+// ─── partner ──────────────────────────────────────────────────────────────────
+model Partner {
+  id          Int       @id @default(autoincrement())
+  partnerCode String?   @map("partner_code")
+  name        String?
+  typeId      Int?      @map("type_id")
+  categoryId  Int?      @map("category_id")
+  taxId       String?   @map("tax_id")
+  country     String?
+  city        String?
+  address     String?
+  phone       String?
+  email       String?
+  isActive    Boolean?  @map("is_active")
+  createdAt   DateTime? @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+
+  @@map("partner")
+  @@schema("partner")
+}
+
+model PartnerContract {
+  id         Int       @id @default(autoincrement())
+  partnerId  Int?      @map("partner_id")
+  contractNo String?   @map("contract_no")
+  title      String?
+  startDate  DateTime? @map("start_date")
+  endDate    DateTime? @map("end_date")
+  value      Decimal?
+  currency   String?
+  status     String?
+  createdAt  DateTime? @map("created_at")
+
+  @@map("contract")
+  @@schema("partner")
+}
+
+// ─── inventory ────────────────────────────────────────────────────────────────
+model InventoryProduct {
+  id         Int       @id @default(autoincrement())
+  sku        String?
+  name       String?
+  categoryId Int?      @map("category_id")
+  unit       String?
+  price      Decimal?
+  stockQty   Decimal?  @map("stock_qty")
+  isActive   Boolean?  @map("is_active")
+  createdAt  DateTime? @map("created_at")
+
+  @@map("products")
+  @@schema("inventory")
+}
+
+model InventoryWarehouse {
+  id            Int      @id @default(autoincrement())
+  warehouseCode String?  @map("warehouse_code")
+  name          String?
+  location      String?
+  isActive      Boolean? @map("is_active")
+
+  @@map("warehouses")
+  @@schema("inventory")
+}
+
+// ─── zavod ────────────────────────────────────────────────────────────────────
+model ZavodOlcme {
+  id         BigInt   @id @default(autoincrement())
+  zavodKod   String   @default("SIYEZEN") @map("zavod_kod")
+  cihazKod   String   @map("cihaz_kod")
+  olcmeVaxti DateTime @map("olcme_vaxti")
+  qiymet     Decimal
+  keyfiyyet  Int      @default(1)
+  qebulVaxti DateTime @default(now()) @map("qebul_vaxti")
+
+  @@map("olcme")
+  @@schema("zavod")
+}
+
+model ZavodXeberdarliq {
+  id        BigInt    @id @default(autoincrement())
+  zavodKod  String?   @map("zavod_kod")
+  cihazKod  String?   @map("cihaz_kod")
+  seviye    String?
+  mesaj     String?
+  qiymet    Decimal?
+  oxundu    Boolean?  @default(false)
+  yaradilma DateTime? @default(now())
+
+  @@map("xeberdarliq")
+  @@schema("zavod")
+}
+
+// ─── zavod_ai ─────────────────────────────────────────────────────────────────
+model ZavodAiJurnal {
+  id        Int       @id @default(autoincrement())
+  sorgu     String?
+  cavab     String?
+  model     String?
+  tokenSayi Int?      @map("token_sayi")
+  muddet    Int?      @map("muddet")
+  yaradilma DateTime? @default(now())
+
+  @@map("jurnal")
+  @@schema("zavod_ai")
+}
+
+model ZavodAiQerar {
+  id        Int       @id @default(autoincrement())
+  kontekst  String?
+  qerar     String?
+  inamBal   Decimal?  @map("inam_bal")
+  tetbiq    Boolean?  @default(false)
+  yaradilma DateTime? @default(now())
+
+  @@map("qerar")
+  @@schema("zavod_ai")
+}
+
+// ─── zavod_anbar ──────────────────────────────────────────────────────────────
+model ZavodAnbarMaterial {
+  id         Int       @id @default(autoincrement())
+  kod        String?
+  ad         String?
+  vahid      String?
+  kateqoriya String?
+  qiymet     Decimal?
+  stok       Decimal?
+  yaradilma  DateTime? @default(now())
+
+  @@map("material")
+  @@schema("zavod_anbar")
+}

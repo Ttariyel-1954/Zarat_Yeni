@@ -1,0 +1,32 @@
+# ─── Gizli açarlar (HEÇ VAXT yüklənməməlidir) ───
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ─── Asılılıqlar ───
+node_modules/
+
+# ─── Build nəticələri ───
+.next/
+out/
+dist/
+build/
+src/generated/
+
+# ─── Baza ehtiyat nüsxələri ───
+database/backups/
+*.dump
+*.sql.gz
+
+# ─── Sistem faylları ───
+.DS_Store
+*.log
+.Rhistory
+.RData
+.Rproj.user/
+
+# ─── Redaktor ───
+.vscode/
+.idea/

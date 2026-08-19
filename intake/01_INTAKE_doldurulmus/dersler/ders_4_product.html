@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 4 — PRODUCT Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .error-box { background:#fdecea; border-left:5px solid var(--danger); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .error-box strong { color:var(--danger); }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 4 / 11 — PRODUCT Sxemi</div>
+  <h1>Məhsul (PRODUCT)</h1>
+  <p class="subtitle">
+    Xammal, yarımfabrikat, hazır məhsul — hər şey. Resepturalar (BOM), qiymət siyahıları.
+    Bu sxem ERP-in "nə istehsal edir, nə satır" sualını cavablandırır.
+  </p>
+  <p class="hero-note">
+    📋 PRODUCT sxemi ORG, FINANCE və PARTNER sxemlərindən sonra doldurulur.
+    BOM (product.bom) cədvəlindəki work_center_code PRODUCTION sxeminə ixtiyari istinafdır —
+    PRODUCTION (Dərs 6) doldurulmamışsa bu sütunu boş buraxmaq mümkündür.
+    Müştəri qiymət siyahısı (partner.customer.price_list_code) isə bu sxemdən gəlir.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">product.item_category</span>
+    <span class="tbl-chip">product.item</span>
+    <span class="tbl-chip">product.bom</span>
+    <span class="tbl-chip">product.bom_line</span>
+    <span class="tbl-chip">product.price_list</span>
+    <span class="tbl-chip">product.price_list_line</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>PRODUCT sxemi ERP-in kataloq kitabıdır.</strong> Zarat Qrupunun alıb-satıb-istehsal
+        etdiyi hər şey — buğda unu, yem xammalı, diri quş, toyuq əti, yumurta, qablaşdırma
+        materialları — bu sxemdə qeydə alınır. Anbar, istehsal, satış, satınalma modülləri
+        hər şeyi bu sxemdəki kodlara görə tanıyır.
+      </p>
+      <p>
+        <strong>BOM (Məhsul Resepturası / Bill of Materials):</strong> "1 ton hazır toyuq
+        əti istehsal etmək üçün nə lazımdır?" sualının cavabı BOM cədvəlindədir. product.bom
+        başlığı saxlayır (hansı məhsul üçün, neçə ədəd çıxır), product.bom_line isə
+        komponentlərin siyahısını (hansı xammal, nə qədər, nə qədər tullantı ilə). ERP bu
+        resepturaya əsasən material tələbatını avtomatik hesablayır.
+      </p>
+      <p>
+        <strong>Qiymət siyahıları:</strong> Müxtəlif müştəri kateqoriyalarına müxtəlif
+        qiymətlər tətbiq oluna bilər — distributor, pərakəndə, topdansat. product.price_list
+        siyahının başlığını, product.price_list_line isə hər mal üçün qiyməti saxlayır.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      item_category və item: texnoloji mühəndis və anbar müdiri birgə.
+      BOM: istehsal texnoloqu (reseptura) + texniki direktor nəzarəti.
+      price_list: satış direktoru + maliyyə direktoru birlikdə (qiymət siyasəti).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəllər</h2>
+
+    <!-- product.item_category -->
+    <div class="table-section">
+      <h3><span class="tbl-name">product.item_category</span><span class="tbl-desc"> — Mal kateqoriyaları</span></h3>
+      <div class="table-one-liner">
+        Malların iyerarxik kateqoriya quruluşu. Hesabat və filtrləmə üçün lazımdır.
+        Məsələn: Xammal → Yem Xammalı → Taxıl.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Kateqoriyalar istifadəçilərə böyük mal siyahısını idarə etməyə kömək edir.
+          "Bütün xammal mallarımızın siyahısı" sualının cavabı bu cədvəlin iyerarxiyasına
+          əsasən çıxarılır. Kateqoriya quruluşunu çox dərinləşdirməyin — 2-3 səviyyə
+          kifayətdir.
+        </p>
+        <p>
+          <strong>Özünə istinad:</strong> parent_category_code sütunu eyni cədvəldəki
+          başqa bir kateqoriyaya istinad edir. "Taxıl" kateqoriyasının ana kateqoriyası
+          "Yem Xammalı" ola bilər. Ən üst kateqoriyalar (məs., "Xammal") üçün bu sütun
+          boş qalır.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">category_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Kateqoriyanın unikal kodu. product.item cədvəlindəki category_code bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>KAT-YEM</strong><span class="val-hint">Tövsiyə: KAT-AD qısa formatı</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">category_name</span></td>
+            <td><span class="col-explain">Kateqoriyanın azərbaycanca tam adı. Kataloq ekranlarında görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Yem Xammalı</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">parent_category_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Ana kateqoriyanın kodu. İyerarxiya qurmaq üçün. Ən üst kateqoriyalar üçün boş buraxın.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">KAT-XAMMAL → product.item_category.category_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">notes</span></td>
+            <td><span class="col-explain">Kateqoriya haqqında əlavə izahat.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Quşçuluq yemi istehsalı üçün xammal</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Kateqoriya iyerarxiyası (sırayla yazın)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">category_code</div><div class="sf-val">KAT-XAMMAL</div></div>
+          <div class="sample-field"><div class="sf-key">category_name</div><div class="sf-val">Xammal</div></div>
+          <div class="sample-field"><div class="sf-key">parent_category_code</div><div class="sf-val">(boş)</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">category_code</div><div class="sf-val">KAT-YEM</div></div>
+          <div class="sample-field"><div class="sf-key">category_name</div><div class="sf-val">Yem Xammalı</div></div>
+          <div class="sample-field"><div class="sf-key">parent_category_code</div><div class="sf-val">KAT-XAMMAL</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">category_code</div><div class="sf-val">KAT-TAXIL</div></div>
+          <div class="sample-field"><div class="sf-key">category_name</div><div class="sf-val">Taxıl</div></div>
+          <div class="sample-field"><div class="sf-key">parent_category_code</div><div class="sf-val">KAT-YEM</div></div>
+        </div>
+        <div class="sample-note">💡 Əvvəl ən üst kateqoriyanı (KAT-XAMMAL), sonra alt kateqoriyaları yazın. Alt kateqoriyanı ana kateqoriyadan əvvəl yazmaq olmaz.</div>
+      </div>
+    </div>
+
+    <!-- product.item -->
+    <div class="table-section">
+      <h3><span class="tbl-name">product.item</span><span class="tbl-desc"> — Mal/Məhsul kartı (əsas kataloq)</span></h3>
+      <div class="table-one-liner">
+        Bütün malların — xammal, yarımfabrikat, hazır məhsul, qablaşdırma — tam siyahısı.
+        ERP-dəki hər əməliyyat (satınalma, satış, istehsal, anbar) bu cədvəldəki kodlara istinad edir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl PRODUCT sxeminin əsasıdır. Bütün digər cədvəllər — BOM, qiymət siyahısı,
+          anbar hərəkəti, istehsal əmri — bu cədvəldəki item_code-a istinad edir. Bir mal burada
+          qeyd olunmayıbsa, onunla heç bir əməliyyat aparıla bilməz.
+        </p>
+        <p>
+          <strong>item_type sütununun mənası:</strong>
+          <code>XAMMAL</code> — alınır, istehsalda istifadə olunur (buğda unu, soya küspəsi);
+          <code>YARIMFABRIKAT</code> — kəsimdən çıxıb qablaşdırılmamış məhsul;
+          <code>HAZIR_MEHSUL</code> — satışa hazır son məhsul (qablaşdırılmış toyuq əti, yumurta);
+          <code>QABLASHDIRMA</code> — paket, qutu, torba.
+        </p>
+        <p>
+          <strong>is_lot_tracked sütunu:</strong> Seriya (lot) nömrəsi izlənilirmi?
+          Quşçuluq məhsulları üçün — xüsusilə gıda təhlükəsizliyi tələblərinə görə —
+          <code>BELI</code> tövsiyə olunur. Bu o deməkdir ki, hər partiya istehsalat tarixinə,
+          mənşəyə görə izlənilə bilər.
+        </p>
+        <p>
+          <strong>hs_code (Gömrük kodu):</strong> Beynəlxalq Ticarət Nomenklaturası kodu.
+          İxrac-idxal əməliyyatları üçün gömrük bəyannaməsini doldurmaq üçün lazımdır.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">item_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Malın sistemdəki unikal kodu. BOM, qiymət siyahısı, anbar, satış, istehsal — hamısı bu kodu istifadə edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>MAL-BUGDA-001</strong><span class="val-hint">Tövsiyə: MAL-KİSANAD-NNN formatı</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">item_name</span></td>
+            <td><span class="col-explain">Malın azərbaycanca tam adı. Sifariş, faktura, anbar qəbz sənədlərində görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Buğda unu (1-ci növ)</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">category_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Malın aid olduğu kateqoriya. product.item_category cədvəlindəki bir koddur.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">KAT-YEM → product.item_category.category_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">item_type</span></td>
+            <td><span class="col-explain">Malın funksional növü. Anbar uçotunun, maya dəyərinin, satışın düzgün işləməsi üçün vacibdir.</span></td>
+            <td>Seçim</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="val-choices">XAMMAL &nbsp;|&nbsp; YARIMFABRIKAT &nbsp;|&nbsp; HAZIR_MEHSUL &nbsp;|&nbsp; QABLASHDIRMA</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">base_uom</span></td>
+            <td><span class="col-explain">Ölçü vahidi. Bütün əməliyyatlar bu vahidlə aparılır. Malın ölçü vahidini sonradan dəyişmək çox çətindir — diqqətlə seçin.</span></td>
+            <td>Seçim</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="val-choices">kg &nbsp;|&nbsp; ton &nbsp;|&nbsp; eded &nbsp;|&nbsp; litr</span><span class="val-hint">Xammal üçün kg/ton, yumurta üçün eded, mayelər üçün litr</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_lot_tracked</span></td>
+            <td><span class="col-explain">Hər partiya (lot) ayrıca izlənilirmi? Qida təhlükəsizliyi tələbləri üçün hazır məhsullarda BELI tövsiyə olunur.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span><span class="val-hint">Hazır məhsullar üçün BELI; xammal üçün ixtiyaridir.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">shelf_life_days</span></td>
+            <td><span class="col-explain">Məhsulun raf ömrü (gün ilə). Anbar sisteminin son istifadə tarixi xəbərdarlığı üçün lazımdır.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>7</strong><span class="val-hint">Toyuq əti ≈ 7 gün; yumurta ≈ 28 gün; soya küspəsi ≈ 180 gün</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">hs_code</span></td>
+            <td><span class="col-explain">Harmonik Sistem gömrük kodu. İxrac/idxal əməliyyatlarında gömrük bəyannaməsi üçün lazımdır.</span></td>
+            <td>Mətn (max 12)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>0207.11</strong><span class="val-hint">Dondurulmamış tam cəmdəklər üçün beynəlxalq HS kodu</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Malın aktiv olub-olmadığı. İstehsaldan çıxarılan malı deaktiv edin (silin deyil).</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə 1 — Xammal</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">item_code</div><div class="sf-val">MAL-BUGDA-001</div></div>
+          <div class="sample-field"><div class="sf-key">item_name</div><div class="sf-val">Buğda (yem növü)</div></div>
+          <div class="sample-field"><div class="sf-key">category_code</div><div class="sf-val">KAT-TAXIL</div></div>
+          <div class="sample-field"><div class="sf-key">item_type</div><div class="sf-val">XAMMAL</div></div>
+          <div class="sample-field"><div class="sf-key">base_uom</div><div class="sf-val">ton</div></div>
+          <div class="sample-field"><div class="sf-key">shelf_life_days</div><div class="sf-val">365</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə 2 — Hazır məhsul (lot izlənilir)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">item_code</div><div class="sf-val">MAL-TOY-BRO-001</div></div>
+          <div class="sample-field"><div class="sf-key">item_name</div><div class="sf-val">Toyuq broyleri (kəsilmiş, dondurulmuş)</div></div>
+          <div class="sample-field"><div class="sf-key">category_code</div><div class="sf-val">KAT-HAZIR</div></div>
+          <div class="sample-field"><div class="sf-key">item_type</div><div class="sf-val">HAZIR_MEHSUL</div></div>
+          <div class="sample-field"><div class="sf-key">base_uom</div><div class="sf-val">kg</div></div>
+          <div class="sample-field"><div class="sf-key">is_lot_tracked</div><div class="sf-val">BELI</div></div>
+          <div class="sample-field"><div class="sf-key">shelf_life_days</div><div class="sf-val">365</div></div>
+          <div class="sample-field"><div class="sf-key">hs_code</div><div class="sf-val">0207.12</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə 3 — Qablaşdırma</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">item_code</div><div class="sf-val">MAL-PAK-TOY-2KQ</div></div>
+          <div class="sample-field"><div class="sf-key">item_name</div><div class="sf-val">Toyuq paket (2 kq, şaffaf)</div></div>
+          <div class="sample-field"><div class="sf-key">category_code</div><div class="sf-val">KAT-QABLAS</div></div>
+          <div class="sample-field"><div class="sf-key">item_type</div><div class="sf-val">QABLASHDIRMA</div></div>
+          <div class="sample-field"><div class="sf-key">base_uom</div><div class="sf-val">eded</div></div>
+        </div>
+        <div class="sample-note">💡 Əvvəlcə item_category, sonra item doldurun. Eyni malı iki dəfə yazmayın — item_code sisteminizin açarıdır.</div>
+      </div>
+    </div>
+
+    <!-- product.bom -->
+    <div class="table-section">
+      <h3><span class="tbl-name">product.bom</span><span class="tbl-desc"> — Məhsul resepturası başlığı (BOM)</span></h3>
+      <div class="table-one-liner">
+        Hansı hazır məhsul, neçə ədəd/kq çıxır. Resepturanın başlıq kartı. Ətraflı
+        komponent siyahısı product.bom_line cədvəlindədir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          BOM (Bill of Materials — materiallar siyahısı, əslində reseptura) istehsalın
+          əsasını təşkil edir. "Bir paket toyuq əti hazırlamaq üçün neçə kq cəmdək, neçə paket,
+          neçə kq buz lazımdır?" bu sualın cavabı BOM-dadır.
+        </p>
+        <p>
+          <strong>output_item_code:</strong> Bu resepturanın hansı məhsulu istehsal etdiyi.
+          Yalnız <code>HAZIR_MEHSUL</code> və ya <code>YARIMFABRIKAT</code> tipli malları seçin.
+        </p>
+        <p>
+          <strong>version sütunu:</strong> Resepturalar zamanla dəyişir — xammal əvəz oluna bilər,
+          miqdarlarda düzəliş edilə bilər. Versiyon saxlamaq köhnə istehsalların hansı reseptura ilə
+          hazırlandığını müəyyən etmək üçün vacibdir.
+        </p>
+        <p>
+          <strong>work_center_code:</strong> Bu reseptura hansı iş mərkəzindədir? PRODUCTION sxemindəki
+          production.work_center-dən götürülür. İxtiyaridir — PRODUCTION sxemi doldurulmayıbsa boş buraxın.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">bom_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Resepturanın unikal kodu. product.bom_line cədvəlindəki bom_code bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>BOM-TOY-BRO-V1</strong><span class="val-hint">Tövsiyə: BOM-MALKODU-VERSİYA</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">bom_name</span></td>
+            <td><span class="col-explain">Resepturanın azərbaycanca adı.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Toyuq broyleri kəsim resepturası v1</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">output_item_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu reseptura nə istehsal edir? product.item-dəki HAZIR_MEHSUL və ya YARIMFABRIKAT tipi mallardan biri olmalıdır.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">MAL-TOY-BRO-001 → product.item.item_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">output_qty</span></td>
+            <td><span class="col-explain">Bu reseptura neçə vahid məhsul istehsal edir? (məs., 100 kq, ya da 50 ədəd)</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>100</strong><span class="val-hint">Reseptura partiyasının çıxış miqdarı</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">output_uom</span></td>
+            <td><span class="col-explain">Çıxış miqdarının ölçü vahidi. Adətən output_item_code-un base_uom-u ilə eynidir.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>kg</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">work_center_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu istehsal prosesi hansı iş mərkəzindədir. PRODUCTION sxemindən götürülür. Boş buraxıla bilər.</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">WC-KESIM → production.work_center.work_center_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">version</span></td>
+            <td><span class="col-explain">Reseptura versiyası. Bir məhsul üçün bir neçə versiyon ola bilər.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>1.0</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Bu reseptura aktiv istifadədədir? Köhnəlmiş resepturanı silin deyil, deaktiv edin.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">bom_code</div><div class="sf-val">BOM-TOY-BRO-V1</div></div>
+          <div class="sample-field"><div class="sf-key">bom_name</div><div class="sf-val">Toyuq broyleri kəsim resepturası v1</div></div>
+          <div class="sample-field"><div class="sf-key">output_item_code</div><div class="sf-val">MAL-TOY-BRO-001</div></div>
+          <div class="sample-field"><div class="sf-key">output_qty</div><div class="sf-val">100</div></div>
+          <div class="sample-field"><div class="sf-key">output_uom</div><div class="sf-val">kg</div></div>
+          <div class="sample-field"><div class="sf-key">version</div><div class="sf-val">1.0</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-note">💡 BOM başlığı doldurulduqdan sonra product.bom_line-a həmin BOM-un komponentlərini yazın.</div>
+      </div>
+    </div>
+
+    <!-- product.bom_line -->
+    <div class="table-section">
+      <h3><span class="tbl-name">product.bom_line</span><span class="tbl-desc"> — Reseptura sətirləri (komponentlər)</span></h3>
+      <div class="table-one-liner">
+        Resepturanın hər komponentini (xammal, qablaşdırma) miqdarı və tullantı faizi ilə birlikdə saxlayır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bir BOM başlığına (product.bom) birdən çox komponent sətri (product.bom_line) uyğun gəlir.
+          Məsələn, "Toyuq broyleri resepturası" başlığına: 125 kq diri quş (MAL-DIRI-TOY), 0.5 kq buz,
+          2 ədəd paket — bu üç ayrı bom_line sətridir.
+        </p>
+        <p>
+          <strong>scrap_percent:</strong> İstehsal prosesindəki itkini (tullantı faizini) göstərir.
+          Məsələn, 125 kq diri quşdan ≈ 75-80 kq kəsilmiş ət çıxır — qalan hissə (sümük, dəri, qan)
+          tullantıdır. Bu 37-40% tullantıya uyğundur. Bu faiz material tələbatının düzgün hesablanması
+          üçün vacibdir.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">bom_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu sətrin aid olduğu BOM başlığı. product.bom cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">BOM-TOY-BRO-V1 → product.bom.bom_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">line_no</span></td>
+            <td><span class="col-explain">Bu komponent sətrin ardıcıl nömrəsi. Eyni BOM-dakı sətirləri fərqləndirmək üçün 1-dən başlayıb artırın.</span></td>
+            <td>Tam ədəd</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>1</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">component_item_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu komponent hansı maldır? product.item cədvəlindən götürülür. Adətən XAMMAL və ya QABLASHDIRMA tipli mal seçilir.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">MAL-DIRI-TOY → product.item.item_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">quantity</span></td>
+            <td><span class="col-explain">Bu komponentin miqdarı (BOM-un output_qty-lik məhsul üçün). Tullantı nəzərə alınmadan xalis miqdardır.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>125.00</strong><span class="val-hint">100 kq toyuq əti üçün 125 kq diri quş lazımdır</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">uom</span></td>
+            <td><span class="col-explain">Komponentin ölçü vahidi. Adətən component_item_code-un base_uom-u ilə eynidir.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>kg</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">scrap_percent</span></td>
+            <td><span class="col-explain">İstehsal tullantı faizi. Əgər bu komponentin 10%-i tullantıya çevrilirsin, 10 yazın. Material tələbatı hesablamasında dəqiqliyi artırır.</span></td>
+            <td>Onluq ədəd (0–100)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2.5</strong><span class="val-hint">2.5 = 2.5% tullantı. Bilinmirirsə 0 yazın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">notes</span></td>
+            <td><span class="col-explain">Bu komponent haqqında əlavə qeydlər. Məsələn: "Yalnız A sinif diri quş istifadə edilsin."</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>Azərbaycanda yetişdirilmiş cins</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — BOM-TOY-BRO-V1 resepturasının komponentləri</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">bom_code</div><div class="sf-val">BOM-TOY-BRO-V1</div></div>
+          <div class="sample-field"><div class="sf-key">line_no</div><div class="sf-val">1</div></div>
+          <div class="sample-field"><div class="sf-key">component_item_code</div><div class="sf-val">MAL-DIRI-TOY</div></div>
+          <div class="sample-field"><div class="sf-key">quantity</div><div class="sf-val">125.00</div></div>
+          <div class="sample-field"><div class="sf-key">uom</div><div class="sf-val">kg</div></div>
+          <div class="sample-field"><div class="sf-key">scrap_percent</div><div class="sf-val">20</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">bom_code</div><div class="sf-val">BOM-TOY-BRO-V1</div></div>
+          <div class="sample-field"><div class="sf-key">line_no</div><div class="sf-val">2</div></div>
+          <div class="sample-field"><div class="sf-key">component_item_code</div><div class="sf-val">MAL-PAK-TOY-2KQ</div></div>
+          <div class="sample-field"><div class="sf-key">quantity</div><div class="sf-val">50.00</div></div>
+          <div class="sample-field"><div class="sf-key">uom</div><div class="sf-val">eded</div></div>
+          <div class="sample-field"><div class="sf-key">scrap_percent</div><div class="sf-val">1</div></div>
+        </div>
+        <div class="sample-note">💡 Əvvəlcə product.bom başlığını yazın, sonra həmin bom_code ilə bom_line sətirləri əlavə edin.</div>
+      </div>
+    </div>
+
+    <!-- product.price_list -->
+    <div class="table-section">
+      <h3><span class="tbl-name">product.price_list</span><span class="tbl-desc"> — Qiymət siyahısı başlığı</span></h3>
+      <div class="table-one-liner">
+        Müştəri seqmentinə görə qiymət siyahılarının başlıqları: topdansat, pərakəndə, distributor.
+        Ətraflı qiymətlər product.price_list_line-dadır.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Zarat müxtəlif müştəri kateqoriyalarına müxtəlif qiymətlər tətbiq edə bilər. Məsələn,
+          böyük market şəbəkəsinə topdan qiymət, kiçik dükan müştərisinə isə pərakəndə qiymət.
+          Bu siyahılar bir dəfə müəyyən edilir, müştəriyə bir dəfə bağlanır (partner.customer.price_list_code)
+          və artıq hər sifarişdə avtomatik tətbiq olunur.
+        </p>
+        <p>
+          <strong>valid_from / valid_to:</strong> Qiymət siyahısının etibarlılıq dövrü.
+          Yeni il qiymətlərini əvvəlcədən hazırlayıb, avtomatik aktivləşmə tarixi təyin etmək
+          mümkündür.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">price_list_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Qiymət siyahısının unikal kodu. partner.customer.price_list_code bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>PL-TOPDAN-2026</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">price_list_name</span></td>
+            <td><span class="col-explain">Qiymət siyahısının adı. Satış sənədlərindəki seçim menyusunda görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>2026 Topdan Satış Qiymətləri</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">currency</span></td>
+            <td><span class="col-explain">Bu siyahıdakı qiymətlərin valyutası.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>AZN</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">valid_from</span></td>
+            <td><span class="col-explain">Bu qiymət siyahısı nə vaxtdan etibarlıdır?</span></td>
+            <td>Tarix (YYYY-MM-DD)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2026-01-01</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">valid_to</span></td>
+            <td><span class="col-explain">Bu qiymət siyahısı nə vaxtadək etibarlıdır? Boş buraxılsa müddətsiz hesab olunur.</span></td>
+            <td>Tarix (YYYY-MM-DD)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>2026-12-31</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Bu siyahı aktiv istifadədədir?</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">price_list_code</div><div class="sf-val">PL-TOPDAN-2026</div></div>
+          <div class="sample-field"><div class="sf-key">price_list_name</div><div class="sf-val">2026 Topdan Satış</div></div>
+          <div class="sample-field"><div class="sf-key">currency</div><div class="sf-val">AZN</div></div>
+          <div class="sample-field"><div class="sf-key">valid_from</div><div class="sf-val">2026-01-01</div></div>
+          <div class="sample-field"><div class="sf-key">valid_to</div><div class="sf-val">2026-12-31</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-note">💡 Qiymət siyahısı başlığını yaratdıqdan sonra price_list_line cədvəlini doldurun.</div>
+      </div>
+    </div>
+
+    <!-- product.price_list_line -->
+    <div class="table-section">
+      <h3><span class="tbl-name">product.price_list_line</span><span class="tbl-desc"> — Qiymət siyahısı sətirləri</span></h3>
+      <div class="table-one-liner">
+        Hər qiymət siyahısındakı mal-qiymət cütlükləri: hansı mal, neçəyə, minimum nə qədər
+        miqdar alındıqda bu qiymət tətbiq olunur.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bu cədvəl satışın qiymət məntiğini saxlayır. Hər sətir "PL-TOPDAN-2026 siyahısında,
+          MAL-TOY-BRO-001 malı, minimum 100 kq alındıqda, kq başına 8.50 AZN" deməkdir.
+        </p>
+        <p>
+          <strong>min_qty sütunu:</strong> Minimum satış miqdarı. Bu miqdardan az alındıqda
+          növbəti (daha yüksək) qiymət tətbiq edilə bilər. Məsələn, 100 kq-dan çox alanda 8.50,
+          100 kq-dan az alanda 9.20.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">price_list_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu sətrin aid olduğu qiymət siyahısı. product.price_list cədvəlindən götürülür.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">PL-TOPDAN-2026 → product.price_list.price_list_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">item_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Qiyməti müəyyən edilən mal. product.item cədvəlindəki bir koddur.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">MAL-TOY-BRO-001 → product.item.item_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">unit_price</span></td>
+            <td><span class="col-explain">Vahid qiymət (AZN). Malın base_uom vahidinə görə qiymətdir.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>8.50</strong><span class="val-hint">AZN/kq</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">min_qty</span></td>
+            <td><span class="col-explain">Bu qiymətin tətbiqi üçün minimum satış miqdarı. Boş buraxılsa həmişə tətbiq olunur.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>100.00</strong><span class="val-hint">Bu miqdardankı (kq, ədəd) artıq alanda bu qiymət tətbiq olunur</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">uom</span></td>
+            <td><span class="col-explain">Qiymətin ölçü vahidi. Adətən malın base_uom-u ilə eynidir.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>kg</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Topdan qiymət siyahısı sətirləri</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">price_list_code</div><div class="sf-val">PL-TOPDAN-2026</div></div>
+          <div class="sample-field"><div class="sf-key">item_code</div><div class="sf-val">MAL-TOY-BRO-001</div></div>
+          <div class="sample-field"><div class="sf-key">unit_price</div><div class="sf-val">8.50</div></div>
+          <div class="sample-field"><div class="sf-key">min_qty</div><div class="sf-val">100.00</div></div>
+          <div class="sample-field"><div class="sf-key">uom</div><div class="sf-val">kg</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">price_list_code</div><div class="sf-val">PL-TOPDAN-2026</div></div>
+          <div class="sample-field"><div class="sf-key">item_code</div><div class="sf-val">MAL-YUMURTA-001</div></div>
+          <div class="sample-field"><div class="sf-key">unit_price</div><div class="sf-val">0.28</div></div>
+          <div class="sample-field"><div class="sf-key">min_qty</div><div class="sf-val">1000.00</div></div>
+          <div class="sample-field"><div class="sf-key">uom</div><div class="sf-val">eded</div></div>
+        </div>
+        <div class="sample-note">💡 Əvvəl price_list başlığını, sonra price_list_line sətirini yazın. Eyni price_list_code+item_code kombinasiyası iki dəfə olmamalıdır.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Cədvəllər arası əlaqə xəritəsi (PRODUCT daxilində)</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">1. item_category</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. item</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">3. bom</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">4. bom_line</span>
+      </div>
+      <div class="fill-order" style="margin-top:8px;">
+        <span class="fo-step">2. item</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">3. price_list</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">4. price_list_line</span>
+      </div>
+      <div class="fill-order-note">item_category → item → (bom → bom_line) paralel (price_list → price_list_line). İtem olmadan heç biri doldurula bilməz.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.item_category.parent_category_code</span> → <span class="rel-code">product.item_category.category_code</span>
+          <div class="rel-explain">Kateqoriya iyerarxiyası. Alt kateqoriya ana kateqoriyaya istinad edir. Əvvəlcə ana kateqoriyanı yazın.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.item.category_code</span> → <span class="rel-code">product.item_category.category_code</span>
+          <div class="rel-explain">Hər malın bir kateqoriyası var. Kateqoriya mövcud olmadan mal yazıla bilməz.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.bom.output_item_code</span> → <span class="rel-code">product.item.item_code</span>
+          <div class="rel-explain">BOM hansı malı istehsal etdiyini göstərir. Həmin mal item cədvəlindəki HAZIR_MEHSUL/YARIMFABRIKAT olmalıdır.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.bom.work_center_code</span> → <span class="rel-code">production.work_center.work_center_code</span>
+          <div class="rel-explain">İxtiyari: BOM PRODUCTION sxeminə istinad edir. PRODUCTION (Dərs 6) doldurulmayıbsa boş buraxın.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.bom_line.bom_code</span> → <span class="rel-code">product.bom.bom_code</span>
+          <div class="rel-explain">Komponent sətri hansı BOM-a aid olduğunu bildirir.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.bom_line.component_item_code</span> → <span class="rel-code">product.item.item_code</span>
+          <div class="rel-explain">Komponent mütləq item cədvəlindəki bir mal olmalıdır. Adətən XAMMAL/QABLASHDIRMA tipi seçilir.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.price_list_line.price_list_code</span> → <span class="rel-code">product.price_list.price_list_code</span>
+          <div class="rel-explain">Qiymət sətri hansı qiymət siyahısına aid olduğunu bildirir.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">product.price_list_line.item_code</span> → <span class="rel-code">product.item.item_code</span>
+          <div class="rel-explain">Qiymət sətri hansı malın qiymətini müəyyən etdiyini bildirir.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>PRODUCT-dən nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">PRODUCTION</span></td>
+          <td>production.routing.item_code → product.item.item_code</td>
+          <td>İstehsal marşrutu (routing) hansı malın istehsal edildiğini product.item-dən götürür. PRODUCT əvvəl doldurulmalıdır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">INVENTORY</span></td>
+          <td>anbar hərəkətlərinin hamısı product.item.item_code istifadə edir</td>
+          <td>Anbar giriş/çıxış əməliyyatlarında mal kodu product.item-dən götürülür.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">PARTNER</span></td>
+          <td>partner.customer.price_list_code → product.price_list.price_list_code</td>
+          <td>Müştəriyə tətbiq edilən qiymət siyahısı product.price_list-dən götürülür. PRODUCT (bu dərs) doldurulduqdan sonra partner.customer.price_list_code yazıla bilər.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">QUALITY</span></td>
+          <td>quality.test_plan.item_code → product.item.item_code</td>
+          <td>Keyfiyyət test planları hansı malın yoxlanıldığını product.item-dən götürür.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">SALES</span></td>
+          <td>sales.sales_target.item_code → product.item.item_code</td>
+          <td>Satış hədəfləri hansı malın hədəfi olduğunu product.item-dən götürür.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li><strong>product.item_category</strong> cədvəlindəki kateqoriyalar ana → alt sırasıyla yazılıb
+        <span class="check-note">Alt kateqoriya ana kateqoriyadan əvvəl yazıla bilməz.</span>
+      </li>
+      <li>Hər malın <code>item_type</code> sütunu düzgün seçilib (XAMMAL/YARIMFABRIKAT/HAZIR_MEHSUL/QABLASHDIRMA)
+        <span class="check-note">Bu seçim anbar, istehsal, maya dəyəri hesablamasını birbaşa təsir edir.</span>
+      </li>
+      <li>Hazır məhsulların <code>is_lot_tracked = BELI</code> seçilib
+        <span class="check-note">Qida təhlükəsizliyi: partiya izlənilməsi geri çağırma (recall) hallarında zəruridir.</span>
+      </li>
+      <li><code>base_uom</code> sütunu düzgün seçilib — sonradan dəyişdirilməsi çətindir
+        <span class="check-note">Xammal üçün ton/kg, yumurta üçün eded, maye üçün litr. Baş texnologla razılaşdırın.</span>
+      </li>
+      <li><strong>product.bom</strong> cədvəli yalnız HAZIR_MEHSUL/YARIMFABRIKAT tipli malları <code>output_item_code</code> kimi istifadə edir
+        <span class="check-note">XAMMAL malı BOM çıxışı ola bilməz.</span>
+      </li>
+      <li><strong>product.bom_line</strong> sətirləri BOM başlığından sonra yazılıb
+        <span class="check-note">bom_code mövcud olmadan bom_line qəbul edilmir.</span>
+      </li>
+      <li>BOM komponentlərinin <code>quantity</code> dəyərləri texnoloqla razılaşdırılıb
+        <span class="check-note">Yanlış miqdarlarda sistem yanlış material tələbatı hesablayar.</span>
+      </li>
+      <li><strong>product.price_list_line</strong> sütunundakı qiymətlər satış direktoru tərəfindən təsdiqlənilib
+        <span class="check-note">Bu qiymətlər avtomatik olaraq satış sifarişlərində tətbiq olunacaq.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_3_partner.html">‹ Dərs 3 — PARTNER</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; PRODUCT Sxemi (Dərs 4/11)</div>
+  <div><a class="next-link" href="ders_5_inventory.html">Dərs 5 → INVENTORY ›</a></div>
+</div>
+
+</body>
+</html>

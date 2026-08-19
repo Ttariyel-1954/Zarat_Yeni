@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 7 — LOGISTICS Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 7 / 11 — LOGISTICS Sxemi</div>
+  <h1>Logistika (LOGISTICS)</h1>
+  <p class="subtitle">
+    Nəqliyyat vasitələri: yük maşınları, soyuducu furqonlar, fermanın öz nəqliyyatı.
+    Bu sxem "malı kim aparır, hansı nəqliyyatla?" sualını cavablandırır.
+  </p>
+  <p class="hero-note">
+    📋 LOGISTICS sxeminin yeganə cədvəli (logistics.vehicle) ORG sxemindəki
+    org.site-a istinad edir — hər nəqliyyat vasitəsi bir əsas obyektə (yerləşmə
+    bazasına) bağlıdır. Buna görə ORG sxemi (Dərs 1) tamamlanmadan bu sxemi
+    doldurmayın.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">logistics.vehicle</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>LOGISTICS sxemi Zarat Qrupunun nəqliyyat parkını sistemə daxil edir.</strong>
+        Hazır toyuq məhsullarının supermarketlərə çatdırılmasında, yem xammalının Siyəzən
+        fabrikinə daşınmasında, diri quşların fermalar arasında köçürülməsində istifadə olunan
+        hər nəqliyyat vasitəsi bu cədvəldədir.
+      </p>
+      <p>
+        <strong>Soyuq zəncir (has_cold_chain):</strong> Quşçuluq məhsulları üçün əhəmiyyətli
+        sütundur. Soyuducu furqon (refricerator truck) varsa <code>BELI</code>, adi yük maşınıdırsa
+        <code>XEYR</code> seçilir. Satış sifarişi yaradılarkən sistem soyuq zənciri olan
+        nəqliyyat vasitəsinə yalnız həssas məhsulların təyin olunmasını nəzarət edə bilər.
+      </p>
+      <p>
+        <strong>Əsas obyektə bağlılıq (site_code):</strong> Hər nəqliyyat vasitəsi bir əsas
+        bazaya (ferma, fabrik, ofis) aiddir. Bu, filoloji planlaşdırmada "Bakı ofisinin maşınları"
+        vs "Siyəzən fabrikinin maşınları" kimi seqmentasiya imkanı verir.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      Logistika müdiri və ya texniki xidmət müdiri. Hər nəqliyyat vasitəsinin texniki
+      pasportu ilə birlikdə doldurulması tövsiyə olunur (qalıb nömrəsi, texniki baxış tarixi
+      notes sütununda qeyd edilə bilər).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəl</h2>
+
+    <!-- logistics.vehicle -->
+    <div class="table-section">
+      <h3><span class="tbl-name">logistics.vehicle</span><span class="tbl-desc"> — Nəqliyyat vasitələri</span></h3>
+      <div class="table-one-liner">
+        Şirkətin nəqliyyat parkı: yük maşınları, furqonlar, pikaplər. Hər vasitə üçün
+        dövlət nömrəsi, tipi, yük tutumu, soyuq zəncir olub-olmadığı qeyd olunur.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Bir nəqliyyat vasitəsinin bu cədvəldə qeydə alınması onu ERP-in çatdırılma planlaşdırma
+          moduluna "görünür" edir. Satış sifarişi çatdırılma qrafikinə daxil edildikdə sistem
+          "hansı nəqliyyat vasitəsi müsait, hansının yük tutumu kifayət edir, hansında soyuducu var?"
+          suallarına bu cədvəldən cavab tapır.
+        </p>
+        <p>
+          <strong>capacity sütunu:</strong> Nəqliyyat vasitəsinin maksimum yük tutumu.
+          Bu dəyər ERP-in "bu avtomobillə neçə sifariş birlikdə aparıla bilər?" hesablamasında
+          istifadə olunur. Yük tutumunu ton ilə qeyd etməniz tövsiyə olunur.
+        </p>
+        <p>
+          <strong>vehicle_type sütunu:</strong> Nəqliyyat vasitəsinin növü — planlaşdırmada
+          filtrləmə üçün. Məsələn, yalnız soyuducu furqonlarla hazır məhsul daşıyın.
+          Dəyərləri standartlaşdırın: FURQON, YUK_MASINI, PIKAP, MIKROAVTOBUS, TRAKTOR.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">vehicle_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Nəqliyyat vasitəsinin sistemdəki unikal kodu. Çatdırılma planlaşdırma sənədlərindəki vasitə seçimi bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>VH-SOY-001</strong><span class="val-hint">Tövsiyə: VH-TİP-SIRANO (VH-SOY=soyuducu, VH-YUK=yük)</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">plate_no</span></td>
+            <td><span class="col-explain">Dövlət qeydiyyat nişanı (nömrə nişanı). Azərbaycan formatında: 10-AA-000 ya da 99-AB-000.</span></td>
+            <td>Mətn (max 15)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>10-AA-001</strong><span class="val-hint">Texniki pasportdakı dövlət nömrəsini dəqiq yazın.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">vehicle_type</span></td>
+            <td><span class="col-explain">Nəqliyyat vasitəsinin növü. Planlaşdırma filtrləri üçün standart dəyər istifadə edin.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>FURQON</strong><span class="val-hint">FURQON, YUK_MASINI, PIKAP, MIKROAVTOBUS, TRAKTOR</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu nəqliyyat vasitəsinin əsas baza (yerləşmə) obyekti. org.site cədvəlindən götürülür. Hansı şöbə/obyektin xidmətindədir?</span></td>
+            <td>Kod</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="fk-ref">SITE-OF-BAK → org.site.site_code</span><span class="val-hint">Bakı ofisinin maşını ise SITE-OF-BAK, Siyəzənin maşınıdırsa SITE-FAB-SIY</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">capacity</span></td>
+            <td><span class="col-explain">Maksimum yük tutumu. Vahidi notes sütununda qeyd edin (ton, kq, həcm). Çatdırılma planlamasında yük bölgüsü üçün istifadə olunur.</span></td>
+            <td>Onluq ədəd</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>5.0</strong><span class="val-hint">5 ton yük tutumu. Texniki pasportdan götürün.</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">has_cold_chain</span></td>
+            <td><span class="col-explain">Soyuducu avadanlıqla təchiz olunubmu? Toyuq əti, yumurta kimi tez xarab olan məhsullar üçün soyuq zənciri olan nəqliyyat tələb olunur.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span><span class="val-hint">Soyuducu furqon = BELI; adi yük maşını = XEYR</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Nəqliyyat vasitəsi aktiv xidmətdədir? Sıradan çıxan, satılan ya texniki baxışdakı vasitələri müvəqqəti deaktiv edin.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Soyuducu furqon (hazır məhsul daşıma)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">vehicle_code</div><div class="sf-val">VH-SOY-001</div></div>
+          <div class="sample-field"><div class="sf-key">plate_no</div><div class="sf-val">10-AA-001</div></div>
+          <div class="sample-field"><div class="sf-key">vehicle_type</div><div class="sf-val">FURQON</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-OF-BAK</div></div>
+          <div class="sample-field"><div class="sf-key">capacity</div><div class="sf-val">5.0</div></div>
+          <div class="sample-field"><div class="sf-key">has_cold_chain</div><div class="sf-val">BELI</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Yük maşını (yem daşıma)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">vehicle_code</div><div class="sf-val">VH-YUK-001</div></div>
+          <div class="sample-field"><div class="sf-key">plate_no</div><div class="sf-val">99-SZ-015</div></div>
+          <div class="sample-field"><div class="sf-key">vehicle_type</div><div class="sf-val">YUK_MASINI</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FAB-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">capacity</div><div class="sf-val">20.0</div></div>
+          <div class="sample-field"><div class="sf-key">has_cold_chain</div><div class="sf-val">XEYR</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 3 — Kiçik furqon (şəhərdaxili çatdırılma)</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">vehicle_code</div><div class="sf-val">VH-SOY-002</div></div>
+          <div class="sample-field"><div class="sf-key">plate_no</div><div class="sf-val">10-BB-222</div></div>
+          <div class="sample-field"><div class="sf-key">vehicle_type</div><div class="sf-val">FURQON</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-OF-BAK</div></div>
+          <div class="sample-field"><div class="sf-key">capacity</div><div class="sf-val">2.0</div></div>
+          <div class="sample-field"><div class="sf-key">has_cold_chain</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-note">💡 Dövlət nömrəsini texniki pasportdan köçürün. Hər vasitə üçün ayrı vehicle_code yaradın — bir avtomobil iki dəfə yazıla bilməz.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Soyuq zəncir tələbi:</strong> Toyuq əti, yumurta kimi tez xarab olan qida məhsulları mütləq <code>has_cold_chain = BELI</code> olan nəqliyyat vasitəsi ilə daşınmalıdır. Sistem bu şərti avtomatik nəzarət edəcək — buna görə bu sütunu diqqətlə doldurun.
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Xarici əlaqə xəritəsi</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">ORG.site</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">logistics.vehicle</span>
+      </div>
+      <div class="fill-order-note">Bu sxemin yeganə xarici asılılığı ORG.site-dır. ORG doldurunduqdan sonra bu cədvəl doldurula bilər.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">logistics.vehicle.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">Hər nəqliyyat vasitəsi bir əsas baza/obyektə aiddir. İxtiyari — amma doldurulması vasitənin hansı şöbəyə aid olduğunu müəyyən etmək üçün vacibdir.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>LOGISTICS-dən nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">ORG</span></td>
+          <td>logistics.vehicle.site_code → org.site.site_code</td>
+          <td>Nəqliyyat vasitəsinin bazası ORG-dan götürülür. ORG mütləq əvvəl doldurulmalıdır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">SALES / Çatdırılma</span></td>
+          <td>vehicle_code çatdırılma sənədlərində istifadə olunur</td>
+          <td>Satış sifarişinin çatdırılma planlaşdırılmasında hansı nəqliyyat vasitəsinin istifadə olunacağı bu cədvəldən seçilir.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li><strong>ORG sxemi</strong> (Dərs 1) tamamlanıb — org.site cədvəlindəki bütün obyektlər (ofis, ferma, fabrik) mövcuddur
+        <span class="check-note">vehicle.site_code ORG-dan gəlir. ORG olmadan bu cədvəl doldurula bilməz.</span>
+      </li>
+      <li>Hər nəqliyyat vasitəsinin <strong>plate_no</strong> sütunu texniki pasportla uyğun yazılıb
+        <span class="check-note">Dövlət nömrəsi sənədlərdəki nömrə nişanı ilə tam uyğun olmalıdır.</span>
+      </li>
+      <li>Soyuducu avadanlıqlı hər nəqliyyat vasitəsinin <strong>has_cold_chain = BELI</strong> seçilib
+        <span class="check-note">Qida təhlükəsizliyi tələbi — bu sütun yanlış doldurularsa sistem tez xarab olan malları adi maşınla göndərəcək.</span>
+      </li>
+      <li>Bütün aktiv nəqliyyat vasitələrinin <strong>is_active = BELI</strong> seçilib
+        <span class="check-note">Sıradan çıxmış, satılmış ya icarəyə verilmiş vasitələr XEYR olmalıdır.</span>
+      </li>
+      <li>Hər vasitənin <strong>capacity</strong> dəyəri ton cinsindən doldurulub
+        <span class="check-note">Müxtəlif vahidlər qarışıq olmasın — bütün nəqliyyat vasitələri üçün eyni vahid istifadə edin.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_6_production.html">‹ Dərs 6 — PRODUCTION</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; LOGISTICS Sxemi (Dərs 7/11)</div>
+  <div><a class="next-link" href="ders_8_hr.html">Dərs 8 → HR ›</a></div>
+</div>
+
+</body>
+</html>

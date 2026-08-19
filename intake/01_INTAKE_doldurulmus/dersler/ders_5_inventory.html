@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dərs 5 — INVENTORY Sxemi | Zarat ERP</title>
+<style>
+  :root { --primary:#1a5c3a; --accent:#e67e22; --danger:#e74c3c; --warning:#f39c12; --border:#dee2e6; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; color:#2c3e50; background:#fff; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1a5c3a 0%,#27ae60 100%); color:#fff; padding:52px 40px 40px; }
+  .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); border-radius:20px; padding:4px 14px; font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1 { font-size:2.3em; font-weight:700; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.08em; opacity:0.9; max-width:750px; line-height:1.75; }
+  .hero .hero-note { font-size:0.92em; opacity:0.75; max-width:750px; line-height:1.6; margin-top:10px; font-style:italic; }
+  .hero .tables-list { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .hero .tbl-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:6px 14px; font-size:13px; font-family:monospace; }
+  .container { max-width:980px; margin:0 auto; padding:0 28px 70px; }
+  .section { margin-top:50px; }
+  .section > h2 { font-size:1.4em; color:var(--primary); border-bottom:3px solid var(--primary); padding-bottom:9px; margin-bottom:22px; }
+  .purpose-box { background:#e8f5e9; border-left:5px solid #27ae60; border-radius:6px; padding:20px 24px; line-height:1.8; }
+  .purpose-box p { margin-bottom:14px; } .purpose-box p:last-child { margin-bottom:0; }
+  .info-box { background:#e3f2fd; border-left:5px solid #1976d2; border-radius:6px; padding:16px 20px; margin-top:16px; line-height:1.75; }
+  .table-section { margin-top:42px; }
+  .table-section h3 { font-size:1.15em; color:#fff; background:var(--primary); padding:12px 18px; border-radius:6px 6px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .table-section h3 .tbl-name { font-family:monospace; font-size:1.08em; }
+  .table-section h3 .tbl-desc { font-size:0.88em; opacity:0.85; font-weight:400; }
+  .table-one-liner { background:#f1fbf5; border:1px solid #a5d6a7; border-top:none; padding:12px 18px; font-size:0.97em; color:#1a5c3a; line-height:1.65; }
+  .table-expanded-desc { background:#fafffe; border:1px solid #a5d6a7; border-top:none; padding:14px 18px; font-size:0.93em; color:#444; line-height:1.75; }
+  .table-expanded-desc p { margin-bottom:10px; } .table-expanded-desc p:last-child { margin-bottom:0; }
+  .col-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-top:none; }
+  .col-table thead tr { background:#ecf0f1; }
+  .col-table th { padding:10px 13px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#555; border-bottom:2px solid var(--border); }
+  .col-table td { padding:11px 13px; border-bottom:1px solid #eee; vertical-align:top; font-size:14px; }
+  .col-table tr:last-child td { border-bottom:none; }
+  .col-table tr:hover td { background:#fafafa; }
+  .col-name { font-family:monospace; font-weight:700; color:var(--primary); font-size:13.5px; }
+  .col-explain { font-size:13px; color:#333; line-height:1.55; }
+  .pk-badge { display:inline-block; background:#1a5c3a; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .fk-badge { display:inline-block; background:var(--accent); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; font-weight:700; margin-left:4px; }
+  .req-badge { display:inline-block; background:var(--danger); color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .opt-badge { display:inline-block; background:#95a5a6; color:#fff; font-size:10px; padding:2px 7px; border-radius:3px; }
+  .fk-ref { font-family:monospace; font-size:12px; color:var(--accent); display:block; margin-top:3px; }
+  .val-hint { display:block; font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+  .val-choices { display:block; font-size:12px; color:#27ae60; margin-top:3px; font-family:monospace; }
+  .sample-block { background:#f0fff4; border:1px solid #a5d6a7; border-top:none; border-radius:0 0 6px 6px; padding:16px 18px; }
+  .sample-block .sample-title { font-size:12px; text-transform:uppercase; color:#2e7d32; letter-spacing:.7px; margin-bottom:12px; font-weight:700; }
+  .sample-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .sample-row:last-of-type { margin-bottom:0; }
+  .sample-field { background:#fff; border:1px solid #c8e6c9; border-radius:5px; padding:7px 13px; min-width:130px; }
+  .sample-field .sf-key { font-size:11px; color:#888; font-family:monospace; margin-bottom:2px; }
+  .sample-field .sf-val { font-size:14px; font-weight:700; color:#1b5e20; }
+  .sample-note { font-size:13px; color:#555; font-style:italic; margin-top:10px; padding-top:10px; border-top:1px dashed #c8e6c9; }
+  .warn-box { background:#fff8e1; border-left:5px solid var(--warning); border-radius:5px; padding:13px 16px; margin-top:14px; font-size:14px; line-height:1.7; }
+  .warn-box strong { color:#e65100; }
+  .warn-box ul { margin-top:8px; padding-left:20px; }
+  .warn-box ul li { margin-bottom:5px; }
+  .rel-box { background:#f9f0ff; border:1px solid #ce93d8; border-radius:8px; padding:20px 22px; margin-top:10px; }
+  .rel-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:14px; line-height:1.6; padding-bottom:14px; border-bottom:1px dashed #e1bee7; }
+  .rel-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .rel-arrow { color:#9c27b0; font-weight:700; font-size:17px; flex-shrink:0; margin-top:1px; }
+  .rel-code { font-family:monospace; font-weight:700; color:#4a148c; background:#f3e5f5; padding:1px 7px; border-radius:3px; }
+  .rel-explain { font-size:13px; color:#555; margin-top:4px; font-style:italic; }
+  .cross-table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .cross-table th { background:#e8f5e9; color:#1a5c3a; padding:10px 14px; text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .cross-table td { padding:11px 14px; border-bottom:1px solid #e8f5e9; font-size:14px; vertical-align:top; line-height:1.55; }
+  .cross-table tr:last-child td { border-bottom:none; }
+  .schema-chip { display:inline-block; background:#e8eaf6; color:#3949ab; border-radius:4px; padding:3px 9px; font-family:monospace; font-size:12px; font-weight:700; }
+  .fill-order-box { background:#e8f5e9; border-radius:8px; padding:16px 20px; margin-top:10px; }
+  .fill-order { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .fo-step { background:#1a5c3a; color:#fff; border-radius:5px; padding:5px 13px; font-weight:700; font-size:13px; font-family:monospace; }
+  .fo-arrow { color:#1a5c3a; font-size:20px; font-weight:700; }
+  .fill-order-note { font-size:13px; color:#2e7d32; margin-top:10px; line-height:1.6; }
+  .checklist { list-style:none; margin-top:10px; }
+  .checklist li { padding:10px 0 10px 36px; position:relative; border-bottom:1px solid #eee; font-size:14px; line-height:1.65; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:"☐"; position:absolute; left:0; color:var(--primary); font-size:20px; top:8px; line-height:1; }
+  .checklist li .check-note { display:block; font-size:12.5px; color:#777; margin-top:3px; font-style:italic; }
+  .footer { margin-top:70px; padding:22px 40px; background:var(--primary); color:rgba(255,255,255,0.8); display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .footer a { color:rgba(255,255,255,0.95); text-decoration:none; }
+  .footer .next-link { background:rgba(255,255,255,0.15); border-radius:6px; padding:8px 18px; }
+  .footer .prev-link { background:rgba(255,255,255,0.1); border-radius:6px; padding:8px 18px; }
+  code { background:#f0f0f0; padding:1px 5px; border-radius:3px; font-family:monospace; font-size:13px; color:#c0392b; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Dərs 5 / 11 — INVENTORY Sxemi</div>
+  <h1>Anbar (INVENTORY)</h1>
+  <p class="subtitle">
+    Anbarlar və onların daxilindəki hücrə/zona quruluşu. Bu sxem "mal harada saxlanılır?"
+    sualını cavablandırır — fiziki coğrafiyadan rəflərə qədər.
+  </p>
+  <p class="hero-note">
+    📋 INVENTORY sxemi ORG sxemindən sonra doldurulur, çünki hər anbar bir
+    org.site obyektinə (FERMA, FABRİK, ANBAR tipli) aiddir. Anbar quruluşu
+    qurulmadan istehsal, satınalma və satış tərəfindəki anbar hərəkəti sənədləri
+    işləyə bilməz.
+  </p>
+  <div class="tables-list">
+    <span class="tbl-chip">inventory.warehouse</span>
+    <span class="tbl-chip">inventory.location</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Bu sxem nə üçündür?</h2>
+    <div class="purpose-box">
+      <p>
+        <strong>INVENTORY sxemi ERP-in "fiziki yer" sistemini müəyyən edir.</strong>
+        Bir mal anbara girəndə və ya anbarden çıxanda sistem mütləq "hansı anbara? hansı rəfə?"
+        sualını soruşacaq. Bu sualın cavabı INVENTORY sxemindədir. Anbar olmadan mal hərəkəti
+        uçotu aparıla bilməz.
+      </p>
+      <p>
+        <strong>İki səviyyəli quruluş:</strong> inventory.warehouse — anbar (fiziki bina/sahə).
+        inventory.location — həmin anbarın daxilindəki zona, rəf, hücrə. Bu ayırma sistemi
+        böyük anbarlar üçün dəqiq məkan izlənilməsinə imkan verir: "Mal 3-cü binadakı A zonasının
+        B-5 rəfindədir" kimi.
+      </p>
+      <p>
+        <strong>Zarat Qrupu üçün nümunə:</strong> Digah fermasında "Yem Anbarı" (inventory.warehouse)
+        var. Onun içindəki "Buğda Bölməsi" (zona) və "Rəf-A1" (bin) — bunlar inventory.location
+        sətirləridir. Siyəzən fabrikinin "Hazır Məhsul Soyuducusu" ayrı bir anbar kimi qeydə alınır.
+      </p>
+    </div>
+    <div class="info-box">
+      <strong>Kimin doldurması lazımdır?</strong><br>
+      Anbar müdiri (inventar.warehouse — anbarların tam siyahısı, tipi, hansı obyektə aid olduğu)
+      və anbar operatoru (inventory.location — daxili quruluş: zonalar, rəflər, hücrələr).
+      Bölmə strukturunu planlaşdırmazdan əvvəl baş texnoloq və logistik müdiri ilə razılaşdırın.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Cədvəllər</h2>
+
+    <!-- inventory.warehouse -->
+    <div class="table-section">
+      <h3><span class="tbl-name">inventory.warehouse</span><span class="tbl-desc"> — Anbarlar</span></h3>
+      <div class="table-one-liner">
+        Şirkətin bütün anbarlarının siyahısı: hansı obyektdə yerləşir, tipi nədir, aktivdir?
+        Hər anbar bir org.site-a aiddir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          Anbar ERP-də ən üst saxlama vahididir. Bir fabrikdə bir neçə anbar ola bilər:
+          xammal anbarı, hazır məhsul anbarı, soyuducu anbar. Hər birini ayrı sətir kimi qeydə alın —
+          bu sayədə "hansı anbarda nə qədər mal var?" sualına dərhal cavab tapılır.
+        </p>
+        <p>
+          <strong>wh_type sütunu:</strong> Anbarın funksional növü. Bu, hansı mal növünün
+          hansı anbarda saxlanacağını anlamağa kömək edir:
+          <code>XAMMAL</code> — satınalınan material anbarı;
+          <code>HAZIR</code> — satışa hazır məhsul anbarı;
+          <code>SOYUDUCU</code> — soyuducu temperaturdə saxlama tələb edən məhsullar.
+        </p>
+        <p>
+          <strong>site_code:</strong> Bu anbar hansı fiziki obyektdədir?
+          ORG sxemindəki org.site cədvəlindən seçilir. Ferma, fabrik, ofis, anbar —
+          bunlar ORG-dakı site_type dəyərlərinə uyğundur.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">warehouse_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Anbarın unikal kodu. inventory.location cədvəlindəki warehouse_code bu koda istinad edir.</span></td>
+            <td>Kod (max 20)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>WH-YEM-SIY</strong><span class="val-hint">Tövsiyə: WH-TİP-OBYEKTqısa formatı</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">warehouse_name</span></td>
+            <td><span class="col-explain">Anbarın tam azərbaycanca adı. Sənədlər və hesabatlarda görünür.</span></td>
+            <td>Mətn</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>Siyəzən Fabriyi Yem Xammal Anbarı</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">site_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu anbar hansı fiziki obyektdədir? ORG sxemindəki org.site cədvəlindən götürülür. Məcburi — anbarsız yerlər sistemdə tanınmır.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">SITE-FAB-SIY → org.site.site_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">wh_type</span></td>
+            <td><span class="col-explain">Anbarın funksional növü. Saxlama şərtlərini və hansı malların burada saxlanacağını müəyyən edir.</span></td>
+            <td>Seçim</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">XAMMAL &nbsp;|&nbsp; HAZIR &nbsp;|&nbsp; SOYUDUCU</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Anbarın aktiv olub-olmadığı. Qapalı ya istifadədən çıxarılmış anbarları deaktiv edin.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə sətir 1 — Xammal anbarı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">warehouse_code</div><div class="sf-val">WH-YEM-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">warehouse_name</div><div class="sf-val">Siyəzən Yem Xammal Anbarı</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FAB-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">wh_type</div><div class="sf-val">XAMMAL</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 2 — Hazır məhsul soyuducu anbarı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">warehouse_code</div><div class="sf-val">WH-HAZIR-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">warehouse_name</div><div class="sf-val">Digah Ferma Hazır Məhsul Soyuducusu</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-FERMA-DIG</div></div>
+          <div class="sample-field"><div class="sf-key">wh_type</div><div class="sf-val">SOYUDUCU</div></div>
+          <div class="sample-field"><div class="sf-key">is_active</div><div class="sf-val">BELI</div></div>
+        </div>
+        <div class="sample-title" style="margin-top:14px;">✦ Nümunə sətir 3 — Cəlilabad anbarı</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">warehouse_code</div><div class="sf-val">WH-DIST-CEL</div></div>
+          <div class="sample-field"><div class="sf-key">warehouse_name</div><div class="sf-val">Cəlilabad Distribüsiya Anbarı</div></div>
+          <div class="sample-field"><div class="sf-key">site_code</div><div class="sf-val">SITE-DIST-CEL</div></div>
+          <div class="sample-field"><div class="sf-key">wh_type</div><div class="sf-val">HAZIR</div></div>
+        </div>
+        <div class="sample-note">💡 site_code ORG sxemindəki org.site cədvəlindən mövcud bir koddur. ORG doldurunmadan bu cədvəl doldurula bilməz.</div>
+      </div>
+      <div class="warn-box">
+        <strong>⚠ Əvvəlcə ORG sxemini doldurun:</strong> site_code org.site cədvəlindəki mövcud bir koda istinad etməlidir. ORG sxemi (Dərs 1) tamamlanmamışsa, bu cədvəli doldurmağa başlamayın.
+      </div>
+    </div>
+
+    <!-- inventory.location -->
+    <div class="table-section">
+      <h3><span class="tbl-name">inventory.location</span><span class="tbl-desc"> — Anbar hücrələri (zona/rəf/bin)</span></h3>
+      <div class="table-one-liner">
+        Anbar daxilindəki fiziki saxlama məkanları: zonalar, rəflər, hücrələr.
+        Malın dəqiq yeri (hansı rəfdə?) bu cədvəl vasitəsilə müəyyən edilir.
+      </div>
+      <div class="table-expanded-desc">
+        <p>
+          inventory.location cədvəli inventory.warehouse-un daxili quruluşunu müəyyən edir.
+          Sadə anbarlar üçün bir neçə zona kifayət edə bilər (A Zonaı, B Zonası). Böyük
+          soyuducu anbarlar üçün isə zona + rəf + bin üç səviyyəli quruluş ola bilər:
+          "Soyuducu A / Rəf 3 / Hücrə B5".
+        </p>
+        <p>
+          <strong>Kökürlük haqqında qeyd:</strong> Kiçik müəssisələr üçün hər anbar üçün
+          "Ümumi Məkan" kimi bir-iki location yaratmaq yetərli ola bilər. Sistemin gələcəkdə
+          inkişafını nəzərə alaraq, ən azı <code>zone</code> səviyyəsini (A, B, C) doldurmaq tövsiyə olunur.
+        </p>
+        <p>
+          <strong>location_code dizaynı:</strong> Kodun özü iyerarxiyanı əks etdirə bilər.
+          Məsələn: <code>WH-YEM-SIY-A-01</code> = Siyəzən Yem Anbarı, A Zonas, rəf 01.
+          Bu format axtarışı asanlaşdırır.
+        </p>
+      </div>
+      <table class="col-table">
+        <thead><tr><th>Sütun adı</th><th>İzahat</th><th>Tip</th><th>Status</th><th>Nümunə / İcazəli dəyərlər</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="col-name">location_code</span><span class="pk-badge">PK</span></td>
+            <td><span class="col-explain">Hücrənin/məkanın unikal kodu. Anbar hərəkəti sənədlərindəki "yerleşmə" sahəsində bu kod istifadə olunur.</span></td>
+            <td>Kod (max 30)</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><strong>LOC-YEM-SIY-A-01</strong><span class="val-hint">Tövsiyə: LOC-ANBARKODU-ZONA-RƏFNO</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">location_name</span></td>
+            <td><span class="col-explain">Hücrənin azərbaycanca adı. Sənəd ekranlarında görsənir. Boş buraxılırsa, location_code istifadə olunur.</span></td>
+            <td>Mətn</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>A Zonası - Rəf 01</strong></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">warehouse_code</span><span class="fk-badge">FK</span></td>
+            <td><span class="col-explain">Bu hücrə hansı anbara aiddir? inventory.warehouse cədvəlindən götürülür. Məcburi — hücrə mütləq bir anbara aiddir.</span></td>
+            <td>Kod</td>
+            <td><span class="req-badge">MƏCBURİ</span></td>
+            <td><span class="fk-ref">WH-YEM-SIY → inventory.warehouse.warehouse_code</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">zone</span></td>
+            <td><span class="col-explain">Anbar içindəki zona kodu. Məsələn: "A", "B", "SOYUQ", "QURU". Bir anbarda birdən çox zona ola bilər.</span></td>
+            <td>Mətn (max 10)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>A</strong><span class="val-hint">A, B, C; TAXIL, SOY; SOYUQ, QURU</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">bin</span></td>
+            <td><span class="col-explain">Rəf/hücrə kodu. Zonanın daxilindəki dəqiq saxlama yeri. Böyük anbarlar üçün doldurun.</span></td>
+            <td>Mətn (max 20)</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><strong>01</strong><span class="val-hint">01, 02; A1, B5; sol rəf, sağ rəf</span></td>
+          </tr>
+          <tr>
+            <td><span class="col-name">is_active</span></td>
+            <td><span class="col-explain">Bu hücrə istifadədədir? Qapalı bölmələri deaktiv edin.</span></td>
+            <td>Bəli/Xeyr</td>
+            <td><span class="opt-badge">İXTİYARİ</span></td>
+            <td><span class="val-choices">BELI &nbsp;|&nbsp; XEYR</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sample-block">
+        <div class="sample-title">✦ Nümunə — Siyəzən Yem Anbarının hücrələri</div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">location_code</div><div class="sf-val">LOC-YEM-SIY-A</div></div>
+          <div class="sample-field"><div class="sf-key">location_name</div><div class="sf-val">A Zonası (Taxıl)</div></div>
+          <div class="sample-field"><div class="sf-key">warehouse_code</div><div class="sf-val">WH-YEM-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">zone</div><div class="sf-val">A</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">location_code</div><div class="sf-val">LOC-YEM-SIY-A-01</div></div>
+          <div class="sample-field"><div class="sf-key">location_name</div><div class="sf-val">A Zonası - Rəf 01</div></div>
+          <div class="sample-field"><div class="sf-key">warehouse_code</div><div class="sf-val">WH-YEM-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">zone</div><div class="sf-val">A</div></div>
+          <div class="sample-field"><div class="sf-key">bin</div><div class="sf-val">01</div></div>
+        </div>
+        <div class="sample-row">
+          <div class="sample-field"><div class="sf-key">location_code</div><div class="sf-val">LOC-YEM-SIY-B</div></div>
+          <div class="sample-field"><div class="sf-key">location_name</div><div class="sf-val">B Zonası (Soya küspəsi)</div></div>
+          <div class="sample-field"><div class="sf-key">warehouse_code</div><div class="sf-val">WH-YEM-SIY</div></div>
+          <div class="sample-field"><div class="sf-key">zone</div><div class="sf-val">B</div></div>
+        </div>
+        <div class="sample-note">💡 Ən azı hər anbar üçün bir "ümumi" hücrə yaradın. Ətraflı rəf quruluşunu sonradan əlavə etmək mümkündür.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONSHIPS -->
+  <div class="section">
+    <h2>Cədvəllər arası əlaqə xəritəsi (INVENTORY daxilində)</h2>
+    <div class="fill-order-box">
+      <div class="fill-order">
+        <span class="fo-step">ORG.site</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">1. warehouse</span>
+        <span class="fo-arrow">→</span>
+        <span class="fo-step">2. location</span>
+      </div>
+      <div class="fill-order-note">ORG sxemi → inventory.warehouse → inventory.location ardıcıllığı. Bu sıra dəyişdirilə bilməz.</div>
+    </div>
+    <div class="rel-box" style="margin-top:18px;">
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">inventory.warehouse.site_code</span> → <span class="rel-code">org.site.site_code</span>
+          <div class="rel-explain">Hər anbar mütləq bir fiziki obyektə (ferma, fabrik, anbar) aiddir. ORG sxemi doldurulmadan warehouse yazıla bilməz.</div>
+        </div>
+      </div>
+      <div class="rel-item">
+        <span class="rel-arrow">▶</span>
+        <div>
+          <span class="rel-code">inventory.location.warehouse_code</span> → <span class="rel-code">inventory.warehouse.warehouse_code</span>
+          <div class="rel-explain">Hər hücrə mütləq bir anbara aiddir. Anbar yaradılmadan hücrə yazıla bilməz.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CROSS-SCHEMA -->
+  <div class="section">
+    <h2>Digər sxemlərlə əlaqə</h2>
+    <table class="cross-table">
+      <thead><tr><th>Sxem</th><th>INVENTORY-dən nəyi istifadə edir?</th><th>Niyə lazımdır?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="schema-chip">ORG</span></td>
+          <td>inventory.warehouse.site_code → org.site.site_code</td>
+          <td>ORG-dakı site INVENTORY-nin əsasıdır. ORG əvvəl doldurulmalıdır.</td>
+        </tr>
+        <tr>
+          <td><span class="schema-chip">İstehsal, Satınalma, Satış</span></td>
+          <td>warehouse_code, location_code</td>
+          <td>İstehsal əmri, satınalma qəbzi, satış göndərişi — hamısı anbar kodu tələb edir. INVENTORY bu kodları təmin edir.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <h2>Doldurma qaydaları — Son yoxlama</h2>
+    <ul class="checklist">
+      <li><strong>ORG sxemi</strong> (Dərs 1) tamamlanıb — org.site cədvəlindəki bütün fiziki obyektlər yazılıb
+        <span class="check-note">inventory.warehouse.site_code ORG-dan gəlir. ORG olmadan bu cədvəl doldurula bilməz.</span>
+      </li>
+      <li>Hər fiziki anbar binası ayrı bir <strong>warehouse_code</strong> ilə qeydə alınıb
+        <span class="check-note">Eyni binanın içindəki müxtəlif saxlama zonaları location ilə ayrılır, ayrı warehouse yaratmağa ehtiyac yoxdur.</span>
+      </li>
+      <li><strong>wh_type</strong> sütunu doğru seçilib (XAMMAL/HAZIR/SOYUDUCU)
+        <span class="check-note">Bu, anbarın funksional rolunu müəyyən edir. Satınalma modülü xammal anbarına, satış modülü hazır anbarına avtomatik yönlənir.</span>
+      </li>
+      <li>Hər anbar üçün ən azı <strong>bir location</strong> yaradılıb
+        <span class="check-note">Anbar var amma location yoxdursa, mal hərəkəti sənədi aça bilməzsiniz. Ən azı "Ümumi Məkan" kimi bir sətir yazın.</span>
+      </li>
+      <li><strong>inventory.location.warehouse_code</strong> sütunundakı hər dəyər inventory.warehouse-da mövcuddur
+        <span class="check-note">Əvvəl warehouse yazın, sonra location əlavə edin.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><a class="prev-link" href="ders_4_product.html">‹ Dərs 4 — PRODUCT</a></div>
+  <div>Zarat ERP — 01_INTAKE Doldurma Dərsləri &nbsp;|&nbsp; INVENTORY Sxemi (Dərs 5/11)</div>
+  <div><a class="next-link" href="ders_6_production.html">Dərs 6 → PRODUCTION ›</a></div>
+</div>
+
+</body>
+</html>
